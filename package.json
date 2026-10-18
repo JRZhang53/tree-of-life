@@ -1,0 +1,19 @@
+{
+  "name": "tree-of-life",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "check": "tsc --noEmit",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test:build": "node --test tests/build.test.mjs",
+    "verify": "npm run check && npm run build && npm run test:build"
+  },
+  "devDependencies": {
+    "node": "24.19.0",
+    "typescript": "~5.9.3",
+    "vite": "~8.3.4"
+  }
+}
