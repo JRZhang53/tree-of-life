@@ -4,8 +4,9 @@ Scope: the educational atlas described in [Atlas 2](research/ATLAS_2.md). This r
 
 The interface evidence below records the original atlas candidate. The later
 humanization revision replaces that visual design; its current checks and critic
-review are in [design review](DESIGN_REVIEW.md). The test suite now has 54
-model/research/navigation tests plus the production-path test.
+review are in [design review](DESIGN_REVIEW.md). The subsequent notebook behavior
+and checks are in [comparison review](COMPARISON_REVIEW.md). The test suite now has
+58 model/research/navigation tests plus the production-path test.
 
 ## Software and numerical checks
 

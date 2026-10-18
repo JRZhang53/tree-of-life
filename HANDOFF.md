@@ -9,6 +9,11 @@ selected ancestry, a shared experiment surface and rewritten copy across all
 twelve branches. Two revision rounds with a critic are recorded in
 [design review](docs/DESIGN_REVIEW.md). Numerical model revision remains `atlas-2`.
 
+The subsequent [comparison pass](docs/COMPARISON_REVIEW.md) adds exact shared-step
+values, starting-setting differences and readable intervention histories. It
+also fixes paused-value refresh, malformed record handling and filtered-tree
+navigation. The critic's final correctness finding was fixed and browser-checked.
+
 ## Resume and review
 
 1. `AGENTS.md` and `MEMORY.md`: user intent and ownership rules.
@@ -21,7 +26,7 @@ The original dossiers preserve a larger research agenda. This release is not emp
 ## Verification and hosting
 
 `npm ci` passed for the base atlas; dependencies are unchanged. `npm run verify`
-passes on Node 24. The suite now contains 54 model/research/navigation tests plus a
+passes on Node 24. The suite now contains 58 model/research/navigation tests plus a
 production-path test. The base atlas browser review covered all 28 modes; the
 humanization revision rechecked all 12 branches, responsive layouts and affected
 interactions. No runtime dependencies, external data or copied assets were added.

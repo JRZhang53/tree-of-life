@@ -47,6 +47,11 @@ Preview serves the built app at `http://127.0.0.1:4173/fun/tree-of-life/`.
 
 ## Controls and reproducibility
 
+Compare saved runs at their latest shared recorded step. The notebook shows the
+numeric difference, starting-setting differences and changes made during each
+run. It flags changes made after the displayed step; differences alone do not
+establish a cause. See [comparison review](docs/COMPARISON_REVIEW.md).
+
 - Choose a branch in the cladogram; on mobile, expand **Pick an organism**. Search accepts organism names or ideas such as growth.
 - Presets and model changes restart from the same seed. Sliders update the active model; elastic-sheet width rebuilds its mesh. Inapplicable controls are disabled.
 - Pause, advance one model step or exactly 600 more steps, restart a seed, choose a new seed, or change playback speed.

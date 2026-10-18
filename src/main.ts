@@ -219,6 +219,7 @@ function load() {
     clear.className = "clear-button";
     clear.onclick = () => {
       sim.disturbance = null;
+      notebook.sample(sim, true);
       notebook.event(sim.ticks, "Clear disturbance");
       render();
       setStatus("Disturbance cleared.");
@@ -228,14 +229,16 @@ function load() {
   for (const c of current.controls)
     el<HTMLInputElement>(`param-${c.key}`).addEventListener("input", (e) => {
       advanceToken++;
-      notebook.event(
-        sim.ticks,
-        `${c.key} = ${(e.target as HTMLInputElement).value}`,
-      );
       sim.p[c.key] = Number((e.target as HTMLInputElement).value);
       if (current.id === "leaves" && mode === 2 && c.key === "width") {
         restart();
         setStatus("Mesh width changed; restarted elastic sheet.");
+      } else {
+        notebook.sample(sim, true);
+        notebook.event(
+          sim.ticks,
+          `${c.label}: ${format(sim.p[c.key], c.step)}`,
+        );
       }
       el(`value-${c.key}`).textContent = format(sim.p[c.key], c.step);
       presetButtons();
@@ -278,10 +281,13 @@ function load() {
   render();
   if (!matchMedia("(max-width: 760px)").matches) {
     const nav = document.querySelector("nav")!,
-      active = nav.querySelector("[aria-current]")!;
-    const r = active.getBoundingClientRect(),
-      n = nav.getBoundingClientRect();
-    if (r.bottom > n.bottom) nav.scrollTop += r.bottom - n.bottom + 10;
+      active = nav.querySelector("[aria-current]");
+    if (active) {
+      const r = active.getBoundingClientRect(),
+        n = nav.getBoundingClientRect();
+      if (r.bottom > n.bottom) nav.scrollTop += r.bottom - n.bottom + 10;
+      else if (r.top < n.top) nav.scrollTop -= n.top - r.top + 10;
+    }
   }
 }
 el<HTMLSelectElement>("mode").onchange = (e) => {
@@ -367,6 +373,33 @@ about.addEventListener("click", (e) => {
 });
 let dragging = false,
   startX = 0;
+function interactAtCursor() {
+  const position = `(${Math.round(cursor.x)}, ${Math.round(cursor.y)})`;
+  const action =
+    current.id === "fireflies"
+      ? "Reset nearby phases at"
+      : current.id === "physarum"
+        ? "Moved destination to the node nearest"
+        : current.id === "sheep"
+          ? "Moved goal near"
+          : current.id === "termites"
+            ? "Moved signal source near"
+            : current.id === "ants" && mode === 1
+              ? "Moved food near"
+              : current.id === "bacteria"
+                ? "Seeded a colony near"
+                : ["starlings", "orcas"].includes(current.id)
+                  ? "Placed disturbance at"
+                  : null;
+  if (!action) return;
+  sim.interact(cursor.x, cursor.y);
+  const description = `${action} ${position}`;
+  notebook.sample(sim, true);
+  notebook.event(sim.ticks, description);
+  render();
+  metrics();
+  setStatus(description + ".");
+}
 canvas.addEventListener("pointerdown", (e) => {
   keyboardCursor = false;
   if (is3d()) {
@@ -379,13 +412,7 @@ canvas.addEventListener("pointerdown", (e) => {
       x: ((e.clientX - r.left) / r.width) * WIDTH,
       y: ((e.clientY - r.top) / r.height) * HEIGHT,
     };
-    sim.interact(cursor.x, cursor.y);
-    notebook.event(
-      sim.ticks,
-      `Habitat input (${cursor.x.toFixed(2)}, ${cursor.y.toFixed(2)})`,
-    );
-    render();
-    metrics();
+    interactAtCursor();
   }
 });
 canvas.addEventListener("pointermove", (e) => {
@@ -412,14 +439,7 @@ canvas.addEventListener("keydown", (e) => {
     e.preventDefault();
     el("play").click();
   } else if (e.key === "Enter" && !is3d()) {
-    sim.interact(cursor.x, cursor.y);
-    notebook.event(
-      sim.ticks,
-      `Habitat input (${cursor.x.toFixed(2)}, ${cursor.y.toFixed(2)})`,
-    );
-    render();
-    metrics();
-    setStatus("Applied habitat interaction at the cursor.");
+    interactAtCursor();
   } else if (
     ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)
   ) {
@@ -484,28 +504,23 @@ document.addEventListener("visibilitychange", () => {
   last = 0;
   accumulator = 0;
 });
-const notebook = new Notebook(
-  el("notebook"),
-  (settings: Settings) => {
-    const q = new URLSearchParams({
-      v: "2",
-      rev: MODEL_REVISION,
-      experiment: experiments[settings.suite][settings.mode],
-      seed: String(settings.seed),
-    });
-    for (const [k, v] of Object.entries(settings.parameters))
-      q.set(k, String(v));
-    history.replaceState(null, "", `#${settings.suite}?${q}`);
-    paused = true;
-    load();
-    el("experiment").scrollIntoView({ block: "start" });
-    el("experiment").focus({ preventScroll: true });
-    setStatus(
-      "Started with saved settings. Interventions and elapsed state are not restored.",
-    );
-  },
-  setStatus,
-);
+const notebook = new Notebook(el("notebook"), (settings: Settings) => {
+  const q = new URLSearchParams({
+    v: "2",
+    rev: MODEL_REVISION,
+    experiment: experiments[settings.suite][settings.mode],
+    seed: String(settings.seed),
+  });
+  for (const [k, v] of Object.entries(settings.parameters)) q.set(k, String(v));
+  history.replaceState(null, "", `#${settings.suite}?${q}`);
+  paused = true;
+  load();
+  el("experiment").scrollIntoView({ block: "start" });
+  el("experiment").focus({ preventScroll: true });
+  setStatus(
+    "Started with saved settings. Interventions and elapsed state are not restored.",
+  );
+});
 el("save-run").addEventListener(
   "click",
   () => {

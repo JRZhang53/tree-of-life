@@ -628,6 +628,9 @@ h2 {
   gap: 28px;
   margin-top: 25px;
 }
+.notebook-grid > * {
+  min-width: 0;
+}
 .chart-heading {
   display: flex;
   gap: 12px;
@@ -703,6 +706,100 @@ h2 {
   min-width: 0;
   padding-left: 24px;
   border-left: 1px solid var(--line);
+}
+#comparison-readout {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+#comparison-values h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+.paired-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 32px;
+  margin: 14px 0 8px;
+}
+.paired-values dt {
+  font-size: 12px;
+  color: var(--muted);
+}
+.paired-values dd {
+  margin: 2px 0 0;
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}
+.paired-values > div:first-child dd {
+  color: var(--blue);
+}
+.paired-values > div:nth-child(2) dd {
+  color: #8b4f25;
+}
+.comparison-caveat {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 8px;
+  max-width: 65ch;
+}
+#run-details {
+  margin-top: 18px;
+  font-size: 13px;
+}
+#run-details summary {
+  padding: 10px 0;
+  color: var(--blue);
+}
+#run-details h4 {
+  margin: 16px 0 9px;
+  font-size: 13px;
+}
+.settings-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  font-size: 13px;
+  table-layout: fixed;
+}
+.settings-table th,
+.settings-table td {
+  padding: 9px 8px 9px 0;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+.settings-table tbody th {
+  font-weight: 400;
+}
+.settings-table td {
+  font-variant-numeric: tabular-nums;
+}
+.event-log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.event-log li {
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.event-log span {
+  color: var(--muted);
+  margin-right: 8px;
+  font-variant-numeric: tabular-nums;
+}
+#notebook-status {
+  color: var(--blue);
+  font-size: 13px;
+  margin-top: 12px;
+}
+#notebook-status:empty {
+  display: none;
 }
 .notebook-tools label {
   font-size: 14px;

@@ -13,6 +13,10 @@ fake personal anecdotes. His messages establish a tone preference, not a complet
 writing-style sample; do not claim exact voice matching. Preserve the scientific
 qualifications when simplifying prose.
 
+The notebook now compares exact shared steps, shows starting-setting differences
+and readable intervention logs, and preserves focus during live updates. See
+[comparison review](docs/COMPARISON_REVIEW.md) for behavior and verification.
+
 Jerry authorized autonomous development of the entire site once memory and structure were prepared, including online research, additional features and new simulation suites. The planning pass is complete at `dee9c42`; implementation is now authorized. Preserve the research gates and explicit distinctions between educational reductions and calibrated biology.
 
 The app at `cf7a7b9f40dff479895f7bf2c78564eb10eaa14a` is an exploratory prototype. Preserve it as a runnable reference while the project is specified. Its palette, layout, algorithms, nineteen modes and derived acceptance criteria were agent choices, not separately approved product requirements. The current candidate builds on that baseline; see `docs/research/ATLAS_2.md` for implemented models and `docs/RELEASE_CHECKS.md` for verification. Portfolio deployment remains separate.

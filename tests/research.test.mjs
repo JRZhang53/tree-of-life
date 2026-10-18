@@ -18,6 +18,118 @@ import { experiments, taxonomy } from "../src/content/taxonomy.ts";
 import { Simulation } from "../src/models.ts";
 import { observe } from "../src/core/observables.ts";
 import { treeView } from "../src/presentation/tree.ts";
+import {
+  compareRuns,
+  compatibleRuns,
+  settingDifferences,
+  formatMeasurement,
+} from "../src/core/comparison.ts";
+
+const comparisonRecord = (samples) => ({
+  id: "comparison-test",
+  settings: normalizedSettings(
+    "fireflies",
+    0,
+    42,
+    defaults(species.find((s) => s.id === "fireflies")),
+  ),
+  metric: "synchrony",
+  unit: "0–1",
+  label: "Synchrony",
+  note: "",
+  events: [],
+  samples: samples.map(([step, value]) => ({ step, value })),
+});
+
+test("run comparison uses the latest exact shared step, including trimmed and irregular histories", () => {
+  const a = comparisonRecord([
+    [0, 0.1],
+    [30, 0.2],
+    [45, 0.35],
+    [60, 0.7],
+    [73, 0.8],
+  ]);
+  const b = comparisonRecord([
+    [0, 0.1],
+    [30, 0.25],
+    [60, 0.4],
+    [90, 0.5],
+  ]);
+  assert.deepEqual(compareRuns(a, b), {
+    step: 60,
+    current: 0.7,
+    saved: 0.4,
+    difference: 0.7 - 0.4,
+  });
+  a.samples = [
+    { step: 0, value: 0.1 },
+    { step: 3000, value: 0.9 },
+  ];
+  assert.equal(compareRuns(a, b).step, 0);
+  a.samples = [{ step: 3000, value: 0.9 }];
+  assert.equal(compareRuns(a, b), null);
+});
+
+test("comparison requires the same suite, revision, metric and unit but permits deliberate model changes", () => {
+  const a = comparisonRecord([
+    [0, 0],
+    [30, 1],
+  ]);
+  for (const mutate of [
+    (b) => (b.settings.suite = "starlings"),
+    (b) => (b.settings.revision = "old"),
+    (b) => (b.metric = "alignment"),
+    (b) => (b.unit = "percent"),
+  ]) {
+    const b = structuredClone(a);
+    mutate(b);
+    assert.equal(compatibleRuns(a, b), false);
+    assert.equal(compareRuns(a, b), null);
+  }
+  const b = structuredClone(a);
+  b.settings.mode = 1;
+  assert.equal(compatibleRuns(a, b), true);
+});
+
+test("setting differences identify model, seed and changed controls without inventing causal meaning", () => {
+  const a = comparisonRecord([[0, 0]]),
+    b = structuredClone(a);
+  a.settings.mode = 1;
+  a.settings.seed = 53;
+  a.settings.parameters.coupling = 0;
+  assert.deepEqual(settingDifferences(a.settings, b.settings), [
+    { label: "Model", current: "Local coupling", saved: "Global coupling" },
+    { label: "Random seed", current: "53", saved: "42" },
+    { label: "Coupling strength", current: "0", saved: "1.2" },
+  ]);
+  assert.equal(formatMeasurement(-0), "0");
+  assert.equal(formatMeasurement(1e-8), "1e-8");
+  assert.equal(formatMeasurement(-0.000000123456), "-1.235e-7");
+  const restored = structuredClone(b.settings);
+  restored.parameters.coupling = 1.2000000000000002;
+  assert.deepEqual(settingDifferences(restored, b.settings), []);
+});
+
+test("malformed samples are discarded without losing neighboring valid saved records", () => {
+  const valid = comparisonRecord([
+    [0, 0.1],
+    [30, 0.2],
+  ]);
+  const records = [
+    { ...valid, samples: [null] },
+    comparisonRecord([
+      [30, 0.2],
+      [0, 0.1],
+    ]),
+    comparisonRecord([
+      [0, 0.1],
+      [0, 0.2],
+    ]),
+    { ...valid, events: [null] },
+    valid,
+  ];
+  assert.deepEqual(readRecords(JSON.stringify(records)), [valid]);
+});
 
 test("cladogram search retains the selected lineage and recovers every branch", () => {
   const result = treeView("vines", "  CLIMBING  ");

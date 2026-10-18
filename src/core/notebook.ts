@@ -67,15 +67,18 @@ export function readRecords(value: string | null): RunRecord[] {
           r.samples.length > 0 &&
           r.samples.length <= 1201 &&
           r.samples.every(
-            (s: Sample) =>
+            (s: Sample, i: number, samples: Sample[]) =>
+              !!s &&
               Number.isFinite(s.value) &&
               Number.isInteger(s.step) &&
-              s.step >= 0,
+              s.step >= 0 &&
+              (i === 0 || s.step > samples[i - 1].step),
           ) &&
           Array.isArray(r.events) &&
           r.events.length <= 500 &&
           r.events.every(
             (e: { step: number; description: string }) =>
+              !!e &&
               Number.isInteger(e.step) &&
               e.step >= 0 &&
               typeof e.description === "string",

@@ -48,3 +48,9 @@ For a new decision, add its status, evidence, alternatives, consequences and wha
   His messages support a direct, informal tone; exact personal voice matching is
   not established. Preserve model qualifications. Two revision rounds addressed
   the critic's findings; [design review](DESIGN_REVIEW.md) records the evidence.
+- **D19 — descriptive run comparisons (agent choice within autonomous scope):**
+  Compare the latest exact recorded step shared by compatible runs, without
+  interpolation. Keep starting settings and later interventions separate; flag
+  events after the displayed step. A difference is not a causal result. Preserve
+  the local observation-record format and model revision. The
+  [comparison review](COMPARISON_REVIEW.md) records behavior and critic feedback.
