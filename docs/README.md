@@ -2,6 +2,8 @@
 
 This is the project memory for Tree of Life. The current educational atlas is specified in [Atlas 2](research/ATLAS_2.md), with [release checks](RELEASE_CHECKS.md). The original dossier outlines preserve deeper research directions.
 
+The current interface and voice direction is recorded in [design review](DESIGN_REVIEW.md), following Jerry's humanization request.
+
 ## Reading order
 
 1. [Project memory](../MEMORY.md): current direction and durable context.

@@ -36,7 +36,7 @@ export class Notebook {
     } catch {
       /* Storage can be disabled. */
     }
-    root.innerHTML = `<div class="notebook-heading"><div><span class="eyebrow">Field notebook</span><h2>Watch a pattern become a measurement.</h2></div><button id="save-run">Save this run</button></div><p class="notebook-intro">Compare runs at the same model step. Saved observations stay in this browser; export a record to keep a copy.</p><div class="notebook-grid"><div><div class="chart-heading"><strong id="chart-label"></strong><label>Compare with <select id="baseline"><option value="">No saved baseline</option></select></label></div><div id="history-chart"></div><p id="metric-definition" class="muted"></p></div><div class="notebook-tools"><label for="run-note">Your observation</label><textarea id="run-note" maxlength="280" rows="3" placeholder="What did you predict? What changed?"></textarea><div class="export-buttons"><button id="export-csv">Export CSV</button><button id="export-json">Export full record</button></div><p class="muted">Records include starting settings, measurements and an intervention log. They are observations, not restorable state snapshots.</p><div id="saved-runs"></div></div></div>`;
+    root.innerHTML = `<div class="notebook-heading"><div><h2>Compare your runs</h2></div><button id="save-run">Save this run</button></div><p class="notebook-intro">Save a result, reset, then change one thing. Compare the two at the same step.</p><div class="notebook-grid"><div><div class="chart-heading"><strong id="chart-label"></strong><label>Compare with <select id="baseline"><option value="">No saved baseline</option></select></label></div><div id="history-chart"></div><p id="metric-definition" class="muted"></p></div><div class="notebook-tools"><label for="run-note">What did you notice?</label><textarea id="run-note" maxlength="280" rows="3" placeholder="What changed when you adjusted the settings?"></textarea><div class="export-buttons"><button id="export-csv">Export CSV</button><button id="export-json">Export full record</button></div><p class="muted">Saved here in this browser: settings, measurements, your note and any changes you made. Export to keep a separate copy. You can restart from the settings, but you can’t resume a saved run.</p><div id="saved-runs"></div></div></div>`;
     this.el("save-run").onclick = () => {
       this.record.note = this.el<HTMLTextAreaElement>("run-note").value;
       this.records.push(
@@ -68,7 +68,7 @@ export class Notebook {
   persist() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.records));
-      this.status("Notebook updated. Keeps your latest 12 saved runs.");
+      this.status("Saved. Your latest 12 runs stay in this browser.");
     } catch {
       this.status(
         "Browser storage is unavailable. Export your record to keep it.",
@@ -121,18 +121,18 @@ export class Notebook {
       compatible
         .map(
           (r) =>
-            `<option value="${escape(r.id)}">${escape(species.find((s) => s.id === r.settings.suite)!.modes[r.settings.mode])} · seed ${r.settings.seed} · ${r.samples.at(-1)!.step} steps</option>`,
+            `<option value="${escape(r.id)}">${escape(species.find((s) => s.id === r.settings.suite)!.modes[r.settings.mode])} / seed ${r.settings.seed} / ${r.samples.at(-1)!.step} steps</option>`,
         )
         .join("");
     this.el<HTMLSelectElement>("baseline").value = this.baseline;
     this.el("saved-runs").innerHTML =
-      `<h3>${this.records.length} saved runs</h3>` +
+      `<h3>${this.records.length} saved ${this.records.length === 1 ? "run" : "runs"}</h3>${this.records.length ? "" : '<p class="empty-notebook">Nothing saved yet. Use ‘Save this run’ when there’s a result you want to compare.</p>'}` +
       this.records
         .slice()
         .reverse()
         .map(
           (r) =>
-            `<div class="saved-run"><p><strong>${escape(species.find((s) => s.id === r.settings.suite)!.name)}</strong> · ${r.samples.at(-1)!.step} steps<br><span>${escape(r.label)}: ${r.samples.at(-1)!.value.toFixed(3)} ${escape(r.unit)}</span>${r.note ? `<br><em>${escape(r.note)}</em>` : ""}</p><div><button data-restore="${escape(r.id)}">Start with settings</button><button data-remove="${escape(r.id)}" aria-label="Remove saved ${escape(r.label)} run">Remove</button></div></div>`,
+            `<div class="saved-run"><p><strong>${escape(species.find((s) => s.id === r.settings.suite)!.name)}</strong> / ${r.samples.at(-1)!.step} steps<br><span>${escape(r.label)}: ${r.samples.at(-1)!.value.toFixed(3)} ${escape(r.unit)}</span>${r.note ? `<br><em>${escape(r.note)}</em>` : ""}</p><div><button data-restore="${escape(r.id)}">Start with settings</button><button data-remove="${escape(r.id)}" aria-label="Remove saved ${escape(r.label)} run">Remove</button></div></div>`,
         )
         .join("");
     this.root.querySelectorAll<HTMLButtonElement>("[data-restore]").forEach(
@@ -167,7 +167,7 @@ export class Notebook {
         )
         .join(" ");
     this.el("chart-label").textContent =
-      `${this.record.label} · ${this.record.unit}`;
+      `${this.record.label} (${this.record.unit})`;
     this.el("history-chart").innerHTML =
       `<svg viewBox="0 0 680 215" role="img" aria-label="${escape(this.record.label)} history: current ${a.at(-1)!.value.toFixed(3)} at step ${a.at(-1)!.step}${b.length ? `, baseline ${b.at(-1)!.value.toFixed(3)} at step ${b.at(-1)!.step}` : ""}"><path class="chart-axis" d="M48 25V170H658"/><path class="chart-grid" d="M48 100H658M48 30H658"/><text x="42" y="35" text-anchor="end">${maxY.toFixed(maxY < 2 ? 2 : 0)}</text><text x="42" y="174" text-anchor="end">${minY}</text><text x="48" y="193">0</text><text x="658" y="193" text-anchor="end">${maxX} steps</text>${b.length ? `<path class="chart-baseline" d="${path(b)}"/>` : ""}<path class="chart-current" d="${path(a)}"/></svg><p class="chart-legend"><span>— Current run</span>${b.length ? "<span>┄ Saved baseline</span>" : ""}<span>${this.record.events.length} interventions</span></p>`;
   }

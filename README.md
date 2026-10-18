@@ -1,6 +1,6 @@
 # Tree of Life
 
-An interactive atlas of bio-inspired systems. Follow a simplified tree of life into simulation suites, change local rules, and explore how collective behavior and growth emerge.
+A collection of experiments about flocking, growth and coordination. Pick an organism, change a rule and compare what happens.
 
 **Current release: educational atlas, model revision `atlas-2`.** Twelve branches and 28 experiments cover the original brief plus firefly synchronization and slime-mold networks. Start with [project memory](MEMORY.md), the [documentation map](docs/README.md), and the [implemented model specification](docs/research/ATLAS_2.md).
 
@@ -47,10 +47,10 @@ Preview serves the built app at `http://127.0.0.1:4173/fun/tree-of-life/`.
 
 ## Controls and reproducibility
 
-- Choose a branch in the tree; on mobile, expand **Explore the tree**.
+- Choose a branch in the cladogram; on mobile, expand **Pick an organism**. Search accepts organism names or ideas such as growth.
 - Presets and model changes restart from the same seed. Sliders update the active model; elastic-sheet width rebuilds its mesh. Inapplicable controls are disabled.
 - Pause, advance one model step or exactly 600 more steps, restart a seed, choose a new seed, or change playback speed.
-- Copy an experiment link to preserve the branch, mode, seed and parameters. It does not serialize elapsed state, speed, camera angle or habitat edits.
+- Open **Repeat or share this setup** to change the seed or copy an experiment link. A link preserves the branch, mode, seed and parameters, but not elapsed state, speed, camera angle or habitat edits.
 - Focus the habitat: Space toggles playback; arrow keys position an interaction cursor and Enter applies it. In 3D views arrows rotate the camera. The view-angle slider also works with a keyboard.
 - Reduced-motion preferences start the simulation paused. Background tabs stop advancing. Each experiment has one fixed-step loop and bounded populations/geometry.
 - Leaf geometry has no stochastic component, so its seed controls are disabled. Its sketches grow to their selected mismatch over 600 steps; the elastic sheet continues relaxing afterward. Coral aggregation and vine growth have explicit resource caps and stop at their limits.
@@ -61,7 +61,9 @@ Preview serves the built app at `http://127.0.0.1:4173/fun/tree-of-life/`.
 - `src/models.ts`: pure, seeded simulation state and numerical updates.
 - `src/render.ts`: Canvas 2D rendering and projection of 3D geometry.
 - `src/main.ts`: accessible HTML interface, hash settings, input and playback.
-- `src/style.css`: responsive field-atlas layout.
+- `src/presentation/shell.ts`: shared page structure and About copy.
+- `src/presentation/tree.ts`: taxonomy-derived cladogram and search.
+- `src/style.css`: responsive experiment layout; see the [design review](docs/DESIGN_REVIEW.md).
 - `tests/models.test.mjs`: numerical invariants, replay, meaningful parameter effects and regression cases.
 - `tests/build.test.mjs`: production asset-path checks.
 

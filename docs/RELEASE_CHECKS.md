@@ -2,6 +2,11 @@
 
 Scope: the educational atlas described in [Atlas 2](research/ATLAS_2.md). This record does not imply empirical calibration or complete reproduction of the linked papers.
 
+The interface evidence below records the original atlas candidate. The later
+humanization revision replaces that visual design; its current checks and critic
+review are in [design review](DESIGN_REVIEW.md). The test suite now has 54
+model/research/navigation tests plus the production-path test.
+
 ## Software and numerical checks
 
 - Clean `npm ci` on the Windows host, Node 24.19.0 supplied by the repository; npm reported no known dependency vulnerabilities.

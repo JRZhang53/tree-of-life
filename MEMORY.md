@@ -4,6 +4,15 @@ Last reconciled: 2026-10-18. Read this after `AGENTS.md` when resuming work.
 
 ## Current direction
 
+Jerry's latest direction is to humanize the whole site: distinctive aesthetics and
+layout, useful language in his direct, informal tone, and a critic feedback loop.
+The visual revision replaces the botanical dashboard with a topology-driven
+cladogram, a shared experiment surface and specific questions. See
+[design review](docs/DESIGN_REVIEW.md). Avoid slogans, interchangeable cards and
+fake personal anecdotes. His messages establish a tone preference, not a complete
+writing-style sample; do not claim exact voice matching. Preserve the scientific
+qualifications when simplifying prose.
+
 Jerry authorized autonomous development of the entire site once memory and structure were prepared, including online research, additional features and new simulation suites. The planning pass is complete at `dee9c42`; implementation is now authorized. Preserve the research gates and explicit distinctions between educational reductions and calibrated biology.
 
 The app at `cf7a7b9f40dff479895f7bf2c78564eb10eaa14a` is an exploratory prototype. Preserve it as a runnable reference while the project is specified. Its palette, layout, algorithms, nineteen modes and derived acceptance criteria were agent choices, not separately approved product requirements. The current candidate builds on that baseline; see `docs/research/ATLAS_2.md` for implemented models and `docs/RELEASE_CHECKS.md` for verification. Portfolio deployment remains separate.
@@ -30,16 +39,17 @@ The original brief was supplied as a local text file in the portfolio's private 
 
 ## Established facts versus pending choices
 
-| Item                                                                          | Status                                                          |
-| ----------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| Ten initial subject areas and research-led exploration                        | User brief                                                      |
-| Memory first, then autonomous full build including researched additions       | Latest user instructions; planning completed at `dee9c42`       |
-| Static hosting and separate portfolio ownership                               | Existing project contract                                       |
-| Current twelve-branch / 28-mode educational atlas                             | Implemented; detailed assumptions in `docs/research/ATLAS_2.md` |
-| 33 model tests, build and CI passing at prototype commit                      | Software verification only; see `VERIFICATION.md`               |
-| Exact audience, scientific depth, suite size and visual direction             | Unconfirmed; working assumptions in `docs/PRODUCT.md`           |
-| Start research with starlings, then sheep                                     | Provisional agent sequencing; rationale in `docs/ROADMAP.md`    |
-| Mechanical plant solvers, connectome data, spherical chemistry, WebGL/workers | Possible later choices; not commitments                         |
+| Item                                                                          | Status                                                                |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Ten initial subject areas and research-led exploration                        | User brief                                                            |
+| Memory first, then autonomous full build including researched additions       | Latest user instructions; planning completed at `dee9c42`             |
+| Static hosting and separate portfolio ownership                               | Existing project contract                                             |
+| Current twelve-branch / 28-mode educational atlas                             | Implemented; detailed assumptions in `docs/research/ATLAS_2.md`       |
+| 33 model tests, build and CI passing at prototype commit                      | Software verification only; see `VERIFICATION.md`                     |
+| Exact audience, scientific depth and suite size                               | Working assumptions in `docs/PRODUCT.md`                              |
+| Distinctive design and human, direct copy with critic feedback                | Latest user request; implemented direction in `docs/DESIGN_REVIEW.md` |
+| Start research with starlings, then sheep                                     | Provisional agent sequencing; rationale in `docs/ROADMAP.md`          |
+| Mechanical plant solvers, connectome data, spherical chemistry, WebGL/workers | Possible later choices; not commitments                               |
 
 ## Where to find things
 
@@ -56,7 +66,7 @@ The original brief was supplied as a local text file in the portfolio's private 
 
 1. Read `AGENTS.md`, this file and `docs/ROADMAP.md`.
 2. Check Git status; preserve unrelated or user-authored changes.
-3. Continue the educational atlas implementation, consulting the current roadmap and suite specifications.
+3. Preserve the reviewed design principles while choosing further work from the roadmap and suite specifications.
 4. Work autonomously within the brief. Resolve routine choices with recorded reasoning; a research gate requires evidence, not a ritual permission request.
 5. When scope or direction changes, reconcile this memory and the affected decision/dossier. Never silently promote an assumption into a user decision.
 

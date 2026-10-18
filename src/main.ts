@@ -1,11 +1,8 @@
+import { treeView } from "./presentation/tree.ts";
+import { shell } from "./presentation/shell.ts";
 import "./style.css";
 import { methods } from "./content/methods.ts";
-import {
-  taxonomy,
-  experiments,
-  MODEL_REVISION,
-  type Branch,
-} from "./content/taxonomy.ts";
+import { experiments, MODEL_REVISION } from "./content/taxonomy.ts";
 import { Notebook } from "./presentation/notebook.ts";
 import { normalizedSettings, type Settings } from "./core/notebook.ts";
 import { species, byId, defaults } from "./catalog.ts";
@@ -13,44 +10,12 @@ import type { Species } from "./catalog.ts";
 import { Simulation, WIDTH, HEIGHT, clamp } from "./models.ts";
 import { draw } from "./render.ts";
 
-const icons: Record<string, string> = {
-  fireflies:
-    "M12 6V21M7 8L3 3M17 8L21 3M12 11C1 2 0 19 12 16C24 19 23 2 12 11M8 20Q12 25 16 20",
-  physarum: "M3 5L12 3L23 9L20 22L7 21L3 5L20 22M7 21L23 9M12 3L7 21",
-  starlings: "M3 8 Q9 6 12 13 Q15 6 22 5 M12 13 L10 19 M12 13 L17 17",
-  sheep:
-    "M6 15 C0 13 3 7 7 8 C6 3 13 3 14 7 C18 3 22 8 19 11 L22 13 L19 17 L15 16 C12 20 5 19 6 15 M8 19 V22 M16 18 V21",
-  orcas: "M2 16 Q9 1 21 11 Q15 19 5 17 L2 21 L2 16 M12 8 L10 3 L16 8 M17 11 h1",
-  ants: "M12 4 V20 M9 7 L4 3 M15 7 L20 3 M9 12 L3 10 M15 12 L21 10 M9 16 L4 21 M15 16 L20 21 M9 6 a3 3 0 1 0 6 0 a3 3 0 1 0 -6 0 M9 16 a3 5 0 1 0 6 0 a3 5 0 1 0 -6 0",
-  termites: "M4 21 L7 12 L9 15 L12 3 L15 12 L17 9 L21 21 Z M12 21 V17",
-  coral:
-    "M12 22 V8 M12 15 L6 10 V5 M6 10 L2 8 M12 18 L18 12 V6 M18 12 L23 10 M12 10 L16 4 M12 11 L9 6",
-  vines:
-    "M12 23 C2 16 23 16 12 10 C2 4 19 2 12 1 M12 10 Q23 3 22 11 Q16 15 12 10",
-  leaves: "M5 22 Q1 4 21 2 Q24 19 5 22 M5 22 L19 5 M9 16 L7 10 M13 12 L19 12",
-  bacteria: "M5 15 L13 5 C18 0 24 6 19 11 L10 21 C4 26 0 20 5 15 M9 15 L14 10",
-  worms: "M3 5 C19 -3 22 12 12 12 C-1 12 2 27 21 20",
-};
-const icon = (id: string) =>
-  `<svg viewBox="0 0 26 26" aria-hidden="true"><path d="${icons[id]}"/></svg>`;
-const leaf = (id: string) => {
-  const s = byId(id);
-  return `<li class="species-leaf"><a href="#${id}" data-species="${id}">${icon(id)}<span>${s.name}</span><span class="leaf-dot"></span></a></li>`;
-};
-const group = (title: string, children: string) =>
-  `<li class="clade"><span class="clade-name">${title}</span><ul>${children}</ul></li>`;
-const treeMarkup = (branch: Branch): string =>
-  "suite" in branch
-    ? leaf(branch.suite)
-    : group(branch.label, branch.children.map(treeMarkup).join(""));
-const tree = treeMarkup(taxonomy);
+const tree = treeView("starlings").markup;
 
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
-  <a class="skip-link" href="#experiment">Skip to experiment</a>
-  <header class="site-header"><a class="wordmark" href="#starlings"><svg viewBox="0 0 32 36" aria-hidden="true"><path d="M16 33V4M16 25L5 15V9M16 18L26 9V3M16 11L10 5M16 28L27 20"/><circle cx="5" cy="7" r="3"/><circle cx="10" cy="4" r="2"/><circle cx="27" cy="18" r="3"/><circle cx="26" cy="3" r="2"/></svg><span>Tree of Life<small>An atlas of living systems</small></span></a><button class="text-button" id="about-button">About the atlas <span aria-hidden="true">↗</span></button></header>
-  <div class="atlas-layout"><aside class="sidebar"><details id="tree-panel" open><summary>Explore the tree <span>${species.length} branches</span></summary><label class="tree-search" for="branch-search">Find a branch<input id="branch-search" type="search" placeholder="Species or mechanism…"></label><p id="search-status" role="status"></p><nav aria-label="Species"><ul class="phylogeny">${tree}</ul></nav><p class="tree-note">Selected branches of life.<br>Branch lengths do not represent time.</p></details></aside>
-  <main id="experiment" tabindex="-1"><div id="species-header"></div><div class="workspace"><section class="habitat" aria-label="Interactive simulation"><div class="habitat-bar"><span id="model-label"></span><span class="run-state" id="run-state"></span></div><canvas id="habitat" tabindex="0" aria-describedby="interaction-help" aria-label="Simulation habitat">The simulation requires canvas support. Its model description and live measurements are available below.</canvas><div class="playback"><div class="playback-buttons"><button id="play" class="primary"></button><button id="step" title="Advance one model step">Step</button><button id="advance" title="Advance exactly 600 model steps, then pause">+600 steps</button><button id="reset" title="Restart with the same seed and settings">Reset</button></div><label class="speed-label">Speed <select id="speed"><option value=".5">½×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label></div><div class="metrics" id="metrics" aria-label="Simulation measurements"></div><p class="canvas-help" id="interaction-help"></p></section><aside class="controls" aria-label="Experiment controls"><h2>Experiment</h2><label class="field-label" for="mode">Model</label><select id="mode"></select><div id="presets" class="presets" aria-label="Experiment presets"></div><div id="parameters"></div><div class="view-control" id="view-control"><label for="angle">View angle <output id="angle-value">25°</output></label><input id="angle" type="range" min="-180" max="180" step="1" value="25"></div><div class="seed-row"><label for="seed">Seed<input id="seed" type="number" min="1" max="999999" step="1" value="42"></label><button id="new-seed" title="Restart with a new random seed">New seed</button></div><button class="share-button" id="share">Copy experiment link</button><p class="control-note">Reset replays the same seed. Links preserve starting settings, not elapsed steps.</p><p id="status" class="status" role="status"></p></aside></div><section class="notebook" id="notebook" aria-label="Experiment notebook"></section><section class="field-notes" aria-label="Research and model notes" id="notes"></section><footer>Made for curiosity. Built from local rules.<span>Educational models · No measured biological data</span></footer></main></div>
-  <dialog id="about"><div class="dialog-top"><span class="dialog-kicker">A living collection</span><button id="close-about" aria-label="Close about dialog">×</button></div><h2>Small rules.<br>Remarkable worlds.</h2><p>Explore how movement, growth and coordination can emerge from simple interactions. Choose a branch, change a rule, and watch what follows.</p><p>This atlas contains twelve educational simulation suites, with saved observations, measurement histories and exports. Every branch identifies its assumptions and research inspiration. The tree is a simplified selection: it omits most of life, including Archaea and fungi, and does not encode evolutionary time. Some labels represent groups or growth forms rather than individual species.</p><h3>Follow a question</h3><p>Choose a branch, change a rule, and save the result in your field notebook. Compare at the same model step. Records stay on this device and can be exported.</p><p>Sources guide the questions, while the models use declared educational reductions. Read the limitations beside each habitat.</p><p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4758236/" target="_blank" rel="noreferrer">Phylogenetic context for slime molds</a></p><p class="muted">All simulations run locally in your browser.</p></dialog>`;
+document.querySelector<HTMLDivElement>("#app")!.innerHTML = shell(
+  tree,
+  species.length,
+);
 
 function el<T extends HTMLElement = HTMLElement>(id: string) {
   return document.getElementById(id) as T;
@@ -136,7 +101,7 @@ function restart() {
 }
 function syncParameters() {
   el("model-label").textContent =
-    current.id === "leaves" && mode !== 2
+    (current.id === "leaves" && mode !== 2) || current.id === "vines"
       ? "Geometry sketch"
       : "Educational model";
   for (const c of current.controls) {
@@ -175,6 +140,7 @@ function load() {
   const [id, query = ""] = location.hash.slice(1).split("?"),
     q = new URLSearchParams(query);
   current = byId(id);
+  updateTree();
   const namedMode = experiments[current.id].indexOf(q.get("experiment") ?? "");
   mode =
     namedMode >= 0
@@ -197,7 +163,17 @@ function load() {
   document.title = `${current.name} · Tree of Life`;
   document.documentElement.style.setProperty("--species-color", current.color);
   el("species-header").innerHTML =
-    `<div class="species-context"><span>${current.family}</span><span class="latin">${current.latin}</span></div><div class="title-row"><h1>${current.name}</h1><span class="specimen-icon">${icon(current.id)}</span></div><p class="species-title">${current.title}</p><p class="question">${current.question}</p>`;
+    `<div class="specimen-title"><div class="species-context">${current.family}</div><h1>${current.name}</h1><p class="latin">${current.latin}</p></div><div class="opening-question"><p class="question">${current.question}</p><p class="intro">${current.title}</p><a href="#notes" class="read-notes">How this one works</a></div>`;
+  el("try-this").innerHTML = `<h2>Try this</h2><p>${current.experiment}</p>`;
+  el("habitat").setAttribute("aria-label", `${current.name} simulation`);
+  el("species-header").querySelector<HTMLAnchorElement>(
+    ".read-notes",
+  )!.onclick = (e) => {
+    e.preventDefault();
+    el("notes").scrollIntoView({ block: "start" });
+    el("notes").setAttribute("tabindex", "-1");
+    el("notes").focus({ preventScroll: true });
+  };
   document
     .querySelectorAll<HTMLAnchorElement>("[data-species]")
     .forEach((a) => {
@@ -206,7 +182,7 @@ function load() {
       else a.removeAttribute("aria-current");
     });
   el("model-label").textContent =
-    current.id === "leaves" && mode !== 2
+    (current.id === "leaves" && mode !== 2) || current.id === "vines"
       ? "Geometry sketch"
       : "Educational model";
   el("mode").innerHTML = current.modes
@@ -231,11 +207,11 @@ function load() {
       : " Keyboard: arrows move the cursor; Enter applies it.");
   el("view-control").hidden = !is3d();
   el("notes").innerHTML =
-    `<div class="notes-intro"><h2>Inside the model</h2><p>Observe. Change a rule. Compare.</p></div><div class="note-columns"><article><h3>The mechanism</h3><p>${current.algorithm}</p><h3>What to look for</h3><p>${current.lesson}</p></article><article><h3>Try this experiment</h3><p>${current.experiment}</p><details class="limits" open><summary>What this model leaves out</summary><p>${current.limitation}</p></details></article></div><div class="sources"><h3>Follow the research</h3>${current.sources.map((s) => `<a href="${s.url}" target="_blank" rel="noreferrer">${s.title}<span aria-hidden="true">↗</span></a>`).join("")}</div>`;
+    `<div class="notes-intro"><h2>What’s going on here?</h2></div><div class="note-columns"><article class="explanation"><p>${current.algorithm}</p><h3>Reading the result</h3><p>${current.lesson}</p></article><aside class="research-margin"><details class="limits" open><summary>Where the model stops</summary><p>${current.limitation}</p></details><div class="sources"><h3>The papers behind it</h3>${current.sources.map((s) => `<a href="${s.url}" target="_blank" rel="noreferrer">${s.title.replaceAll(" · ", ": ")}</a>`).join("")}</div></aside></div>`;
   const method = methods[current.id];
   el("notes").insertAdjacentHTML(
     "beforeend",
-    `<details class="model-method"><summary>Equations, scales & fair comparisons</summary><p>${method.equation}</p><p>${method.scale}</p><p>${method.compare}</p><p class="muted">Model revision ${MODEL_REVISION}. Model steps are specific to each experiment, not a common biological clock.</p></details><div class="related-branches"><h3>Follow this idea</h3>${method.related.map((id) => `<a href="#${id}">${byId(id).name}</a>`).join("")}</div>`,
+    `<details class="model-method"><summary>Equations and comparison notes</summary><p>${method.equation}</p><p>${method.scale}</p><p>${method.compare}</p><p class="muted">Model revision ${MODEL_REVISION}. A step means something different in each experiment; it isn’t a shared biological clock.</p></details><div class="related-branches"><h3>Related experiments</h3>${method.related.map((id) => `<a href="#${id}">${byId(id).name}</a>`).join("")}</div>`,
   );
   if (["starlings", "orcas"].includes(current.id)) {
     const clear = document.createElement("button");
@@ -580,29 +556,25 @@ el("advance").onclick = async () => {
   }
   el<HTMLButtonElement>("advance").disabled = false;
 };
-el<HTMLInputElement>("branch-search").oninput = (e) => {
-  const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
-  let count = 0;
-  document
-    .querySelectorAll<HTMLAnchorElement>("[data-species]")
-    .forEach((a) => {
-      const s = byId(a.dataset.species!);
-      const match = `${s.name} ${s.latin} ${s.title} ${s.algorithm}`
-        .toLowerCase()
-        .includes(query);
-      a.closest<HTMLElement>("li")!.hidden = !match;
-      if (match) count++;
-    });
-  [...document.querySelectorAll<HTMLElement>(".clade")]
-    .reverse()
-    .forEach(
-      (g) =>
-        (g.hidden = ![...g.querySelectorAll<HTMLElement>(".species-leaf")].some(
-          (l) => !l.hidden,
-        )),
-    );
-  el("search-status").textContent = query ? `${count} matching branches` : "";
-};
+function updateTree() {
+  const focusedSuite = (document.activeElement as HTMLElement | null)?.dataset
+    .species;
+  const query = el<HTMLInputElement>("branch-search").value.trim();
+  const result = treeView(current.id, query);
+  document.querySelector<HTMLElement>('nav[aria-label="Species"]')!.innerHTML =
+    result.markup;
+  if (focusedSuite) {
+    document
+      .querySelector<HTMLAnchorElement>(`[data-species="${focusedSuite}"]`)
+      ?.focus({ preventScroll: true });
+  }
+  el("search-status").textContent = query
+    ? result.count
+      ? `${result.count} matching ${result.count === 1 ? "branch" : "branches"}`
+      : "No match. Try an organism or an idea like growth."
+    : "";
+}
+el<HTMLInputElement>("branch-search").oninput = updateTree;
 
 load();
 function frame(time: number) {
@@ -631,6 +603,8 @@ function frame(time: number) {
     }
     if (sim.completed) {
       paused = true;
+      notebook.sample(sim, true);
+      notebook.chart();
       metrics();
       playback();
       setStatus(

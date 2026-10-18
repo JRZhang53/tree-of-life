@@ -11,7 +11,10 @@ and structure pass, including online research, new features and new suites.
 The memory pass is complete. Develop the research and implementation together,
 recording explicit educational reductions and checking their behavior.
 
-The current workstream is the complete educational atlas release.
+The educational atlas and subsequent humanization revision are implemented. Read
+`docs/DESIGN_REVIEW.md` before changing visual direction or copy: Jerry requested
+distinctive design, direct human language and a critic feedback loop. Preserve
+the topology-driven navigation and avoid returning to generic slogans/cards.
 Use the roadmap's evidence gates; they do not require a ceremonial permission
 request. Work autonomously on ordinary in-scope choices and record the rationale.
 Keep user requirements, agent assumptions, prototypes and validated results

@@ -17,6 +17,28 @@ import { species, defaults } from "../src/catalog.ts";
 import { experiments, taxonomy } from "../src/content/taxonomy.ts";
 import { Simulation } from "../src/models.ts";
 import { observe } from "../src/core/observables.ts";
+import { treeView } from "../src/presentation/tree.ts";
+
+test("cladogram search retains the selected lineage and recovers every branch", () => {
+  const result = treeView("vines", "  CLIMBING  ");
+  assert.equal(result.count, 1);
+  assert.deepEqual(result.ancestry, ["Life", "Eukaryotes", "Flowering plants"]);
+  assert.match(result.markup, /data-species="vines" aria-current="page"/);
+  const empty = treeView("vines", "no-such-organism");
+  assert.equal(empty.count, 0);
+  assert.equal(empty.markup, "");
+  const full = treeView("fireflies");
+  assert.equal(full.count, species.length);
+  assert.deepEqual(full.ancestry, [
+    "Life",
+    "Eukaryotes",
+    "Animals",
+    "Bilaterians",
+    "Protostomes",
+    "Insects",
+  ]);
+  assert.equal((full.markup.match(/aria-current="page"/g) ?? []).length, 1);
+});
 
 test("firefly coupling synchronizes across seeds, with a distinct uncoupled baseline", () => {
   for (const seed of [1, 42, 123]) {

@@ -4,6 +4,11 @@ The educational atlas is implemented at model revision **atlas-2**: 12 branches,
 
 The release candidate is the commit containing this handoff; obtain its exact identity with `git rev-parse HEAD` after checking out the candidate. The final chat response reports the pushed SHA. No portfolio checkout, pin, Projects listing or live-domain release was changed.
 
+The latest revision follows Jerry's humanization request: a real cladogram with
+selected ancestry, a shared experiment surface and rewritten copy across all
+twelve branches. Two revision rounds with a critic are recorded in
+[design review](docs/DESIGN_REVIEW.md). Numerical model revision remains `atlas-2`.
+
 ## Resume and review
 
 1. `AGENTS.md` and `MEMORY.md`: user intent and ownership rules.
@@ -15,6 +20,12 @@ The original dossiers preserve a larger research agenda. This release is not emp
 
 ## Verification and hosting
 
-`npm ci` and `npm run verify` pass on Node 24. The suite contains 53 model/research tests plus a production-path test. Browser testing covered all 28 modes and desktop/tablet/narrow-mobile layouts. No new runtime dependencies, external data or copied assets were introduced. Notebook storage is local and prefixed; download records are observations rather than resumable state.
+`npm ci` passed for the base atlas; dependencies are unchanged. `npm run verify`
+passes on Node 24. The suite now contains 54 model/research/navigation tests plus a
+production-path test. The base atlas browser review covered all 28 modes; the
+humanization revision rechecked all 12 branches, responsive layouts and affected
+interactions. No runtime dependencies, external data or copied assets were added.
+Notebook storage remains local; download records are observations rather than
+resumable state.
 
 The parent integration remains: pin this standalone repo under `apps/tree-of-life`, run its verification, and copy **only `dist/`** to `dist/fun/tree-of-life/`. The app retains the `/fun/tree-of-life/` base path and hash routing. There is no independent Pages workflow or CNAME. The current parent pin is unknown and was not inspected. A push to this child does not deploy the domain.

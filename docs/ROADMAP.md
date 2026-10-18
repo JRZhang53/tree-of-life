@@ -9,6 +9,9 @@ Current phase: **educational atlas release candidate (`atlas-2`)**. Planning at 
 - Research-driven corrections: topological flock neighborhoods, matched termite transport, passive bend relay, elastic sheet and volume chemistry.
 - Branch search, stable versioned links, fixed-step experiment execution, measurement histories, saved baselines, local notebook and exports.
 - Numerical/behavior checks and responsive browser verification; see [release checks](RELEASE_CHECKS.md).
+- Humanization revision requested by Jerry: topology-driven navigation, a coherent
+  experiment surface, rewritten copy and two revision rounds with an independent
+  critic. See [design review](DESIGN_REVIEW.md).
 
 The [implemented specification](research/ATLAS_2.md) is authoritative for current educational reductions. Original suite dossiers retain deeper ambitions. Their future-research checklists must not be confused with claims that the site reproduces a paper. Full biological calibration, continuum plant mechanics, full mound physics and neural reconstruction remain outside this educational release.
 

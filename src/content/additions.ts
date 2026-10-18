@@ -15,8 +15,9 @@ export const additions: Species[] = [
     latin: "Lampyridae",
     family: "Beetles",
     color: "#a38630",
-    title: "A meadow finds its rhythm.",
-    question: "When do separate clocks begin to agree?",
+    title:
+      "Each dot has its own rhythm. Let all of them interact, or limit each one to its neighbors, and see whether the glows line up.",
+    question: "How much coupling gets the glows to line up?",
     modes: ["Global coupling", "Local coupling"],
     controls: [
       c(
@@ -49,7 +50,7 @@ export const additions: Species[] = [
     ],
     presets: [
       {
-        name: "Find a rhythm",
+        name: "Coupled clocks",
         mode: 0,
         values: { coupling: 1.2, diversity: 0.2, range: 150 },
       },
@@ -59,19 +60,19 @@ export const additions: Species[] = [
         values: { coupling: 0, diversity: 0.2, range: 150 },
       },
       {
-        name: "Local conversations",
+        name: "Nearby clocks",
         mode: 1,
         values: { coupling: 1.2, diversity: 0.2, range: 150 },
       },
     ],
     algorithm:
-      "Each of 96 stationary oscillators has a seeded intrinsic frequency. Its phase advances with a sinusoidal pull toward neighboring phases. Global mode connects every pair; local mode connects only nearby insects. Glow smoothly tracks phase.",
+      "There are 96 stationary clocks, each with a slightly different natural frequency. Their phases pull on one another through a sine function. Global coupling connects every pair; local coupling only connects nearby dots. The glow follows each clock’s phase smoothly.",
     lesson:
-      "Synchrony is the length of the mean unit phase vector: 0 means phases cancel, 1 means they agree. A shared frequency need not imply identical phases.",
+      "Synchrony near 1 means the phases line up. Near 0, they largely cancel each other out. Clocks can run at the same speed without reaching the same phase, so frequency alone doesn’t tell the whole story.",
     limitation:
-      "A continuous Kuramoto phase model, not a measured firefly flash-response model or the pulse-coupled Mirollo–Strogatz model. Positions and light propagation are fixed; time units are illustrative.",
+      "This uses a continuous Kuramoto phase model. Real flashes and responses to light aren’t measured here. It also differs from the pulse-coupled Mirollo–Strogatz model linked below. Positions stay fixed, light propagation isn’t simulated and the time units are illustrative.",
     experiment:
-      "Keep seed and diversity fixed. Save an uncoupled run, then restart with coupling 1.2 and compare synchrony after 600 steps. Try local coupling and disturb one patch.",
+      "Set coupling to zero and save the run after 600 steps. Reset, set coupling to 1.2 and compare at the same step. Keep the seed and clock diversity fixed.",
     interaction:
       "Tap to reset phases within 100 habitat units. Glow changes smoothly.",
     sources: [
@@ -91,8 +92,9 @@ export const additions: Species[] = [
     latin: "Physarum polycephalum",
     family: "Amoebozoa",
     color: "#a08235",
-    title: "A network remembers its traffic.",
-    question: "Can local reinforcement discover an efficient route?",
+    title:
+      "Flow reinforces the tubes it uses. The rest shrink. Move the food and see whether the network can find another route.",
+    question: "Which tubes survive when flow makes them stronger?",
     modes: ["Adaptive tubes", "Fixed tubes"],
     controls: [
       c(
@@ -141,13 +143,13 @@ export const additions: Species[] = [
       },
     ],
     algorithm:
-      "A pressure solve conserves unit flow between two food sites on a seeded graph. Each tube conducts in proportion to conductance divided by length. Flow reinforces conductance while decay removes it. A small conductance floor retains possible routes after the destination moves.",
+      "A pressure calculation sends one unit of flow between two food sites. A tube carries more flow when its conductance is larger or its length is shorter. Flow increases conductance while decay reduces it. Even a nearly unused tube keeps a tiny conductance, so moving the food doesn’t leave it disconnected.",
     lesson:
-      "Thicker lines mean greater conductance. Tube investment sums conductance times length; lower investment alone does not establish a biologically optimal network.",
+      "A thicker line means higher conductance. Tube investment adds up conductance times length. A low value means less investment in this model; it doesn’t prove the network is biologically optimal.",
     limitation:
-      "An adaptive resistor-network reduction inspired by Physarum research. The graph is prescribed; there is no spatial exploration, biomass, or pulsatile cytoplasm. A numerical floor prevents disconnection. Only two food terminals are modeled.",
+      "The tubes form a prescribed resistor network. They don’t explore space, carry biomass or reproduce pulsating cytoplasm. A small numerical conductance prevents complete disconnection, and there are only two food terminals. The model borrows an adaptation rule from Physarum research, not the whole organism.",
     experiment:
-      "Compare adaptation to the fixed network at the same seed. Increase the flow exponent to favor concentrated routes; move the destination and observe recovery through retained thin links.",
+      "Increase the flow exponent and watch which routes fade. Move the destination to another node. Can the remaining thin links recover? Compare with the fixed-tube model.",
     interaction:
       "Tap a node to move the destination food site. The source stays on the left.",
     sources: [

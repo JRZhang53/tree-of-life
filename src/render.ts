@@ -18,18 +18,8 @@ export function draw(
     h = ctx.canvas.height;
   ctx.setTransform(w / WIDTH, 0, 0, h / HEIGHT, 0, 0);
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
-  const bg = ctx.createLinearGradient(0, 0, WIDTH, HEIGHT);
-  bg.addColorStop(0, "#f5f8f3");
-  bg.addColorStop(1, sim.id === "orcas" ? "#deedf0" : "#e6eee4");
-  ctx.fillStyle = bg;
+  ctx.fillStyle = sim.id === "orcas" ? "#e8f2f7" : "#f8f9fc";
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
-  ctx.fillStyle = "#335c4714";
-  for (let x = 20; x < WIDTH; x += 30)
-    for (let y = 20; y < HEIGHT; y += 30) {
-      ctx.beginPath();
-      ctx.arc(x, y, 0.8, 0, Math.PI * 2);
-      ctx.fill();
-    }
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
   const line = (a: Point, b: Point, color: string, width = 1) => {

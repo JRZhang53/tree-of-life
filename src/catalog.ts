@@ -55,8 +55,9 @@ export const species: Species[] = [
     name: "Starlings",
     latin: "Sturnus vulgaris",
     family: "Birds",
-    title: "A thousand wings. No conductor.",
-    question: "How does a flock find a shared direction?",
+    title:
+      "Nearby birds, or the nearest seven? Change who counts as a neighbor and watch the flock hold together or pull apart.",
+    question: "Which neighbors should a bird follow?",
     color: "#477282",
     modes: ["Distance neighbors", "Seven nearest neighbors"],
     controls: [
@@ -101,13 +102,13 @@ export const species: Species[] = [
       },
     ],
     algorithm:
-      "Each bird sums three local steering signals: avoid close neighbors, align with nearby velocities, and approach their center. A speed limit and soft habitat boundaries keep the flock in view.",
+      "Each bird tries to do three things: avoid collisions, match its neighbors’ direction and stay near them. You choose how much each rule matters. One model looks within a fixed distance; the other follows the nearest seven birds. Speed limits and a soft boundary keep them on screen.",
     lesson:
-      "Coordinated motion can emerge from local rules without a leader. The alignment score measures how similarly the birds are moving, from 0 to 1.",
+      "Watch the alignment score as well as the flock’s shape. A score near 1 means the birds are heading the same way. They can stay close together without agreeing on a direction.",
     limitation:
-      "A two-dimensional Reynolds-style boids model, not a calibrated starling model. The seven-neighbor mode is motivated by field observations, but uses illustrative 2D steering forces. It does not reproduce measured 3D trajectories.",
+      "These are two-dimensional boids with illustrative steering forces. The seven-neighbor idea comes from field observations, but the simulation hasn’t been fitted to real starlings or checked against measured 3D flight paths.",
     experiment:
-      "Compare the two presets from the same seed. Then turn alignment down while keeping cohesion high: staying together and flying together are different things.",
+      "Turn alignment down to zero, but leave cohesion high. Do the birds still form a group? Reset, then try seven neighbors with the same settings.",
     interaction:
       "Tap the habitat to place a disturbance. Clear it to let the flock settle.",
     sources: [
@@ -127,8 +128,9 @@ export const species: Species[] = [
     name: "Sheep",
     latin: "Ovis aries",
     family: "Mammals",
-    title: "One dog. Many moving decisions.",
-    question: "When should a shepherd collect, and when should it drive?",
+    title:
+      "The dog has two jobs. Collect sheep that wander off, then get behind the flock and drive it toward the circle.",
+    question: "Go after the stray, or push the whole flock?",
     color: "#8b763f",
     modes: ["Collect & drive", "Drive only"],
     controls: [
@@ -173,13 +175,13 @@ export const species: Species[] = [
       },
     ],
     algorithm:
-      "The dog collects distant sheep or drives from behind the active flock’s center. Sheep combine neighbor steering, attraction to the flock center and dog avoidance. Sheep entering the goal stop and leave the interaction pool; moving the goal makes them active again.",
+      "The dog checks how spread out the flock is. It either goes after a distant sheep or moves behind the group to drive it toward the goal. Sheep move toward one another and away from the dog. Once inside the goal, they stop taking part. Move the goal and they become active again.",
     lesson:
-      "A controller can switch between simple rules based on the state of the group. Compare how many sheep reach the goal rather than how fast the dog moves.",
+      "Watch how many sheep reach the circle. A dog can move quickly and still do a poor job if it keeps scattering the flock.",
     limitation:
-      "Inspired by the collect/drive heuristic, with simplified steering and a circular target instead of fences or terrain. It does not reproduce the paper’s experimental conditions.",
+      "The collect/drive idea comes from shepherding research. Here it uses simplified steering and an open circular goal, with no fences or terrain. The setup doesn’t reproduce the paper’s experiments.",
     experiment:
-      "Run both strategies from the same seed. Lower cohesion to make collection more important; an excessively fast dog can scatter the flock.",
+      "Try “Drive only”, then lower flock cohesion. Reset and switch to “Collect & drive”. Does going back for the strays help? Keep the seed the same.",
     interaction:
       "Tap the habitat to move the goal. The outlined circle marks the destination.",
     sources: [
@@ -194,8 +196,9 @@ export const species: Species[] = [
     name: "Orcas",
     latin: "Orcinus orca",
     family: "Mammals",
-    title: "The hunt is a group effort.",
-    question: "Can coordinated movement compress a school of fish?",
+    title:
+      "Four orcas can surround the school or chase fish individually. The fish react to whichever predators come close.",
+    question: "Does circling the fish keep the school together?",
     color: "#357f91",
     modes: ["Encircle", "Direct pursuit"],
     controls: [
@@ -236,13 +239,13 @@ export const species: Species[] = [
       { name: "Pursuit", mode: 1, values: { cohesion: 1, fear: 1, pace: 0.9 } },
     ],
     algorithm:
-      "Fish combine local flocking, attraction to the school center and predator avoidance. Four orcas either approach rotating positions around the school or pursue individual fish. School spread measures the mean distance from its center.",
+      "Fish steer with their neighbors, move toward the school’s center and avoid orcas. In one model, the four orcas head toward rotating positions around the school. In the other, each pursues a fish. School spread is the average distance of the fish from their center.",
     lesson:
-      "Coordination changes the shape of a moving group. A tight school is a geometric outcome here, not a measure of feeding success.",
+      "A smaller spread means a tighter school. It says nothing about feeding success here: the model has no captures.",
     limitation:
-      "A schematic inspired by carousel feeding observations. No tail slaps, captures, prey depletion, depth, learning or energetics are modeled; pod coordination is prescribed.",
+      "The circling behavior is prescribed, inspired by observations of carousel feeding. The orcas don’t learn it. Tail slaps, captures, prey depletion, depth and energy costs are all left out.",
     experiment:
-      "Compare encirclement with direct pursuit. Increase predator avoidance and watch whether the school compresses or fragments.",
+      "Switch between encirclement and pursuit. Turn up predator avoidance. Do the fish bunch up, or does the school break into pieces?",
     interaction: "Tap the habitat to place a disturbance in the school.",
     sources: [
       {
@@ -262,8 +265,9 @@ export const species: Species[] = [
     name: "Ants",
     latin: "Formicidae",
     family: "Insects",
-    title: "A trail becomes a memory.",
-    question: "How can a colony discover a short route?",
+    title:
+      "A short route leaves a stronger trail. That helps the next ant, but it can also make the colony repeat an early choice.",
+    question: "How much should an ant trust an old trail?",
     color: "#9a6549",
     modes: ["Route optimization", "Foraging trails"],
     controls: [
@@ -308,13 +312,13 @@ export const species: Species[] = [
       },
     ],
     algorithm:
-      "In route mode, virtual ants construct tours through eight sites using pheromone and inverse distance. Short tours deposit more pheromone; trails evaporate. In foraging mode, wandering ants sense a local pheromone grid, find food and reinforce the path home.",
+      "In route mode, ants visit eight sites, choosing each stop using distance and pheromone. Shorter tours leave more pheromone; old trails evaporate. Foraging mode is a separate experiment: ants wander across a grid, find food and leave a trail on the way home.",
     lesson:
-      "Positive feedback can amplify useful choices, while evaporation and exploration keep the colony from relying only on old information.",
+      "Reinforcement makes a route more likely to be used again. Evaporation lets old choices lose their grip. Watch what happens when one of those effects becomes too strong.",
     limitation:
-      "Route mode is a small ant-system teaching implementation, not the full Ant Colony System algorithm. Foraging is a separate heuristic; it does not model a particular ant species.",
+      "Route mode uses a small version of the ant-system idea for teaching; it doesn’t implement the full Ant Colony System algorithm. Foraging uses a separate heuristic. Neither model represents a particular ant species.",
     experiment:
-      "Set trail influence to zero to remove collective memory. Compare convergence, then increase evaporation. The highlighted tour is the shortest found so far, not a proven optimum.",
+      "Set trail influence to zero. After a few hundred steps, compare with a run that uses pheromone. The highlighted route is the best found so far; it may not be the shortest possible route.",
     interaction:
       "In foraging mode, tap to move the food source. In route mode, sites stay fixed for fair comparisons.",
     sources: [
@@ -330,8 +334,9 @@ export const species: Species[] = [
     name: "Termites",
     latin: "Blattodea · termites",
     family: "Insects",
-    title: "Build from a shared signal.",
-    question: "What changes when a diffusing signal is a field or particles?",
+    title:
+      "The same spreading signal can be represented as a field or as random walkers. The construction rule has to work with what it receives.",
+    question: "Does a smooth signal build the same mound as a noisy one?",
     color: "#a67b30",
     modes: ["Diffusion field", "Random-walk particles"],
     controls: [
@@ -376,13 +381,13 @@ export const species: Species[] = [
       },
     ],
     algorithm:
-      "A nest emits a signal. Both representations inject one unit per step at the same point, use reflecting boundaries and the same survival and diffusion probabilities. The field evolves expected concentration; weighted random walkers estimate it with sampling noise. Exposed neighbors of the mound gain material above a signal threshold.",
+      "A source at the nest releases a signal. In field mode, a grid stores its expected concentration. In particle mode, weighted random walkers estimate the same process. Both add one unit per step and use matching diffusion, survival and reflecting-boundary rules. The mound adds material at exposed sites where the signal passes a threshold.",
     lesson:
-      "A smooth diffusion field and a noisy random walk are two descriptions of transport. A Gaussian is a diffusion solution; “Gaussian versus Laplacian” is not a division between competing physical laws.",
+      "The field shows expected concentration. Particles give a noisy estimate of it, so a construction threshold can produce different edges even when transport matches.",
     limitation:
-      "A two-dimensional signal-and-deposition analogy. Unlike the cited mound model, this demo omits heat, advection and porous airflow feedback. Transport kernels and source strengths match in expectation; particle noise and thresholded deposition can still produce different construction. Weighted resampling bounds particle memory.",
+      "This is a 2D analogy for signal-guided construction. The cited mound model also involves heat, advection and air moving through porous walls; none of those is calculated here. The two transport descriptions match in expectation, but particle noise can change which sites cross the building threshold. Particle resampling keeps memory use bounded.",
     experiment:
-      "Compare the noisy particle boundary with the smooth field. Raise the threshold until building stalls, then lower it to restart deposition.",
+      "Compare field and particle modes from the same seed. Raise the building threshold until growth stalls, then lower it. Look at the edge where new material appears.",
     interaction:
       "Tap to move the signal source. The existing material remains in place.",
     sources: [
@@ -397,8 +402,9 @@ export const species: Species[] = [
     name: "Coral",
     latin: "Anthozoa",
     family: "Cnidarians",
-    title: "Let the environment draw the form.",
-    question: "How do transport and local reactions produce patterns?",
+    title:
+      "Try particles sticking to a colony, then switch to chemical patterns on a surface or inside a volume. These are three separate models.",
+    question: "What makes a growing shape branch?",
     color: "#b66f73",
     modes: ["3D aggregation", "Chemical surface", "3D chemical volume"],
     controls: [
@@ -450,11 +456,11 @@ export const species: Species[] = [
     algorithm:
       "Aggregation mode sends random walkers through three-dimensional space and attaches them when they touch the colony. Surface chemistry evolves Gray–Scott reactions on a flat periodic grid displayed on a sphere. Volume chemistry uses a true 22 × 22 × 22 periodic lattice with six-neighbor diffusion; exposed high-concentration voxels are drawn.",
     lesson:
-      "Transport can favor exposed growth sites. Reaction and diffusion can also amplify small spatial differences into patterns; these are two distinct mechanisms to explore.",
+      "Particles arriving from outside tend to reach exposed tips. Chemical patterns grow for a different reason: reactions and diffusion amplify small differences. Similar-looking shapes don’t necessarily have the same explanation.",
     limitation:
-      "The aggregate is a diffusion-limited growth analogy, not a coral physiology model. The chemical sphere maps a flat periodic simulation onto a sphere; it is not a spherical PDE solver. The separate volume mode is a 3D chemical system, not evidence for a specific coral growth mechanism.",
+      "The aggregate demonstrates diffusion-limited growth without coral physiology. Surface chemistry runs on a flat periodic grid wrapped onto a sphere, so it doesn’t solve diffusion on a sphere. Volume chemistry does evolve a 3D grid. Neither chemical model establishes how a particular coral grows.",
     experiment:
-      "Compare colonies from the same seed at low and high flow. Switch to chemical surface and compare the presets after several hundred steps.",
+      "Start two aggregates from the same seed, with low and high flow. Then try volume chemistry and rotate the result. Give the chemical models a few hundred steps before comparing them.",
     interaction:
       "Drag to rotate the 3D view, or use the view-angle slider. Chemical controls apply to both chemical experiments; flow applies only to aggregation.",
     sources: [
@@ -474,8 +480,9 @@ export const species: Species[] = [
     name: "Twining vines",
     latin: "Climbing angiosperms",
     family: "Flowering plants",
-    title: "A growing tip finds its way.",
-    question: "How can contact redirect active growth?",
+    title:
+      "Here, contact pulls the growing tip toward a pole. Turn that feedback off and the tip keeps searching in a wider orbit.",
+    question: "What changes when a growing vine finds a support?",
     color: "#4d8051",
     modes: ["Contact feedback", "Free growth"],
     controls: [
@@ -520,13 +527,13 @@ export const species: Species[] = [
       },
     ],
     algorithm:
-      "The growing tip rises and turns. In contact mode its radial position relaxes toward the support radius; without feedback, it keeps a wide searching orbit. Past tip positions form a three-dimensional stem.",
+      "The tip rises as it turns. With contact feedback, its distance from the pole gradually approaches the pole’s radius. Without feedback, it follows a wider orbit. Each old tip position stays in place, leaving a three-dimensional stem behind.",
     lesson:
-      "A local feedback rule can couple growth to the environment. Geometry changes the resulting pitch and wrapping even with the same growth rule.",
+      "Change the support while the vine grows. The tip responds, but the old stem stays where it was. You’re seeing the history of a growth rule, not a stem settling under forces.",
     limitation:
-      "A kinematic feedback sketch inspired by twining mechanics, not an elastic rod or force solver. Torsion, friction and structural stability are not calculated.",
+      "This draws a growing stem using a feedback rule. It doesn’t calculate elastic forces, torsion, friction or whether the stem could actually hold itself up. The twining-mechanics paper motivates the question, rather than supplying a solver reproduced here.",
     experiment:
-      "Compare contact feedback and free growth. Increase support radius during growth to see the tip adapt while older stem sections retain their history.",
+      "Widen the support while the tip is growing. Watch the new section adjust while the old coils stay put. Then reset and compare with free growth.",
     interaction:
       "Drag to rotate the stem, or use the view-angle slider. Reset clears growth.",
     sources: [
@@ -542,8 +549,9 @@ export const species: Species[] = [
     name: "Long leaves",
     latin: "Long-leaf growth forms",
     family: "Flowering plants",
-    title: "Unequal growth bends the surface.",
-    question: "What happens when a leaf edge outgrows its center?",
+    title:
+      "A flat leaf can’t always stay flat. Compare two shape sketches with a sheet that relaxes stretching and bending energy.",
+    question: "Where does the extra length go when an edge grows faster?",
     color: "#53874e",
     modes: ["Rippling sketch", "Curling sketch", "Elastic sheet"],
     controls: [
@@ -580,13 +588,13 @@ export const species: Species[] = [
       },
     ],
     algorithm:
-      "A parametric ribbon turns a growth-mismatch control into curvature and edge-wave amplitude. Mismatch ramps from zero to the chosen value over 600 model steps. Edge ripples grow toward the margin; the curling mode bends the blade along its length.",
+      "Ripple and curl modes draw a ribbon whose shape depends on the growth mismatch. That mismatch ramps up over 600 steps. Elastic sheet mode instead grows spring rest lengths more at the edges, then relaxes stretching and bending energy. Its base stays clamped. Changing width restarts the mesh.",
     lesson:
-      "A flat sheet cannot always accommodate different preferred lengths without bending. This shape sketch makes that geometric incompatibility visible.",
+      "More length at the edge has to fit somewhere. Rotate the leaf to see the difference between ripples at the margin and a curl along the whole blade. Use the elastic sheet to explore a mechanical response; the first two modes draw prescribed shapes.",
     limitation:
-      "An illustrative surface family, not an energy-minimizing elasticity simulation. “Shape smoothing” is a geometric control, not a measured stiffness. It is not calibrated to plantain lily or another species. The geometry is deterministic and does not use a random seed.",
+      "Ripple and curl modes prescribe a shape; their smoothing control isn’t a measured stiffness. Elastic sheet mode uses discrete spring and bending energies, rather than the paper’s continuum plate solver. It has no self-contact. None of the modes is calibrated to a plant species. The leaf models are deterministic, so the seed has no effect.",
     experiment:
-      "Start at zero differential growth, then increase it. Rotate the surface to distinguish curling along the blade from rippling at its edges.",
+      "Start with zero differential growth, then increase it. Rotate the leaf rather than judging it from one angle. Switch to the elastic sheet and compare the shape it settles into.",
     interaction:
       "Drag to rotate the leaf, or use the view-angle slider. Run to grow the mismatch; reset to a flat leaf. Smoothing controls ripple geometry in the first mode and bending cost in elastic mode. Width changes restart the elastic mesh.",
     sources: [
@@ -601,8 +609,9 @@ export const species: Species[] = [
     name: "Bacteria",
     latin: "Bacteria · domain",
     family: "Bacteria",
-    title: "A colony grows into its resources.",
-    question: "How does local food availability shape a colony?",
+    title:
+      "Cells consume a nutrient that spreads through a grid. A cell can divide only when there’s food and an empty space next to it.",
+    question: "What happens when the middle of a colony runs out of food?",
     color: "#8c709e",
     modes: ["Nutrient-limited growth", "Replenished medium"],
     controls: [
@@ -647,13 +656,13 @@ export const species: Species[] = [
       },
     ],
     algorithm:
-      "Occupied lattice sites consume a diffusing nutrient and probabilistically divide into empty neighboring sites. Updates use the previous generation. Rich medium also replenishes nutrients throughout the habitat.",
+      "Each occupied grid site consumes nutrient and gets a chance to divide into an empty neighboring site. Nutrient diffuses between sites. Every update reads the previous generation, so the order of the cells doesn’t decide the result. Rich medium adds nutrient throughout the grid too.",
     lesson:
-      "Local reproduction depends on access to resources. A dense interior can run short of food while the exposed edge keeps expanding.",
+      "The edge has access to fresh food while the crowded interior can run short. Keep an eye on both occupied sites and average nutrient; a large colony needn’t be well fed.",
     limitation:
-      "A coarse cellular automaton inspired by nutrient-coupled colony models. No individual cell mechanics, metabolism, death, mutation or particular bacterial species is represented.",
+      "The grid stands in for a colony. It leaves out individual cell mechanics, metabolism beyond nutrient consumption, death and mutation. No particular bacterial species is represented.",
     experiment:
-      "Compare a fast-dividing colony with slow nutrient diffusion to one in replenished medium. Track occupied sites and average nutrient separately.",
+      "Try fast growth with slow diffusion. Then switch to replenished medium. Add a second colony by clicking the grid and watch what happens between them.",
     interaction:
       "Tap the habitat to seed another colony. Reset returns to the original inoculation.",
     sources: [
@@ -669,8 +678,9 @@ export const species: Species[] = [
     name: "C. elegans",
     latin: "Caenorhabditis elegans",
     family: "Nematodes",
-    title: "A wave passed down the body.",
-    question: "Can local feedback carry a coordinated movement?",
+    title:
+      "Compare a chain of oscillators with a chain that just passes bending signals along. Cutting the middle means something different in each.",
+    question: "If one link stops passing a bend, what happens to the tail?",
     color: "#9b758e",
     modes: [
       "Oscillator analogy",
@@ -720,13 +730,13 @@ export const species: Species[] = [
       },
     ],
     algorithm:
-      "A driven head oscillator entrains a chain of slower segment oscillators with a preferred phase lag. The displayed body bends according to these phases. Broken feedback removes one coupling halfway down the chain.",
+      "Oscillator mode gives each segment its own rhythm. The driven head pulls the slower segments into a traveling wave with a preferred phase lag. Bend-feedback mode works differently: only the head is driven, and each passive segment responds to the one ahead. Each cut mode removes one connection halfway down the body, at segment 12.",
     lesson:
-      "Coordination can depend on a chain of local interactions. Disrupt one link and compare motion upstream and downstream.",
+      "Watch the body on either side of the cut. The oscillator model gives each segment its own rhythm. The bend relay only moves when it receives input from the segment ahead. That distinction matters when the connection breaks.",
     limitation:
-      "A phase-oscillator analogy motivated by proprioceptive coupling research. This is not the worm connectome, a neural-network reconstruction or a biomechanical locomotion model; it does not predict crawling speed.",
+      "Wen and colleagues studied how bending signals pass along the worm. The bend relay here is a qualitative reduction of that idea; independent segment oscillators are a separate analogy. Neither model reconstructs the connectome, simulates muscles and contact forces, or predicts crawling speed.",
     experiment:
-      "Break the feedback and watch the downstream phase drift. Increase coupling to see how it changes coordination in the intact chain.",
+      "Try the cut in each model. Do the segments behind it keep oscillating, drift out of phase or relax? Reset with the same settings before comparing.",
     interaction:
       "Change coupling while the model runs. Colored segment nodes show the local oscillation state.",
     sources: [
@@ -751,10 +761,6 @@ leafSuite.presets.push({
   mode: 2,
   values: { growth: 1.2, stiffness: 0.6, width: 55 },
 });
-leafSuite.algorithm +=
-  " Elastic sheet mode grows spring rest lengths toward the edges, then relaxes stretching and bending energy. Its base is clamped; width changes restart the mesh.";
-leafSuite.limitation +=
-  " The elastic sheet uses a discrete spring and bending energy, not the paper's continuum plate solver. It has no self-contact or species calibration. The first two modes remain geometric illustrations.";
 const wormSuite = species.find((s) => s.id === "worms")!;
 wormSuite.presets.push(
   {
@@ -768,10 +774,6 @@ wormSuite.presets.push(
     values: { coupling: 2, frequency: 0.8, amplitude: 0.65 },
   },
 );
-wormSuite.algorithm +=
-  " Bend-feedback mode uses a driven head and a chain of passive first-order bend relays. Posterior segments do not have their own oscillator; a cut removes the input to segment 12.";
-wormSuite.limitation +=
-  " Wen et al. support direct propagation of bending signals, not entrainment of independent posterior clocks. Bend feedback is a separate qualitative control reduction of that idea; the oscillator modes remain analogies.";
 const coralSuite = species.find((s) => s.id === "coral")!;
 coralSuite.presets.push({
   name: "Chemistry in 3D",

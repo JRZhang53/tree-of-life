@@ -47,7 +47,12 @@ These are editorial themes, not a substitute for taxonomy or evidence that the s
 
 ## Content and visual direction
 
-Retain the field-atlas prototype as a reference, not a locked design. The memorable object should be the live system and its place in the tree. Typography, color and species illustrations support exploration; decoration should not conceal the causal model or make controls harder to find.
+Jerry explicitly requested distinctive design and human language in his writing
+style, with an independent critic feedback loop. The current direction uses a real
+cladogram, aligned organism links and a selected ancestry route, with a shared
+experiment surface. Specific questions and interventions replace slogans. Copy
+uses the direct, informal tone of his messages without fabricated personal stories.
+See [design review](DESIGN_REVIEW.md) for decisions, critique and verification.
 
 Prioritize keyboard operation, readable explanations, reduced-motion behavior, touch input and mobile navigation. A nonvisual visitor should be able to understand the question, adjust parameters and read meaningful outputs even when the rendered geometry is not available to them.
 

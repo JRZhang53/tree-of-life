@@ -41,3 +41,10 @@ For a new decision, add its status, evidence, alternatives, consequences and wha
 - **D15 — original numerical reductions:** continuous Kuramoto coupling, a grounded adaptive graph, discrete leaf energy, passive bend relays and periodic 3D chemistry. Their equations and differences from papers are recorded in `research/ATLAS_2.md`.
 - **D16 — observation notebook:** local-only persistence, maximum 12 records, sampled histories, CSV/JSON export. No account, replay claim or backend. Stable experiment IDs and `atlas-2` revision accompany settings.
 - **D17 — incremental modules:** new model families are separated while the older dispatcher remains an adapter. A framework/WebGL migration would add cost without a demonstrated requirement at the chosen bounded scales.
+- **D18 — humanization (user direction, agent implementation):** Jerry requested a
+  distinctive design and language in his own style, with critic feedback. Replace
+  the inherited botanical dashboard with a topology-driven cladogram and one
+  shared experiment surface. Concrete questions and instructions replace slogans.
+  His messages support a direct, informal tone; exact personal voice matching is
+  not established. Preserve model qualifications. Two revision rounds addressed
+  the critic's findings; [design review](DESIGN_REVIEW.md) records the evidence.
