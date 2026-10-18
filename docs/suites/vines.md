@@ -4,6 +4,10 @@ Current release: implemented educational experiment(s). See [Atlas 2 specificati
 
 Status: prototype exists; geometric sketch only; Gate A not met.
 
+2026-10-18 direction: start with supported-filament mechanics and a public-paper
+benchmark before adding spatial growth feedback. Treat support-seeking twining
+and tendril overwinding as separate problems. See the [source review](../research/MAHADEVAN_DIRECTION.md).
+
 ## Question and intended lesson
 
 How do growth, intrinsic shape and contact with a support combine to produce climbing? Distinguish a prescribed helix from a mechanically generated configuration.

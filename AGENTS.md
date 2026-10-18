@@ -17,6 +17,9 @@ rejected the prior sidebar design despite its critic approval. Preserve the
 model-preview collection, foldout topology and full-width experiment with controls
 below. `docs/DESIGN_REVIEW.md` records the superseded first pass. Avoid returning
 to generic slogans/cards or treating critic approval as user approval.
+After deployment, Jerry requested a review of Mahadevan's research and allowed
+schoolwork consultation. Read `docs/research/MAHADEVAN_DIRECTION.md` before deeper
+model work. Keep private course files, code and figures out of public commits.
 Use the roadmap's evidence gates; they do not require a ceremonial permission
 request. Work autonomously on ordinary in-scope choices and record the rationale.
 Keep user requirements, agent assumptions, prototypes and validated results

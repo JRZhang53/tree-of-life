@@ -2,7 +2,16 @@
 
 The educational atlas is implemented at model revision **atlas-2**: 12 branches, 28 experiments, research/method notes, branch search, fixed-step runs, local observation notebook, compatible-baseline plots and CSV/JSON exports. Jerry authorized this autonomous build after the memory pass at `dee9c42`.
 
-The release candidate is the commit containing this handoff; obtain its exact identity with `git rev-parse HEAD` after checking out the candidate. The final chat response reports the pushed SHA. No portfolio checkout, pin, Projects listing or live-domain release was changed.
+Child `7152541836ddc78a3279aef728312f81ad53b916` was deployed on 2026-10-18
+through portfolio commit `fa8d735f3aa04302611a2018f8bebbed7e3c45da` at Jerry's
+explicit request. GitHub Pages run `39134685032` succeeded; live entry HTML,
+Projects link and a 600-step Physarum run were verified.
+
+Jerry subsequently requested a Mahadevan research/publication review and allowed
+schoolwork consultation. The [research direction review](docs/research/MAHADEVAN_DIRECTION.md)
+and roadmap now define proposed depth work. This documentation pass changes no
+runtime code or deployed numerical model. Private course audit notes are local
+under ignored `.artifacts/`; do not publish them.
 
 The latest revision follows Jerry's rejection of the first humanization pass.
 The sidebar is gone. A broad foldout tree shows actual seeded model specimens;
@@ -36,4 +45,4 @@ interactions. No runtime dependencies, external data or copied assets were added
 Notebook storage remains local; download records are observations rather than
 resumable state.
 
-The parent integration remains: pin this standalone repo under `apps/tree-of-life`, run its verification, and copy **only `dist/`** to `dist/fun/tree-of-life/`. The app retains the `/fun/tree-of-life/` base path and hash routing. There is no independent Pages workflow or CNAME. The current parent pin is unknown and was not inspected. A push to this child does not deploy the domain.
+The parent integration remains: pin this standalone repo under `apps/tree-of-life`, run its verification, and copy **only `dist/`** to `dist/fun/tree-of-life/`. The app retains the `/fun/tree-of-life/` base path and hash routing. There is no independent Pages workflow or CNAME. The last verified parent pin is `7152541`. A push to this child does not deploy the domain.

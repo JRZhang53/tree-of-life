@@ -4,6 +4,10 @@ Current release: implemented educational experiment(s). See [Atlas 2 specificati
 
 Historical planning dossier (before the Atlas 2 implementation).
 
+2026-10-18 direction: distinguish Ocko et al. (2019) exterior mound/thermal-flow
+feedback from Heyde et al. (2021) interior floors and ramps. Neither is reproduced
+by the current uncoupled transport/deposition example. See [source review](../research/MAHADEVAN_DIRECTION.md).
+
 ## Question and intended lesson
 
 How can a locally sensed environmental signal couple collective construction to a changing structure? A secondary numerical question is how field and particle representations of transport compare.

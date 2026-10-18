@@ -4,6 +4,16 @@ Last reconciled: 2026-10-18. Read this after `AGENTS.md` when resuming work.
 
 ## Current direction
 
+Jerry's latest scientific steering is to study Mahadevan's research and
+publications, with permission to consult his schoolwork, to understand the
+intended simulations. The [research direction review](docs/research/MAHADEVAN_DIRECTION.md)
+maps public papers to the current gaps. Prioritize mechanisms that generate
+shape/behavior, meaningful parameter comparisons and numerical evidence.
+Supported-filament mechanics is the proposed first depth task, followed by
+optimization-based shepherding, leaf buckling and coupled mound construction.
+This sequence is an agent inference; the source review is not a completed model
+specification or reproduction. Keep private course files/code/figures local.
+
 Jerry's latest direction is to humanize the whole site: distinctive aesthetics and
 layout, useful language in his direct, informal tone, and a critic feedback loop.
 He rejected the first humanization pass as still looking extremely AI-generated,
@@ -55,7 +65,7 @@ The original brief was supplied as a local text file in the portfolio's private 
 | 33 model tests, build and CI passing at prototype commit                      | Software verification only; see `VERIFICATION.md`                     |
 | Exact audience, scientific depth and suite size                               | Working assumptions in `docs/PRODUCT.md`                              |
 | Distinctive design and human, direct copy with critic feedback                | Latest user request; current direction in `docs/TREE_FIRST_DESIGN.md`; prior design rejected |
-| Start research with starlings, then sheep                                     | Provisional agent sequencing; rationale in `docs/ROADMAP.md`          |
+| Start depth work with supported filaments, then optimized shepherding         | New agent-proposed sequence after the Mahadevan review; see `docs/ROADMAP.md` |
 | Mechanical plant solvers, connectome data, spherical chemistry, WebGL/workers | Possible later choices; not commitments                               |
 
 ## Where to find things
@@ -79,6 +89,10 @@ The original brief was supplied as a local text file in the portfolio's private 
 
 ## Continuity
 
+- 2026-10-18: at Jerry's explicit deployment request, child `7152541` was published
+  through portfolio commit `fa8d735`; GitHub Pages succeeded and the live app and
+  Projects link were verified. Later research steering is documented separately;
+  it has not changed the deployed `atlas-2` equations.
 - `7836c7`: standalone tooling and hosting contract.
 - `cf7a7b9`: broad exploratory prototype; local verification and GitHub CI passed. No parent deployment was performed.
 - `atlas-2`: complete educational atlas with notebook, new suites, numerical checks and responsive browser QA. Some experiments intentionally remain declared reductions/sketches; see the specification.

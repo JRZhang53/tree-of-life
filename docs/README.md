@@ -3,6 +3,9 @@
 This is the project memory for Tree of Life. The current educational atlas is specified in [Atlas 2](research/ATLAS_2.md), with [release checks](RELEASE_CHECKS.md). The original dossier outlines preserve deeper research directions.
 
 The current interface is recorded in [tree-first design](TREE_FIRST_DESIGN.md).
+The latest scientific direction is in the [Mahadevan research review](research/MAHADEVAN_DIRECTION.md),
+which maps public papers to gaps in the deployed first atlas and proposes the
+next depth work. It does not claim those new models are already implemented.
 The earlier [design review](DESIGN_REVIEW.md) is historical; Jerry rejected that
 composition despite the critic's approval.
 The notebook's shared-step comparisons and follow-up checks are recorded in

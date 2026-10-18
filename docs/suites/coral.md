@@ -4,6 +4,11 @@ Current release: implemented educational experiment(s). See [Atlas 2 specificati
 
 Historical planning dossier (before the Atlas 2 implementation). 3D is a substantive user interest, not merely a display preference.
 
+2026-10-18 direction: a matched deterministic/stochastic chemistry experiment is
+a useful separate question. No exact Mahadevan source for coral chemical growth
+was established in this review; growing coral geometry still requires its own
+mechanism selection. See [research direction](../research/MAHADEVAN_DIRECTION.md).
+
 ## Question and intended lesson
 
 How can environmental transport or local reactions influence coral-like form, and which mechanism is actually supported for the selected example?

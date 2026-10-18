@@ -82,3 +82,12 @@ New candidates should add a distinct question, have inspectable primary support,
 ## Atlas 2 research update
 
 See [the implementation specification](ATLAS_2.md) for sources read for concrete questions, exact sections, model choices and tests. This supersedes the original all-sources-screened status for the listed excerpts; it does not claim every full paper or supplementary dataset was reproduced.
+
+## Mahadevan direction review — 2026-10-18
+
+Jerry requested this review after deployment. [Paper-to-experiment mapping](MAHADEVAN_DIRECTION.md)
+records the sections reviewed, current model gaps, proposed experiments and
+remaining specification gates. It includes supported-strut mechanics, leaf
+buckling, tendril overwinding, optimized shepherding and the two distinct termite
+construction models. Private course references are retained only in local ignored
+notes; no private source files, code or figures enter the public source ledger.

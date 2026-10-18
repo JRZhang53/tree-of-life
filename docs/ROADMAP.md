@@ -1,6 +1,10 @@
 # Roadmap
 
-Current phase: **educational atlas release candidate (`atlas-2`)**. Planning at `dee9c42` was followed by Jerry's explicit authorization to build the entire site, research online and add suites/features. The earlier planning-only task card is superseded.
+Current phase: **deployed first atlas (`atlas-2`), research-led depth revision**.
+Child `7152541` was deployed through portfolio `fa8d735` on 2026-10-18 at Jerry's
+request. Jerry then requested a review of Mahadevan's research and permitted
+consulting his schoolwork. See [research direction](research/MAHADEVAN_DIRECTION.md).
+Planning at `dee9c42` was followed by authorization for autonomous development.
 
 ## Completed scope
 
@@ -20,9 +24,24 @@ Current phase: **educational atlas release candidate (`atlas-2`)**. Planning at 
 
 The [implemented specification](research/ATLAS_2.md) is authoritative for current educational reductions. Original suite dossiers retain deeper ambitions. Their future-research checklists must not be confused with claims that the site reproduces a paper. Full biological calibration, continuum plant mechanics, full mound physics and neural reconstruction remain outside this educational release.
 
-## Next work after integration
+## Next work after the research review
 
-Use real visitor feedback to choose depth work. Candidate priorities are mechanical vine attachment, spatial-convergence studies for the leaf and 3D chemical lattice, richer same-question ensemble tools, and real mobile/Safari/screen-reader audits. These are future extensions, not hidden nonfunctional controls. Portfolio pinning and deployment are separately owned release actions.
+The new reference review supersedes the earlier generic prioritization. Proposed
+order: supported-filament mechanics, optimization-based shepherding, leaf
+growth-to-shape comparisons, exterior mound feedback, then interior nest
+architecture and matched deterministic/stochastic chemistry. Finish each source
+and model specification before implementing it; do not call the current sketches
+complete realizations of these mechanisms.
+
+First bounded task: specify and benchmark a planar growing filament on an elastic
+substrate against Michaels et al. (2019), with explicit boundary conditions,
+energy derivatives, dimensionless groups and solver tolerances. Only then add
+three-dimensional geometry and growth feedback as declared extensions. Preserve
+the distinction between a supported filament, a climbing stem and a tendril.
+
+The source review and gap map are complete. Gate A remains open for these new
+models. Existing software checks do not transfer automatically to new mechanics.
+Real mobile/Safari/screen-reader audits remain useful alongside this work.
 
 ## Gate A — ready to implement in depth
 

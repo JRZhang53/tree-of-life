@@ -2,13 +2,16 @@
 
 Current release: implemented educational experiment(s). See [Atlas 2 specification](../research/ATLAS_2.md) for current equations, source review, tests and limitations. The outline below preserves the original deeper research agenda; its unchecked items are not a description of current UI functionality.
 
-Status: prototype exists; geometric sketch only; Gate A not met.
+Status: Atlas 2 has an elastic-sheet reduction and two geometric sketches.
+Gate A remains open for a closer reproduction of the leaf paper. The
+[2026-10-18 review](../research/MAHADEVAN_DIRECTION.md) prioritizes growth-induced
+buckling, parameter comparisons and discretization/constraint checks.
 
 ## Question and intended lesson
 
 How can incompatible preferred growth produce curvature, curling or edge undulations in a thin leaf-like structure?
 
-## Existing prototype
+## Historical geometric prototype
 
 A parametric ribbon ramps a control into curvature and sinusoidal edge displacement. It does not minimize elastic energy or derive shape from a growth metric. The plantain-lily example in the brief has not been selected as a calibrated species model.
 

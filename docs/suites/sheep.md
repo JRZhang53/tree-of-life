@@ -4,6 +4,11 @@ Current release: implemented educational experiment(s). See [Atlas 2 specificati
 
 Historical planning dossier (before the Atlas 2 implementation). Proposed follow-on to starlings.
 
+2026-10-18 direction: supplement the existing heuristic with an objective-based
+controller using Ranganathan et al. v3 (2024) as the source target. Emergent
+strategies and their parameter dependence are the research question. The existing
+collect/drive mode is a different baseline. See [source review](../research/MAHADEVAN_DIRECTION.md).
+
 ## Question and intended lesson
 
 When should a shepherd collect scattered agents versus drive a cohesive group? Teach state-dependent feedback and how a controller's success depends on its environment and objective.

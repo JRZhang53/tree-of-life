@@ -62,3 +62,11 @@ For a new decision, add its status, evidence, alternatives, consequences and wha
   The critic reassessed its prior approval, reviewed the whole composition first,
   and requested tighter preview framing and readable mobile annotations. These
   were implemented and checked. See [tree-first design](TREE_FIRST_DESIGN.md).
+- **D21 — use Mahadevan's work to clarify simulation depth (user steering,
+  agent interpretation):** Jerry explicitly requested the research review and
+  allowed schoolwork consultation. Prioritize mechanism-driven behavior and
+  measured comparisons; the first release's declared reductions remain useful
+  baselines but do not satisfy every deeper ambition. The proposed sequence and
+  source-access limits are recorded in [research direction](research/MAHADEVAN_DIRECTION.md).
+  No new solver, empirical validation or exact paper reproduction is implied.
+  Private course material remains local, outside published artifacts.
