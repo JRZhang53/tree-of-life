@@ -17,6 +17,8 @@ User instructions take precedence over this register. Record the origin of each 
 | D11 | Field-atlas palette, Canvas projection, nineteen modes and three controls per suite | Historical prototype choices; not binding       | Revisit when model requirements and usability justify a change                                                   |
 | D12 | Prior suggestion to advance the portfolio pin immediately                           | Superseded by planning-first steering           | No release request or integration action follows from this planning pass                                         |
 
+The table above records planning-era decisions. D13–D17 below reconcile their current implementation status; D05/D10/D12 no longer constrain work to a planning-only pass.
+
 ## Decisions intentionally left open
 
 | Question                                                                     | How to resolve it                                                                                    | Does it block this planning pass?                                       |
@@ -31,3 +33,11 @@ User instructions take precedence over this register. Record the origin of each 
 | Project license                                                              | Jerry chooses a license if/when desired; do not infer one from the public repo                       | No for original planning/code; relevant to reuse/distribution decisions |
 
 For a new decision, add its status, evidence, alternatives, consequences and what would cause reconsideration. If a decision is reversed, mark it superseded and link the replacement instead of silently rewriting history.
+
+## Implementation decisions after the memory pass
+
+- **D13 — autonomous full build (user instruction):** supersedes D05's planning-only phase and D12's no-release recommendation. Memory was completed first; subsequent research and implementation were expressly authorized.
+- **D14 — broad educational release (agent scope decision):** supersedes the provisional subset-only strategy D10. Include all requested subjects with explicit maturity/limitations; do not misrepresent sketches as mechanics or software checks as empirical validation.
+- **D15 — original numerical reductions:** continuous Kuramoto coupling, a grounded adaptive graph, discrete leaf energy, passive bend relays and periodic 3D chemistry. Their equations and differences from papers are recorded in `research/ATLAS_2.md`.
+- **D16 — observation notebook:** local-only persistence, maximum 12 records, sampled histories, CSV/JSON export. No account, replay claim or backend. Stable experiment IDs and `atlas-2` revision accompany settings.
+- **D17 — incremental modules:** new model families are separated while the older dispatcher remains an adapter. A framework/WebGL migration would add cost without a demonstrated requirement at the chosen bounded scales.

@@ -258,7 +258,59 @@ export function draw(
     }
   }
   if (sim.id === "coral") {
-    if (sim.mode === 0) {
+    if (sim.volume) {
+      const volume = sim.volume,
+        n = volume.size,
+        dots: { p: Point; v: number }[] = [];
+      for (let z = 0; z < n; z++)
+        for (let y = 0; y < n; y++)
+          for (let x = 0; x < n; x++) {
+            const v = volume.b[volume.index(x, y, z)];
+            if (
+              v > 0.12 &&
+              ([
+                [1, 0, 0],
+                [-1, 0, 0],
+                [0, 1, 0],
+                [0, -1, 0],
+                [0, 0, 1],
+                [0, 0, -1],
+              ].some(
+                ([dx, dy, dz]) =>
+                  volume.b[volume.index(x + dx, y + dy, z + dz)] <= 0.12,
+              ) ||
+                x === 0 ||
+                y === 0 ||
+                z === 0 ||
+                x === n - 1 ||
+                y === n - 1 ||
+                z === n - 1)
+            )
+              dots.push({
+                p: project({
+                  x: (x - n / 2) * 18,
+                  y: (y - n / 2) * 18,
+                  z: (z - n / 2) * 18,
+                }),
+                v,
+              });
+          }
+      dots.sort((a, b) => (a.p.z ?? 0) - (b.p.z ?? 0));
+      for (const { p, v } of dots)
+        circle(
+          p.x,
+          p.y,
+          11,
+          `hsl(${12 + v * 90} 36% ${55 + (p.z ?? 0) * 0.06}%)`,
+        );
+      label(
+        dots.length
+          ? "3D chemistry · B > 0.12 surface"
+          : "No concentration above the display threshold",
+        450,
+        525,
+      );
+    } else if (sim.mode === 0) {
       const radius = Math.max(
           12,
           ...sim.points.map((p) => Math.hypot(p.x, p.y, p.z ?? 0)),
@@ -338,7 +390,12 @@ export function draw(
   }
   if (sim.id === "leaves") {
     const leaf = (u: number, v: number) =>
-      project(leafPoint(u, v, sim.p, sim.mode, sim.ticks), 1.1);
+      project(
+        sim.elastic
+          ? sim.elastic.point(u, v)
+          : leafPoint(u, v, sim.p, sim.mode, sim.ticks),
+        1.1,
+      );
     const faces: { p: Point[]; shade: number }[] = [];
     for (let i = 0; i < 65; i++)
       for (let j = 0; j < 16; j++) {
@@ -380,24 +437,85 @@ export function draw(
           last = p;
         }
       }
-    label("Illustrative growth geometry", 450, 525);
+    label(
+      sim.elastic
+        ? "Elastic sheet · base clamped · edge-biased growth"
+        : "Illustrative growth geometry",
+      450,
+      525,
+    );
+  }
+  if (sim.fireflies) {
+    ctx.fillStyle = "#18342e";
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    for (const a of sim.fireflies.nodes) {
+      const glow = (1 + Math.cos(a.phase)) / 2;
+      circle(
+        a.x,
+        a.y,
+        7 + glow * 14,
+        `rgba(224,207,113,${0.02 + glow * 0.12})`,
+      );
+      circle(a.x, a.y, 2.2 + glow * 2.5, `hsl(49 65% ${30 + glow * 45}%)`);
+    }
+    label(
+      "Each light is a clock · brightness shows phase",
+      450,
+      525,
+      "#c6d4b6",
+    );
+  }
+  if (sim.physarum) {
+    const net = sim.physarum;
+    for (const e of net.edges) {
+      line(
+        net.nodes[e.a],
+        net.nodes[e.b],
+        e.d > 0.05 ? "#a58638" : "#c8c9b8",
+        Math.max(0.6, Math.sqrt(e.d) * 9),
+      );
+    }
+    net.nodes.forEach((p, i) => {
+      circle(
+        p.x,
+        p.y,
+        i === net.source || i === net.sink ? 13 : 3,
+        i === net.source ? "#496e4c" : i === net.sink ? "#b66f49" : "#827d55",
+      );
+    });
+    label("Source", net.nodes[net.source].x, net.nodes[net.source].y + 32);
+    label("Destination", net.nodes[net.sink].x, net.nodes[net.sink].y + 32);
+    label(
+      "Line width encodes conductance · thin routes remain available",
+      450,
+      535,
+    );
   }
   if (sim.id === "worms") {
     const pts = sim.phases.map((phase, i) => ({
       x: 170 + i * 24,
-      y: 270 + Math.sin(phase) * sim.p.amplitude * 60,
+      y:
+        270 +
+        (sim.mode >= 2 ? sim.bends[i] : Math.sin(phase)) * sim.p.amplitude * 60,
     }));
     for (let i = 1; i < pts.length; i++) {
       line(pts[i - 1], pts[i], "#bb9bb46b", 24);
       line(pts[i - 1], pts[i], "#9b758e", 1.5);
     }
     pts.forEach((p, i) =>
-      circle(p.x, p.y, 4, Math.sin(sim.phases[i]) > 0 ? "#705b87" : "#d3b46e"),
+      circle(
+        p.x,
+        p.y,
+        4,
+        (sim.mode >= 2 ? sim.bends[i] : Math.sin(sim.phases[i])) > 0
+          ? "#705b87"
+          : "#d3b46e",
+      ),
     );
     circle(pts[0].x - 3, pts[0].y - 4, 2, "#3d4051");
     label("Head driver", pts[0].x, 170);
     label("Local feedback along the body", 470, 405);
-    if (sim.mode === 1) {
+    if (sim.mode === 1 || sim.mode === 3) {
       line({ x: 446, y: 170 }, { x: 446, y: 360 }, "#a16f60", 1.5);
       label("Feedback cut", 446, 150);
     }

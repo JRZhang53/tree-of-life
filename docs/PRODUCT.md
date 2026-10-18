@@ -18,7 +18,7 @@ Working audience assumption: curious visitors who can engage without coding or s
 | P6  | Brainstorm new simulations and species through research                                      | Research opportunity queue          |
 | P7  | Refine project memory and structure before implementation in depth                           | `MEMORY.md`, `ROADMAP.md`           |
 
-The brief does not prescribe nineteen modes, three sliders per species, a specific UI framework, a particular dataset, or completion of all subjects in one release.
+Jerry subsequently authorized autonomous construction of the entire site, including additional researched suites and features. Atlas 2 implements all initial subject areas at an explicitly educational level; neither that instruction nor this release asserts scientific reproduction or calibration. The brief does not prescribe an experiment count, control count, framework or dataset.
 
 ## Experience structure
 
@@ -28,14 +28,14 @@ The central loop is **explore → ask → predict → manipulate → compare →
 2. **Enter a suite.** Present its biological question, why it is interesting and what the experiment represents. Make maturity/approximation level visible without overwhelming the introduction.
 3. **Choose an experiment.** Give each experiment a question and an observable contrast. A preset is a controlled starting condition, not automatically a different simulation.
 4. **Run and intervene.** Tune meaningful parameters with units or explicitly dimensionless scales. Explain which changes apply immediately, restart the model, or invalidate a comparison.
-5. **Compare.** Reuse an initial condition and vary one factor; show the measurement that answers the question. Later compare-run tooling is a candidate, not already implemented.
+5. **Compare.** Reuse an initial condition and vary one factor; show the measurement that answers the question. The implemented notebook overlays compatible observation histories and exports their records.
 6. **Understand.** Offer progressive explanation: plain-language rules, an optional model/equation view, limitations, and source-linked evidence.
 
 A suite is a coherent set of experiments about a mechanism. There is no fixed experiment count: one rigorous experiment is more valuable than several cosmetically different presets.
 
 ## Shared concepts
 
-Cross-links may eventually connect related ideas without conflating their biology:
+Cross-links connect related ideas without conflating their biology:
 
 - Local interaction and collective coordination: starlings, sheep, orcas.
 - Environmental memory and collective construction: ants, termites.

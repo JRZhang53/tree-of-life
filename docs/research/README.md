@@ -54,7 +54,7 @@ Entries are **screened during the prototype pass; relevant full-method review pe
 | S10 | [Liang & Mahadevan (2009), The shape of a long leaf](https://doi.org/10.1073/pnas.0911954106)                                                                                       | Differential growth/elasticity candidate; current parametric ribbon does not minimize elastic energy                  |
 | S11 | [Gerlee & Anderson (2007), Stability analysis of a hybrid cellular automaton model of cell colony growth](https://arxiv.org/abs/0705.1081)                                          | Nutrient-coupled growth; actual update rules and interpretation need extraction                                       |
 | S12 | [Wen et al. (2012), Proprioceptive coupling within motor neurons drives C. elegans forward locomotion](https://pmc.ncbi.nlm.nih.gov/articles/PMC3508473/)                           | Local-feedback question; current phase chain is an analogy, not neural reconstruction                                 |
-| S13 | [Tero et al. (2010), Rules for biologically inspired adaptive network design](https://doi.org/10.1126/science.1177894)                                                              | Future slime-mold network candidate; not implemented                                                                  |
+| S13 | [Tero et al. (2010), Rules for biologically inspired adaptive network design](https://doi.org/10.1126/science.1177894)                                                              | Network-design context; the implemented two-terminal model uses Tero et al. (2007), documented in Atlas 2             |
 | S14 | [Mirollo & Strogatz (1990), Synchronization of pulse-coupled biological oscillators](https://doi.org/10.1137/0150098)                                                               | Future synchronization candidate; organism-specific interpretation and assumptions need review                        |
 
 The original brief also links [Wikipedia's flocking overview](https://en.wikipedia.org/wiki/Flocking). Preserve it as an orientation resource; it does not replace S01 or a starling-specific primary source.
@@ -78,3 +78,7 @@ These are research candidates, not committed scope or claims of completed evalua
 | Firefly-inspired synchronization | Under which coupling and heterogeneity assumptions do oscillators synchronize?               | Adds collective timing rather than spatial aggregation   | Read S14 and obtain organism-specific evidence before biological claims        |
 
 New candidates should add a distinct question, have inspectable primary support, offer meaningful interventions and fit the static compute envelope. Keep unreviewed ideas here instead of filling the tree with unsupported placeholders.
+
+## Atlas 2 research update
+
+See [the implementation specification](ATLAS_2.md) for sources read for concrete questions, exact sections, model choices and tests. This supersedes the original all-sources-screened status for the listed excerpts; it does not claim every full paper or supplementary dataset was reproduced.

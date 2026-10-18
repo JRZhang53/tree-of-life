@@ -1,6 +1,8 @@
 # Starlings
 
-Status: prototype exists; dossier outline only; Gate A not met. Priority: first research task (R1).
+Current release: implemented educational experiment(s). See [Atlas 2 specification](../research/ATLAS_2.md) for current equations, source review, tests and limitations. The outline below preserves the original deeper research agenda; its unchecked items are not a description of current UI functionality.
+
+Historical planning dossier (before the Atlas 2 implementation). Priority: first research task (R1).
 
 ## Question and intended lesson
 

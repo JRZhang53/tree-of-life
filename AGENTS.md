@@ -1,17 +1,17 @@
 # Tree of Life
 
-This is a separate application repository owned by Jerry Zhang. The existing
-application is an exploratory prototype, not a finished scientific specification.
+This is a separate application repository owned by Jerry Zhang. The application is an educational atlas with explicitly documented reductions,
+not a calibrated biological simulator. See `docs/research/ATLAS_2.md`.
 
 ## Start here
 
 Read `MEMORY.md`, `docs/README.md` and `docs/ROADMAP.md` before substantive work.
-Jerry's latest direction is to refine project memory and structure before going
-into depth and implementing everything. Preserve the prototype while preparing
-research-backed specifications. Do not expand all suites merely because their
-names appear in the catalogue.
+Jerry authorized autonomous implementation of the entire atlas after the memory
+and structure pass, including online research, new features and new suites.
+The memory pass is complete. Develop the research and implementation together,
+recording explicit educational reductions and checking their behavior.
 
-The next proposed task is the starling research dossier (R1), not feature code.
+The current workstream is the complete educational atlas release.
 Use the roadmap's evidence gates; they do not require a ceremonial permission
 request. Work autonomously on ordinary in-scope choices and record the rationale.
 Keep user requirements, agent assumptions, prototypes and validated results

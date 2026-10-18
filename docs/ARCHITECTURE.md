@@ -1,6 +1,6 @@
 # Architecture plan
 
-Status: proposed structure for staged development. No source directories have been moved and no new runtime abstraction has been implemented by this planning pass.
+Status: partly implemented at `atlas-2`. New models live in `src/suites/{fireflies,physarum,coral,leaves,termites}`. Shared RNG, observables and notebook validation live in `src/core`; tree/experiment IDs/methods in `src/content`; notebook UI in `src/presentation`. The original Simulation and render dispatchers remain adapters for the earlier suites. The layout below is still a destination map, not a claim of complete extraction.
 
 ## Current system
 
@@ -73,7 +73,7 @@ docs/
 - Distinguish **starting-settings link** from **replay** and **state snapshot**. The current link is only starting settings; it omits interventions, elapsed time, camera and speed.
 - A future replay descriptor needs initial conditions, seed/RNG version, parameter schedule, intervention order, timestep, boundary rules and model revision. Decide float tolerance and platform guarantees; do not promise bitwise cross-browser identity without evidence.
 - Unknown or obsolete settings should produce a visible explanation and safe fallback, not silently change the scientific meaning of a link.
-- No browser storage is necessary to establish this structure. If added later, namespace keys with `tree-of-life:`.
+- The notebook uses `tree-of-life:notebook:v2`, validates records on read and keeps at most 12. Current records are observations with settings and a textual intervention log, not executable replays. CSV exports measurements; JSON exports the whole observation record.
 
 ## Execution and rendering decisions
 

@@ -2,28 +2,28 @@
 
 An interactive atlas of bio-inspired systems. Follow a simplified tree of life into simulation suites, change local rules, and explore how collective behavior and growth emerge.
 
-**Current phase: project memory and research structure.** The ten-branch app is an exploratory prototype. Jerry has directed planning and specification before deeper implementation; its existing modes and visual design are not final approved scope.
+**Current release: educational atlas, model revision `atlas-2`.** Twelve branches and 28 experiments cover the original brief plus firefly synchronization and slime-mold networks. Start with [project memory](MEMORY.md), the [documentation map](docs/README.md), and the [implemented model specification](docs/research/ATLAS_2.md).
 
-Start with [project memory](MEMORY.md), the [documentation map](docs/README.md), and the [roadmap](docs/ROADMAP.md). Each of the ten subjects has a [research dossier](docs/suites/README.md) distinguishing current shortcuts from the work needed for a substantive model. The proposed next task is starling research, not another broad feature pass.
+## Explore
 
-## Existing prototype experiments
+| Branch        | Experiments                                                           |
+| ------------- | --------------------------------------------------------------------- |
+| Starlings     | Distance neighborhoods and seven nearest neighbors                    |
+| Sheep         | Collect-and-drive versus direct driving                               |
+| Orcas         | Prescribed encirclement versus pursuit of a fish school               |
+| Ants          | Route optimization and spatial foraging                               |
+| Termites      | Matched field/particle signal transport and threshold deposition      |
+| Coral         | 3D aggregation, mapped surface chemistry and true 3D volume chemistry |
+| Twining vines | Growth with and without radial feedback                               |
+| Long leaves   | Two shape sketches and a growing elastic sheet                        |
+| Bacteria      | Nutrient-coupled growth in boundary-fed and replenished media         |
+| C. elegans    | Oscillator analogy and passive bend feedback, each intact or cut      |
+| Fireflies     | Global and local phase synchronization                                |
+| Slime molds   | Adaptive and fixed transport networks                                 |
 
-| Branch        | Models                                                                       |
-| ------------- | ---------------------------------------------------------------------------- |
-| Starlings     | Local flocking; coordinated and independent-flight presets                   |
-| Sheep         | Collect-and-drive controller versus direct driving                           |
-| Orcas         | Prescribed encirclement versus direct pursuit of a fish school               |
-| Ants          | Pheromone-based route optimization and spatial foraging                      |
-| Termites      | Signal-driven deposition with a diffusion field or random-walk particles     |
-| Coral         | Orbitable 3D diffusion-limited aggregation and a Gray–Scott chemical surface |
-| Twining vines | 3D growth with and without contact feedback                                  |
-| Long leaves   | Animated edge rippling and ribbon curling                                    |
-| Bacteria      | Nutrient-coupled cellular automata in limited and replenished media          |
-| C. elegans    | Coupled body oscillators with intact or interrupted feedback                 |
+Every branch includes a question, tunable presets, a live habitat, a defined observable, an experiment prompt, numerical assumptions, limitations and research links. The field notebook saves observations locally, overlays compatible runs and exports CSV or a full JSON record. Branch search and related-mechanism links connect the collection.
 
-Each branch includes model notes, an experiment prompt, limitations and primary research links. These are teaching models, **not calibrated biological predictions**. In particular, leaves and vines are geometric sketches rather than elastic solvers, and the worm model is not a connectome simulation. Units marked `u` are arbitrary model coordinates. The tree includes selected groups and growth forms, omits most taxa, and has no evolutionary-time scale.
-
-The About dialog proposes slime-mold transport networks and firefly synchronization as future branches, with research references. These proposals are not implemented simulations.
+These are **educational reductions, not calibrated biological predictions**. The vine and two leaf modes remain labeled geometric sketches. The elastic leaf uses a discrete energy, not a continuum plate reproduction; the worm is not a connectome. Arbitrary coordinates are labeled `u`. The tree includes selected groups and growth forms with no evolutionary-time scale.
 
 ## Develop
 
@@ -48,12 +48,12 @@ Preview serves the built app at `http://127.0.0.1:4173/fun/tree-of-life/`.
 ## Controls and reproducibility
 
 - Choose a branch in the tree; on mobile, expand **Explore the tree**.
-- Presets and model changes restart from the same seed. Sliders update the active model. Inapplicable controls are disabled.
-- Pause, advance one model step, replay a seed, choose a new seed, or change playback speed.
+- Presets and model changes restart from the same seed. Sliders update the active model; elastic-sheet width rebuilds its mesh. Inapplicable controls are disabled.
+- Pause, advance one model step or exactly 600 more steps, restart a seed, choose a new seed, or change playback speed.
 - Copy an experiment link to preserve the branch, mode, seed and parameters. It does not serialize elapsed state, speed, camera angle or habitat edits.
 - Focus the habitat: Space toggles playback; arrow keys position an interaction cursor and Enter applies it. In 3D views arrows rotate the camera. The view-angle slider also works with a keyboard.
 - Reduced-motion preferences start the simulation paused. Background tabs stop advancing. Each experiment has one fixed-step loop and bounded populations/geometry.
-- Leaf geometry has no stochastic component, so its seed controls are disabled. It grows to its selected mismatch over 600 steps. Coral aggregation and vine growth have explicit resource caps and stop at their limits.
+- Leaf geometry has no stochastic component, so its seed controls are disabled. Its sketches grow to their selected mismatch over 600 steps; the elastic sheet continues relaxing afterward. Coral aggregation and vine growth have explicit resource caps and stop at their limits.
 
 ## Code map
 
@@ -65,10 +65,10 @@ Preview serves the built app at `http://127.0.0.1:4173/fun/tree-of-life/`.
 - `tests/models.test.mjs`: numerical invariants, replay, meaningful parameter effects and regression cases.
 - `tests/build.test.mjs`: production asset-path checks.
 
-There is no persistence, tracking, service worker, backend or runtime network dependency. The project license remains undecided; source availability alone is not a license grant. No external source code, figures or datasets were copied into this implementation. Proposed module boundaries and a staged extraction plan are documented in [the architecture plan](docs/ARCHITECTURE.md); those changes have not been implemented.
+The notebook persists up to 12 records in localStorage under `tree-of-life:notebook:v2`. No tracking, service worker, backend or runtime network dependency is used. The project license remains undecided; source availability alone is not a license grant. No external source code, figures or datasets were copied into this implementation. New model families live in `src/suites/`; taxonomy/method content in `src/content/`; random generation, observables and record validation in `src/core/`; notebook UI in `src/presentation/`. The original `Simulation` dispatcher remains an adapter for older suites. See [architecture](docs/ARCHITECTURE.md).
 
 ## Hosting and release
 
 The portfolio `JRZhang53/jerrybzhang.com` owns deployment and the custom domain. It consumes a pinned revision of this repo and copies **only `dist/`** into `/fun/tree-of-life/`. Hash routing works without a history fallback. Runtime public files must use `import.meta.env.BASE_URL` if added later.
 
-Do not create a second Pages deployment, CNAME or DNS configuration. A future release requires a selected subset to meet the [release gate](docs/ROADMAP.md), followed by a verified child commit and a separate portfolio integration/release. The current planning pass does not request a parent pin update. Pushing this repo does not update the live domain. See `AGENTS.md` for ownership constraints.
+Do not create a second Pages deployment, CNAME or DNS configuration. The educational atlas candidate has a [verification record](docs/RELEASE_CHECKS.md). Integrate the exact verified child commit listed in `HANDOFF.md` through a separate portfolio release. Pushing this repo does not update the live domain. See `AGENTS.md` for ownership constraints.

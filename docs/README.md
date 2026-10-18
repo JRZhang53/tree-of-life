@@ -1,6 +1,6 @@
 # Project documentation
 
-This is the planning home for Tree of Life. The existing app is an exploratory prototype; these documents specify how to develop it into a coherent, research-backed project.
+This is the project memory for Tree of Life. The current educational atlas is specified in [Atlas 2](research/ATLAS_2.md), with [release checks](RELEASE_CHECKS.md). The original dossier outlines preserve deeper research directions.
 
 ## Reading order
 
@@ -38,4 +38,4 @@ Avoid duplicating authoritative specifications. A concise reminder may link to i
 - **Validated educational model:** implementation and explanations satisfy the declared numerical, behavioral and learning checks. This does not mean empirically calibrated biology.
 - **Release candidate:** a selected, honest subset meets the cross-project release gate.
 
-No suite currently has `Specified`, `Validated educational model` or `Release candidate` status. Passing software tests does not advance those statuses by itself.
+The atlas is an educational release candidate. Its implemented reductions have explicit specifications and software/numerical checks in Atlas 2; none claims empirical validation or full paper reproduction. The larger biological-fidelity ambitions in the original dossiers remain open.

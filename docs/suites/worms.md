@@ -1,5 +1,7 @@
 # C. elegans and distributed control
 
+Current release: implemented educational experiment(s). See [Atlas 2 specification](../research/ATLAS_2.md) for current equations, source review, tests and limitations. The outline below preserves the original deeper research agenda; its unchecked items are not a description of current UI functionality.
+
 Status: prototype exists; analogy only; Gate A not met. The original brief explicitly left this direction tentative.
 
 ## Question and intended lesson

@@ -22,6 +22,11 @@ const snapshot = (s) =>
     chemical: Array.from(s.chemical),
     cells: Array.from(s.cells),
     phases: s.phases,
+    bends: s.bends,
+    fireflies: s.fireflies,
+    physarum: s.physarum,
+    volume: s.volume,
+    elastic: s.elastic,
     best: s.bestLength,
   });
 
@@ -51,6 +56,8 @@ for (const s of species)
         );
       }
       assert.ok(a.points.length <= 1800);
+      for (const model of [a.fireflies, a.physarum, a.volume, a.elastic])
+        if (model) assert.ok(!/NaN|Infinity|null/.test(JSON.stringify(model)));
       for (const [, value] of a.metrics())
         assert.ok(!/NaN|Infinity/.test(value));
     });
@@ -169,6 +176,13 @@ test("parameter extremes stay finite in all model modes", () => {
         assert.ok(a.grid.every(Number.isFinite), `${s.id} ${mode} ${bound}`);
         assert.ok(a.chemical.every(Number.isFinite));
         assert.ok(a.phases.every(Number.isFinite));
+        assert.ok(a.bends.every(Number.isFinite));
+        for (const model of [a.fireflies, a.physarum, a.volume, a.elastic])
+          if (model)
+            assert.ok(
+              !/NaN|Infinity|null/.test(JSON.stringify(model)),
+              `${s.id} ${mode} ${bound}`,
+            );
         assert.ok(
           a.agents.every((v) => Number.isFinite(v.x) && Number.isFinite(v.y)),
         );

@@ -4,9 +4,9 @@ Last reconciled: 2026-10-18. Read this after `AGENTS.md` when resuming work.
 
 ## Current direction
 
-Jerry's latest instruction is to work autonomously on project memory and structure **before** deeper research and implementation of everything. The current workstream is planning and research preparation. Do not interpret the existence of ten working branches as completion of the requested project.
+Jerry authorized autonomous development of the entire site once memory and structure were prepared, including online research, additional features and new simulation suites. The planning pass is complete at `dee9c42`; implementation is now authorized. Preserve the research gates and explicit distinctions between educational reductions and calibrated biology.
 
-The app at `cf7a7b9f40dff479895f7bf2c78564eb10eaa14a` is an exploratory prototype. Preserve it as a runnable reference while the project is specified. Its palette, layout, algorithms, nineteen modes and derived acceptance criteria were agent choices, not separately approved product requirements. The prior release suggestion is superseded: this planning pass does not recommend advancing the portfolio pin.
+The app at `cf7a7b9f40dff479895f7bf2c78564eb10eaa14a` is an exploratory prototype. Preserve it as a runnable reference while the project is specified. Its palette, layout, algorithms, nineteen modes and derived acceptance criteria were agent choices, not separately approved product requirements. The current candidate builds on that baseline; see `docs/research/ATLAS_2.md` for implemented models and `docs/RELEASE_CHECKS.md` for verification. Portfolio deployment remains separate.
 
 ## User intent, preserved
 
@@ -30,16 +30,16 @@ The original brief was supplied as a local text file in the portfolio's private 
 
 ## Established facts versus pending choices
 
-| Item                                                                          | Status                                                       |
-| ----------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| Ten initial subject areas and research-led exploration                        | User brief                                                   |
-| Memory and structure before implementation in depth                           | Latest user instruction                                      |
-| Static hosting and separate portfolio ownership                               | Existing project contract                                    |
-| Current ten-branch / nineteen-mode app                                        | Implemented prototype; not a maturity target                 |
-| 33 model tests, build and CI passing at prototype commit                      | Software verification only; see `VERIFICATION.md`            |
-| Exact audience, scientific depth, suite size and visual direction             | Unconfirmed; working assumptions in `docs/PRODUCT.md`        |
-| Start research with starlings, then sheep                                     | Provisional agent sequencing; rationale in `docs/ROADMAP.md` |
-| Mechanical plant solvers, connectome data, spherical chemistry, WebGL/workers | Possible later choices; not commitments                      |
+| Item                                                                          | Status                                                          |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Ten initial subject areas and research-led exploration                        | User brief                                                      |
+| Memory first, then autonomous full build including researched additions       | Latest user instructions; planning completed at `dee9c42`       |
+| Static hosting and separate portfolio ownership                               | Existing project contract                                       |
+| Current twelve-branch / 28-mode educational atlas                             | Implemented; detailed assumptions in `docs/research/ATLAS_2.md` |
+| 33 model tests, build and CI passing at prototype commit                      | Software verification only; see `VERIFICATION.md`               |
+| Exact audience, scientific depth, suite size and visual direction             | Unconfirmed; working assumptions in `docs/PRODUCT.md`           |
+| Start research with starlings, then sheep                                     | Provisional agent sequencing; rationale in `docs/ROADMAP.md`    |
+| Mechanical plant solvers, connectome data, spherical chemistry, WebGL/workers | Possible later choices; not commitments                         |
 
 ## Where to find things
 
@@ -56,7 +56,7 @@ The original brief was supplied as a local text file in the portfolio's private 
 
 1. Read `AGENTS.md`, this file and `docs/ROADMAP.md`.
 2. Check Git status; preserve unrelated or user-authored changes.
-3. The next proposed substantive task is **R1: a research-backed starling dossier**, not new UI or ten simultaneous upgrades.
+3. Continue the educational atlas implementation, consulting the current roadmap and suite specifications.
 4. Work autonomously within the brief. Resolve routine choices with recorded reasoning; a research gate requires evidence, not a ritual permission request.
 5. When scope or direction changes, reconcile this memory and the affected decision/dossier. Never silently promote an assumption into a user decision.
 
@@ -64,6 +64,7 @@ The original brief was supplied as a local text file in the portfolio's private 
 
 - `7836c7`: standalone tooling and hosting contract.
 - `cf7a7b9`: broad exploratory prototype; local verification and GitHub CI passed. No parent deployment was performed.
-- Latest user steering: organize durable memory and structure first. This supersedes treating the broad prototype as release-complete.
+- `atlas-2`: complete educational atlas with notebook, new suites, numerical checks and responsive browser QA. Some experiments intentionally remain declared reductions/sketches; see the specification.
+- `dee9c42`: memory and structure completed. Latest user steering then authorized the full autonomous build, additional features and researched suites.
 
 Keep this file compact. Detailed research belongs in the relevant dossier; test output belongs in verification records; tasks belong in the roadmap. Update facts in place instead of appending an unbounded chat log.

@@ -1,10 +1,22 @@
 import "./style.css";
+import { methods } from "./content/methods.ts";
+import {
+  taxonomy,
+  experiments,
+  MODEL_REVISION,
+  type Branch,
+} from "./content/taxonomy.ts";
+import { Notebook } from "./presentation/notebook.ts";
+import { normalizedSettings, type Settings } from "./core/notebook.ts";
 import { species, byId, defaults } from "./catalog.ts";
 import type { Species } from "./catalog.ts";
 import { Simulation, WIDTH, HEIGHT, clamp } from "./models.ts";
 import { draw } from "./render.ts";
 
 const icons: Record<string, string> = {
+  fireflies:
+    "M12 6V21M7 8L3 3M17 8L21 3M12 11C1 2 0 19 12 16C24 19 23 2 12 11M8 20Q12 25 16 20",
+  physarum: "M3 5L12 3L23 9L20 22L7 21L3 5L20 22M7 21L23 9M12 3L7 21",
   starlings: "M3 8 Q9 6 12 13 Q15 6 22 5 M12 13 L10 19 M12 13 L17 17",
   sheep:
     "M6 15 C0 13 3 7 7 8 C6 3 13 3 14 7 C18 3 22 8 19 11 L22 13 L19 17 L15 16 C12 20 5 19 6 15 M8 19 V22 M16 18 V21",
@@ -27,37 +39,18 @@ const leaf = (id: string) => {
 };
 const group = (title: string, children: string) =>
   `<li class="clade"><span class="clade-name">${title}</span><ul>${children}</ul></li>`;
-const tree = group(
-  "Life",
-  leaf("bacteria") +
-    group(
-      "Eukaryotes",
-      group("Flowering plants", leaf("vines") + leaf("leaves")) +
-        group(
-          "Animals",
-          leaf("coral") +
-            group(
-              "Bilaterians",
-              group(
-                "Protostomes",
-                leaf("worms") +
-                  group("Insects", leaf("ants") + leaf("termites")),
-              ) +
-                group(
-                  "Vertebrates",
-                  leaf("starlings") +
-                    group("Mammals", leaf("sheep") + leaf("orcas")),
-                ),
-            ),
-        ),
-    ),
-);
+const treeMarkup = (branch: Branch): string =>
+  "suite" in branch
+    ? leaf(branch.suite)
+    : group(branch.label, branch.children.map(treeMarkup).join(""));
+const tree = treeMarkup(taxonomy);
+
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <a class="skip-link" href="#experiment">Skip to experiment</a>
   <header class="site-header"><a class="wordmark" href="#starlings"><svg viewBox="0 0 32 36" aria-hidden="true"><path d="M16 33V4M16 25L5 15V9M16 18L26 9V3M16 11L10 5M16 28L27 20"/><circle cx="5" cy="7" r="3"/><circle cx="10" cy="4" r="2"/><circle cx="27" cy="18" r="3"/><circle cx="26" cy="3" r="2"/></svg><span>Tree of Life<small>An atlas of living systems</small></span></a><button class="text-button" id="about-button">About the atlas <span aria-hidden="true">↗</span></button></header>
-  <div class="atlas-layout"><aside class="sidebar"><details id="tree-panel" open><summary>Explore the tree <span>10 branches</span></summary><nav aria-label="Species"><ul class="phylogeny">${tree}</ul></nav><p class="tree-note">Selected branches of life.<br>Branch lengths do not represent time.</p></details></aside>
-  <main id="experiment" tabindex="-1"><div id="species-header"></div><div class="workspace"><section class="habitat" aria-label="Interactive simulation"><div class="habitat-bar"><span id="model-label"></span><span class="run-state" id="run-state"></span></div><canvas id="habitat" tabindex="0" aria-describedby="interaction-help" aria-label="Simulation habitat">The simulation requires canvas support. Its model description and live measurements are available below.</canvas><div class="playback"><div class="playback-buttons"><button id="play" class="primary"></button><button id="step" title="Advance one model step">Step</button><button id="reset" title="Restart with the same seed and settings">Reset</button></div><label class="speed-label">Speed <select id="speed"><option value=".5">½×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label></div><div class="metrics" id="metrics" aria-label="Simulation measurements"></div><p class="canvas-help" id="interaction-help"></p></section><aside class="controls" aria-label="Experiment controls"><h2>Experiment</h2><label class="field-label" for="mode">Model</label><select id="mode"></select><div id="presets" class="presets" aria-label="Experiment presets"></div><div id="parameters"></div><div class="view-control" id="view-control"><label for="angle">View angle <output id="angle-value">25°</output></label><input id="angle" type="range" min="-180" max="180" step="1" value="25"></div><div class="seed-row"><label for="seed">Seed<input id="seed" type="number" min="1" max="999999" step="1" value="42"></label><button id="new-seed" title="Restart with a new random seed">New seed</button></div><button class="share-button" id="share">Copy experiment link</button><p class="control-note">Reset replays the same seed. Links preserve starting settings, not elapsed steps.</p><p id="status" class="status" role="status"></p></aside></div><section class="field-notes" aria-label="Research and model notes" id="notes"></section><footer>Made for curiosity. Built from local rules.<span>Educational models · No measured biological data</span></footer></main></div>
-  <dialog id="about"><div class="dialog-top"><span class="dialog-kicker">A living collection</span><button id="close-about" aria-label="Close about dialog">×</button></div><h2>Small rules.<br>Remarkable worlds.</h2><p>Explore how movement, growth and coordination can emerge from simple interactions. Choose a branch, change a rule, and watch what follows.</p><p>This atlas contains ten educational simulation suites. Every branch identifies its assumptions and research inspiration. The tree is a simplified selection: it omits most of life, including Archaea and fungi, and does not encode evolutionary time. Some labels represent groups or growth forms rather than individual species.</p><h3>Branches worth growing next</h3><div class="future-branch"><strong>Slime molds / Adaptive networks</strong><p>Place food sources, then compare transport efficiency, construction cost and resilience. Inspired by <a href="https://doi.org/10.1126/science.1177894" target="_blank" rel="noreferrer">Tero et al. (2010)</a>.</p></div><div class="future-branch"><strong>Fireflies / Collective timing</strong><p>Vary pulse coupling and oscillator diversity to explore synchronization. Inspired by <a href="https://doi.org/10.1137/0150098" target="_blank" rel="noreferrer">Mirollo & Strogatz (1990)</a>.</p></div><p class="muted">These are proposed experiments, not implemented simulations. All current simulations run locally in your browser.</p></dialog>`;
+  <div class="atlas-layout"><aside class="sidebar"><details id="tree-panel" open><summary>Explore the tree <span>${species.length} branches</span></summary><label class="tree-search" for="branch-search">Find a branch<input id="branch-search" type="search" placeholder="Species or mechanism…"></label><p id="search-status" role="status"></p><nav aria-label="Species"><ul class="phylogeny">${tree}</ul></nav><p class="tree-note">Selected branches of life.<br>Branch lengths do not represent time.</p></details></aside>
+  <main id="experiment" tabindex="-1"><div id="species-header"></div><div class="workspace"><section class="habitat" aria-label="Interactive simulation"><div class="habitat-bar"><span id="model-label"></span><span class="run-state" id="run-state"></span></div><canvas id="habitat" tabindex="0" aria-describedby="interaction-help" aria-label="Simulation habitat">The simulation requires canvas support. Its model description and live measurements are available below.</canvas><div class="playback"><div class="playback-buttons"><button id="play" class="primary"></button><button id="step" title="Advance one model step">Step</button><button id="advance" title="Advance exactly 600 model steps, then pause">+600 steps</button><button id="reset" title="Restart with the same seed and settings">Reset</button></div><label class="speed-label">Speed <select id="speed"><option value=".5">½×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label></div><div class="metrics" id="metrics" aria-label="Simulation measurements"></div><p class="canvas-help" id="interaction-help"></p></section><aside class="controls" aria-label="Experiment controls"><h2>Experiment</h2><label class="field-label" for="mode">Model</label><select id="mode"></select><div id="presets" class="presets" aria-label="Experiment presets"></div><div id="parameters"></div><div class="view-control" id="view-control"><label for="angle">View angle <output id="angle-value">25°</output></label><input id="angle" type="range" min="-180" max="180" step="1" value="25"></div><div class="seed-row"><label for="seed">Seed<input id="seed" type="number" min="1" max="999999" step="1" value="42"></label><button id="new-seed" title="Restart with a new random seed">New seed</button></div><button class="share-button" id="share">Copy experiment link</button><p class="control-note">Reset replays the same seed. Links preserve starting settings, not elapsed steps.</p><p id="status" class="status" role="status"></p></aside></div><section class="notebook" id="notebook" aria-label="Experiment notebook"></section><section class="field-notes" aria-label="Research and model notes" id="notes"></section><footer>Made for curiosity. Built from local rules.<span>Educational models · No measured biological data</span></footer></main></div>
+  <dialog id="about"><div class="dialog-top"><span class="dialog-kicker">A living collection</span><button id="close-about" aria-label="Close about dialog">×</button></div><h2>Small rules.<br>Remarkable worlds.</h2><p>Explore how movement, growth and coordination can emerge from simple interactions. Choose a branch, change a rule, and watch what follows.</p><p>This atlas contains twelve educational simulation suites, with saved observations, measurement histories and exports. Every branch identifies its assumptions and research inspiration. The tree is a simplified selection: it omits most of life, including Archaea and fungi, and does not encode evolutionary time. Some labels represent groups or growth forms rather than individual species.</p><h3>Follow a question</h3><p>Choose a branch, change a rule, and save the result in your field notebook. Compare at the same model step. Records stay on this device and can be exported.</p><p>Sources guide the questions, while the models use declared educational reductions. Read the limitations beside each habitat.</p><p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4758236/" target="_blank" rel="noreferrer">Phylogenetic context for slime molds</a></p><p class="muted">All simulations run locally in your browser.</p></dialog>`;
 
 function el<T extends HTMLElement = HTMLElement>(id: string) {
   return document.getElementById(id) as T;
@@ -86,7 +79,12 @@ function format(n: number, step: number) {
   return n.toFixed(step < 0.01 ? 3 : step < 1 ? 2 : 0);
 }
 function saveHash() {
-  const q = new URLSearchParams({ mode: String(mode), seed: String(seed) });
+  const q = new URLSearchParams({
+    v: "2",
+    rev: MODEL_REVISION,
+    experiment: experiments[current.id][mode],
+    seed: String(seed),
+  });
   for (const [key, value] of Object.entries(sim.p))
     q.set(key, String(Number(value.toFixed(6))));
   history.replaceState(null, "", `#${current.id}?${q}`);
@@ -127,14 +125,20 @@ function metrics() {
     `<div><span>Model step</span><strong>${sim.ticks.toLocaleString()}</strong></div>`;
 }
 function restart() {
+  advanceToken++;
   sim = new Simulation(current.id, mode, sim?.p ?? defaults(current), seed);
   accumulator = 0;
   render();
   metrics();
   playback();
   saveHash();
+  notebook.reset(normalizedSettings(current.id, mode, seed, sim.p), sim);
 }
 function syncParameters() {
+  el("model-label").textContent =
+    current.id === "leaves" && mode !== 2
+      ? "Geometry sketch"
+      : "Educational model";
   for (const c of current.controls) {
     el<HTMLInputElement>(`param-${c.key}`).value = String(sim.p[c.key]);
     el(`value-${c.key}`).textContent = format(sim.p[c.key], c.step);
@@ -142,7 +146,9 @@ function syncParameters() {
       (current.id === "coral" &&
         (mode === 0 ? c.key !== "flow" : c.key === "flow")) ||
       (current.id === "leaves" && mode === 1 && c.key === "stiffness") ||
-      (current.id === "vines" && mode === 1 && c.key === "response");
+      (current.id === "vines" && mode === 1 && c.key === "response") ||
+      (current.id === "fireflies" && mode === 0 && c.key === "range") ||
+      (current.id === "physarum" && mode === 1);
     el<HTMLInputElement>(`param-${c.key}`).disabled = disabled;
     el(`row-${c.key}`).classList.toggle("inactive", disabled);
   }
@@ -165,10 +171,15 @@ function presetButtons() {
     });
 }
 function load() {
+  advanceToken++;
   const [id, query = ""] = location.hash.slice(1).split("?"),
     q = new URLSearchParams(query);
   current = byId(id);
-  mode = clamp(Number(q.get("mode")) || 0, 0, current.modes.length - 1);
+  const namedMode = experiments[current.id].indexOf(q.get("experiment") ?? "");
+  mode =
+    namedMode >= 0
+      ? namedMode
+      : clamp(Number(q.get("mode")) || 0, 0, current.modes.length - 1);
   mode = Math.floor(mode);
   seed = clamp(Math.floor(Number(q.get("seed")) || 42), 1, 999999);
   const p = defaults(current);
@@ -195,7 +206,9 @@ function load() {
       else a.removeAttribute("aria-current");
     });
   el("model-label").textContent =
-    current.id === "leaves" ? "Growth geometry" : "Live habitat";
+    current.id === "leaves" && mode !== 2
+      ? "Geometry sketch"
+      : "Educational model";
   el("mode").innerHTML = current.modes
     .map((name, i) => `<option value="${i}">${name}</option>`)
     .join("");
@@ -219,12 +232,18 @@ function load() {
   el("view-control").hidden = !is3d();
   el("notes").innerHTML =
     `<div class="notes-intro"><h2>Inside the model</h2><p>Observe. Change a rule. Compare.</p></div><div class="note-columns"><article><h3>The mechanism</h3><p>${current.algorithm}</p><h3>What to look for</h3><p>${current.lesson}</p></article><article><h3>Try this experiment</h3><p>${current.experiment}</p><details class="limits" open><summary>What this model leaves out</summary><p>${current.limitation}</p></details></article></div><div class="sources"><h3>Follow the research</h3>${current.sources.map((s) => `<a href="${s.url}" target="_blank" rel="noreferrer">${s.title}<span aria-hidden="true">↗</span></a>`).join("")}</div>`;
+  const method = methods[current.id];
+  el("notes").insertAdjacentHTML(
+    "beforeend",
+    `<details class="model-method"><summary>Equations, scales & fair comparisons</summary><p>${method.equation}</p><p>${method.scale}</p><p>${method.compare}</p><p class="muted">Model revision ${MODEL_REVISION}. Model steps are specific to each experiment, not a common biological clock.</p></details><div class="related-branches"><h3>Follow this idea</h3>${method.related.map((id) => `<a href="#${id}">${byId(id).name}</a>`).join("")}</div>`,
+  );
   if (["starlings", "orcas"].includes(current.id)) {
     const clear = document.createElement("button");
     clear.textContent = "Clear disturbance";
     clear.className = "clear-button";
     clear.onclick = () => {
       sim.disturbance = null;
+      notebook.event(sim.ticks, "Clear disturbance");
       render();
       setStatus("Disturbance cleared.");
     };
@@ -232,7 +251,16 @@ function load() {
   }
   for (const c of current.controls)
     el<HTMLInputElement>(`param-${c.key}`).addEventListener("input", (e) => {
+      advanceToken++;
+      notebook.event(
+        sim.ticks,
+        `${c.key} = ${(e.target as HTMLInputElement).value}`,
+      );
       sim.p[c.key] = Number((e.target as HTMLInputElement).value);
+      if (current.id === "leaves" && mode === 2 && c.key === "width") {
+        restart();
+        setStatus("Mesh width changed; restarted elastic sheet.");
+      }
       el(`value-${c.key}`).textContent = format(sim.p[c.key], c.step);
       presetButtons();
       saveHash();
@@ -257,7 +285,19 @@ function load() {
   presetButtons();
   metrics();
   playback();
-  setStatus("");
+  notebook.reset(normalizedSettings(current.id, mode, seed, sim.p), sim);
+  let routeMessage = "";
+  if (id && !species.some((s) => s.id === id))
+    routeMessage = "Unknown branch; opened Starlings.";
+  else if (q.has("rev") && q.get("rev") !== MODEL_REVISION)
+    routeMessage =
+      "This link uses another model revision. Settings loaded in the current model; trajectories may differ.";
+  else if (q.has("experiment") && namedMode < 0)
+    routeMessage = "Unknown experiment; opened the default model.";
+  else if (q.has("mode"))
+    routeMessage =
+      "Legacy settings loaded in atlas-2; model behavior may differ from the original.";
+  setStatus(routeMessage);
   accumulator = 0;
   render();
   if (!matchMedia("(max-width: 760px)").matches) {
@@ -276,14 +316,18 @@ el<HTMLSelectElement>("mode").onchange = (e) => {
   setStatus("Model changed. Restarted with the same seed.");
 };
 el("play").onclick = () => {
+  advanceToken++;
   if (sim.completed) restart();
   paused = !paused;
   accumulator = 0;
   playback();
 };
 el("step").onclick = () => {
+  advanceToken++;
   paused = true;
   sim.step();
+  notebook.sample(sim, true);
+  notebook.chart();
   render();
   metrics();
   playback();
@@ -360,6 +404,10 @@ canvas.addEventListener("pointerdown", (e) => {
       y: ((e.clientY - r.top) / r.height) * HEIGHT,
     };
     sim.interact(cursor.x, cursor.y);
+    notebook.event(
+      sim.ticks,
+      `Habitat input (${cursor.x.toFixed(2)}, ${cursor.y.toFixed(2)})`,
+    );
     render();
     metrics();
   }
@@ -389,6 +437,10 @@ canvas.addEventListener("keydown", (e) => {
     el("play").click();
   } else if (e.key === "Enter" && !is3d()) {
     sim.interact(cursor.x, cursor.y);
+    notebook.event(
+      sim.ticks,
+      `Habitat input (${cursor.x.toFixed(2)}, ${cursor.y.toFixed(2)})`,
+    );
     render();
     metrics();
     setStatus("Applied habitat interaction at the cursor.");
@@ -456,6 +508,102 @@ document.addEventListener("visibilitychange", () => {
   last = 0;
   accumulator = 0;
 });
+const notebook = new Notebook(
+  el("notebook"),
+  (settings: Settings) => {
+    const q = new URLSearchParams({
+      v: "2",
+      rev: MODEL_REVISION,
+      experiment: experiments[settings.suite][settings.mode],
+      seed: String(settings.seed),
+    });
+    for (const [k, v] of Object.entries(settings.parameters))
+      q.set(k, String(v));
+    history.replaceState(null, "", `#${settings.suite}?${q}`);
+    paused = true;
+    load();
+    el("experiment").scrollIntoView({ block: "start" });
+    el("experiment").focus({ preventScroll: true });
+    setStatus(
+      "Started with saved settings. Interventions and elapsed state are not restored.",
+    );
+  },
+  setStatus,
+);
+el("save-run").addEventListener(
+  "click",
+  () => {
+    notebook.sample(sim, true);
+    notebook.chart();
+  },
+  true,
+);
+let advanceToken = 0;
+el("advance").onclick = async () => {
+  paused = true;
+  playback();
+  const token = ++advanceToken,
+    model = sim,
+    target = sim.ticks + 600;
+  el<HTMLButtonElement>("advance").disabled = true;
+  let lastProgress = 0;
+  while (
+    model === sim &&
+    token === advanceToken &&
+    sim.ticks < target &&
+    !sim.completed
+  ) {
+    const start = performance.now();
+    do {
+      sim.step();
+      notebook.sample(sim);
+    } while (
+      performance.now() - start < 12 &&
+      sim.ticks < target &&
+      !sim.completed
+    );
+    render();
+    metrics();
+    notebook.chart();
+    if (performance.now() - lastProgress > 250) {
+      setStatus(`Advancing: ${sim.ticks} / ${target} steps`);
+      lastProgress = performance.now();
+    }
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  }
+  if (model === sim && token === advanceToken) {
+    paused = true;
+    notebook.sample(sim, true);
+    notebook.chart();
+    playback();
+    setStatus(`Paused at step ${sim.ticks}.`);
+  }
+  el<HTMLButtonElement>("advance").disabled = false;
+};
+el<HTMLInputElement>("branch-search").oninput = (e) => {
+  const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+  let count = 0;
+  document
+    .querySelectorAll<HTMLAnchorElement>("[data-species]")
+    .forEach((a) => {
+      const s = byId(a.dataset.species!);
+      const match = `${s.name} ${s.latin} ${s.title} ${s.algorithm}`
+        .toLowerCase()
+        .includes(query);
+      a.closest<HTMLElement>("li")!.hidden = !match;
+      if (match) count++;
+    });
+  [...document.querySelectorAll<HTMLElement>(".clade")]
+    .reverse()
+    .forEach(
+      (g) =>
+        (g.hidden = ![...g.querySelectorAll<HTMLElement>(".species-leaf")].some(
+          (l) => !l.hidden,
+        )),
+    );
+  el("search-status").textContent = query ? `${count} matching branches` : "";
+};
+
 load();
 function frame(time: number) {
   const dt = last ? Math.min((time - last) / 1000, 0.1) : 0;
@@ -463,8 +611,14 @@ function frame(time: number) {
   if (!paused && !document.hidden && !sim.completed) {
     accumulator += dt * speed;
     let steps = 0;
-    while (accumulator >= 1 / 60 && steps < 12) {
+    const frameStart = performance.now();
+    while (
+      accumulator >= 1 / 60 &&
+      steps < 12 &&
+      performance.now() - frameStart < 12
+    ) {
       sim.step();
+      notebook.sample(sim);
       accumulator -= 1 / 60;
       steps++;
     }
@@ -472,6 +626,7 @@ function frame(time: number) {
     render();
     if (time - metricTime > 220) {
       metrics();
+      notebook.chart();
       metricTime = time;
     }
     if (sim.completed) {

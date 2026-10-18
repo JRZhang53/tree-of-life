@@ -1,3 +1,11 @@
+import { nearest } from "./suites/starlings/neighbors.ts";
+import { SignalTransport } from "./suites/termites/transport.ts";
+import { random } from "./core/random.ts";
+export { random } from "./core/random.ts";
+import { Fireflies } from "./suites/fireflies/model.ts";
+import { Physarum } from "./suites/physarum/model.ts";
+import { ChemicalVolume } from "./suites/coral/volume.ts";
+import { ElasticLeaf } from "./suites/leaves/elastic.ts";
 import type { Parameters, SpeciesId } from "./catalog.ts";
 
 export interface Point {
@@ -42,16 +50,6 @@ export function leafPoint(
         u * u * bend * 35;
   return { x: v * width, y, z };
 }
-export function random(seed: number) {
-  let state = seed >>> 0;
-  return () => {
-    state += 0x6d2b79f5;
-    let t = state;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
 const distance = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.y - b.y);
 const center = (points: Point[]) => ({
   x: points.reduce((n, p) => n + p.x, 0) / points.length,
@@ -75,6 +73,11 @@ export function diffuse(input: Float32Array, rate: number, decay = 0) {
 
 /** Pure seeded simulation state. Rendering and elapsed wall time never affect it. */
 export class Simulation {
+  transport?: SignalTransport;
+  fireflies?: Fireflies;
+  physarum?: Physarum;
+  volume?: ChemicalVolume;
+  elastic?: ElasticLeaf;
   id: SpeciesId;
   mode: number;
   p: Parameters;
@@ -84,7 +87,7 @@ export class Simulation {
   predators: Agent[] = [];
   points: Point[] = [];
   segments: Segment[] = [];
-  grid = new Float32Array(COLS * ROWS);
+  grid: Float32Array = new Float32Array(COLS * ROWS);
   chemical = new Float32Array(COLS * ROWS);
   cells = new Uint8Array(COLS * ROWS);
   target: Point = { x: 760, y: 280 };
@@ -94,6 +97,7 @@ export class Simulation {
   bestRoute: number[] = [];
   bestLength = Infinity;
   phases: number[] = [];
+  bends: number[] = Array(24).fill(0);
   count = 0;
   strategy = "Collecting";
   completed = false;
@@ -106,6 +110,11 @@ export class Simulation {
     this.mode = mode;
     this.p = { ...p };
     this.rng = random(seed);
+    if (id === "fireflies") this.fireflies = new Fireflies(seed);
+    if (id === "physarum") this.physarum = new Physarum(seed);
+    if (id === "leaves" && mode === 2) this.elastic = new ElasticLeaf(p.width);
+    if (id === "coral" && mode === 2)
+      this.volume = new ChemicalVolume(this.rng);
     const swarm = ["starlings", "sheep", "orcas"].includes(id);
     if (swarm) {
       const n = id === "sheep" ? 45 : 150;
@@ -152,6 +161,7 @@ export class Simulation {
       this.cells[28 * COLS + 45] = 1;
     }
     if (id === "termites") {
+      this.transport = new SignalTransport(COLS, ROWS);
       this.target = { x: 450, y: 360 };
       this.cells[36 * COLS + 45] = 1;
     }
@@ -182,7 +192,14 @@ export class Simulation {
   step() {
     if (this.completed) return;
     this.ticks++;
-    if (["starlings", "sheep", "orcas"].includes(this.id)) this.swarm();
+    if (this.fireflies) this.fireflies.step(this.p, this.mode);
+    else if (this.physarum) {
+      if (this.ticks % 4 === 0) this.physarum.step(this.p, this.mode);
+    } else if (this.elastic)
+      this.elastic.step(this.p.growth, this.p.stiffness, this.ticks);
+    else if (this.volume) {
+      for (let i = 0; i < 3; i++) this.volume.step(this.p.feed, this.p.kill);
+    } else if (["starlings", "sheep", "orcas"].includes(this.id)) this.swarm();
     else if (this.id === "ants")
       this.mode === 0 ? this.optimize() : this.forage();
     else if (this.id === "bacteria") this.bacteria();
@@ -274,11 +291,18 @@ export class Simulation {
         cx = 0,
         cy = 0,
         n = 0;
-      for (const b of active) {
+      const neighbors =
+        this.id === "starlings" && this.mode === 1
+          ? nearest(active, a, 7)
+          : active;
+      for (const b of neighbors) {
         const dx = b.x - a.x,
           dy = b.y - a.y,
           d2 = dx * dx + dy * dy;
-        if (d2 > 0 && d2 < 85 * 85) {
+        if (
+          d2 > 0 &&
+          ((this.id === "starlings" && this.mode === 1) || d2 < 85 * 85)
+        ) {
           n++;
           cx += b.x;
           cy += b.y;
@@ -464,36 +488,14 @@ export class Simulation {
   private termites() {
     const sx = clamp(Math.floor(this.target.x / 10), 1, COLS - 2),
       sy = clamp(Math.floor(this.target.y / 10), 1, ROWS - 2);
-    if (this.mode === 0) {
-      this.grid = diffuse(this.grid, this.p.diffusion, this.p.decay);
-      for (let y = Math.max(1, sy - 10); y < Math.min(ROWS - 1, sy + 11); y++)
-        for (
-          let x = Math.max(1, sx - 10);
-          x < Math.min(COLS - 1, sx + 11);
-          x++
-        ) {
-          const i = y * COLS + x;
-          this.grid[i] = Math.max(
-            this.grid[i],
-            Math.exp(-((x - sx) ** 2 + (y - sy) ** 2) / 32),
-          );
-        }
-    } else {
-      for (let i = 0; i < 12; i++) this.walkers.push({ x: sx, y: sy });
-      this.walkers = this.walkers
-        .filter(() => this.rng() > this.p.decay + 0.003)
-        .slice(-1600);
-      this.grid.fill(0);
-      for (const w of this.walkers) {
-        if (this.rng() < this.p.diffusion * 4) {
-          const d = Math.floor(this.rng() * 4);
-          w.x = clamp(w.x + (d === 0 ? 1 : d === 1 ? -1 : 0), 1, COLS - 2);
-          w.y = clamp(w.y + (d === 2 ? 1 : d === 3 ? -1 : 0), 1, ROWS - 2);
-        }
-        this.grid[w.y * COLS + w.x] += 0.08;
-      }
-      this.grid = diffuse(this.grid, 0.2);
-    }
+    this.transport!.step(
+      this.p.diffusion,
+      this.p.decay,
+      sy * COLS + sx,
+      this.mode,
+      this.rng,
+    );
+    this.grid = this.transport!.field;
     if (this.ticks % 4 === 0) {
       const next = this.cells.slice();
       for (let y = 1; y < ROWS - 1; y++)
@@ -604,6 +606,17 @@ export class Simulation {
     });
   }
   private worm() {
+    if (this.mode >= 2) {
+      const previous = [...this.bends];
+      this.bends[0] = Math.sin(
+        (this.ticks / 60) * this.p.frequency * Math.PI * 2,
+      );
+      for (let i = 1; i < 24; i++) {
+        const target = this.mode === 3 && i === 12 ? 0 : previous[i - 1];
+        this.bends[i] += ((target - previous[i]) * this.p.coupling * 8) / 60;
+      }
+      return;
+    }
     const prev = [...this.phases],
       dt = 1 / 60,
       frequency = this.p.frequency * Math.PI * 2;
@@ -616,6 +629,8 @@ export class Simulation {
     }
   }
   interact(x: number, y: number) {
+    if (this.fireflies) this.fireflies.interact(x, y);
+    if (this.physarum) this.physarum.interact(x, y);
     if (
       this.id === "sheep" ||
       this.id === "termites" ||
@@ -631,6 +646,36 @@ export class Simulation {
       this.disturbance = { x, y };
   }
   metrics(): [string, string][] {
+    if (this.fireflies)
+      return [
+        ["Oscillators", String(this.fireflies.nodes.length)],
+        ["Synchrony", this.fireflies.coherence().toFixed(3)],
+      ];
+    if (this.physarum)
+      return [
+        ["Tube investment", this.physarum.cost().toFixed(2)],
+        ["Flow residual", this.physarum.residual.toExponential(1)],
+      ];
+    if (this.elastic)
+      return [
+        ["Elastic energy", this.elastic.energy.toFixed(2)],
+        [
+          "Peak deflection",
+          Math.max(...this.elastic.vertices.map((p) => Math.abs(p.z))).toFixed(
+            2,
+          ) + " u",
+        ],
+      ];
+    if (this.volume)
+      return [
+        ["Volume sites", String(this.volume.a.length)],
+        [
+          "Mean chemical B",
+          (
+            this.volume.b.reduce((a, b) => a + b, 0) / this.volume.b.length
+          ).toFixed(3),
+        ],
+      ];
     if (this.id === "starlings") {
       const sum = this.agents.reduce(
         (s, a) => {
@@ -720,6 +765,11 @@ export class Simulation {
           (this.p.growth * Math.min(1, this.ticks / 600)).toFixed(2),
         ],
         ["Model", "Shape sketch"],
+      ];
+    if (this.id === "worms" && this.mode >= 2)
+      return [
+        ["Body segments", "24"],
+        ["Feedback", this.mode === 2 ? "Bend relay" : "Relay cut at 12"],
       ];
     return [
       ["Body segments", String(this.phases.length)],

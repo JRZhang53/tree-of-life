@@ -1,6 +1,6 @@
 # Suite dossiers
 
-These are research-ready outlines, not completed model specifications. All ten requested subjects have a runnable prototype; none has cleared Gate A. No new simulation is implemented by creating these files.
+This index preserves the original research outlines. Current implemented educational models, evidence, equations and checks are specified in [Atlas 2](../research/ATLAS_2.md). The table below is the historical prototype inventory, useful for understanding which deeper questions remain.
 
 | Suite / stable ID       | Existing prototype                    | Main unresolved issue                                         | Dossier                   |
 | ----------------------- | ------------------------------------- | ------------------------------------------------------------- | ------------------------- |
@@ -30,4 +30,8 @@ During deeper research, expand the outline with:
 
 Only then move its status to `Specified`. Preserve superseded assumptions in the decision history rather than quietly changing the experiment's meaning.
 
-The research-first next task is [starlings](starlings.md). Other outlines are a backlog and context, not instructions to implement ten suites concurrently.
+The original starling-first task was completed by choosing an explicit metric/topological educational comparison. Future depth work should update these dossiers alongside the current implementation specification.
+
+## Atlas 2 additions and current specifications
+
+The [Atlas 2 specification](../research/ATLAS_2.md) now describes all implemented reductions. New suites: [fireflies](fireflies.md) and [Physarum](physarum.md). Original dossier checklists preserve deeper research ambitions.
