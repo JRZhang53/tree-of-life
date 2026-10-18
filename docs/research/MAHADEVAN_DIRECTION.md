@@ -1,5 +1,10 @@
 # Research direction after the first deployment
 
+Follow-up: Jerry authorized the fixes after this review. The resulting first
+implementation is [Atlas 3](ATLAS_3.md). This document preserves the source audit
+and the gaps as they stood before that implementation.
+
+
 Reviewed 2026-10-18. Jerry explicitly asked for Mahadevan's research website and
 publications to inform what the simulations should mean, and permitted consulting
 his schoolwork. This is a source review and proposed development direction, not a

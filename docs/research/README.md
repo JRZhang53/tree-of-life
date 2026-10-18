@@ -1,5 +1,11 @@
 # Research method and source ledger
 
+The current mechanism pass is specified and evaluated in [Atlas 3](ATLAS_3.md),
+following the [Mahadevan source review](MAHADEVAN_DIRECTION.md). It adds explicit
+rod/sheet energies, sampled-objective shepherding and exterior-mound feedback.
+The checks are for these independently declared reductions; no completed paper
+reproduction or empirical validation is asserted.
+
 ## Evidence levels
 
 This ledger consolidates references already encountered during the prototype pass. **No source has a completed reproduction audit.** The prior pass used author explanations, abstracts, search excerpts and accessible paper material with uneven coverage. A link being present in the UI does not mean the full method was read or reproduced.

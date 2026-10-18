@@ -27,6 +27,10 @@ const snapshot = (s) =>
     physarum: s.physarum,
     volume: s.volume,
     elastic: s.elastic,
+    filament: s.filament,
+    sheet: s.sheet,
+    flock: s.flock,
+    mound: s.mound,
     best: s.bestLength,
   });
 
@@ -56,7 +60,16 @@ for (const s of species)
         );
       }
       assert.ok(a.points.length <= 1800);
-      for (const model of [a.fireflies, a.physarum, a.volume, a.elastic])
+      for (const model of [
+        a.fireflies,
+        a.physarum,
+        a.volume,
+        a.elastic,
+        a.filament,
+        a.sheet,
+        a.flock,
+        a.mound,
+      ])
         if (model) assert.ok(!/NaN|Infinity|null/.test(JSON.stringify(model)));
       for (const [, value] of a.metrics())
         assert.ok(!/NaN|Infinity/.test(value));

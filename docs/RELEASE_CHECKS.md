@@ -1,4 +1,30 @@
-# Atlas 2 release checks
+# Release checks
+
+## Atlas 3 follow-up — 2026-10-18
+
+`npm run verify` passed on Node 24.19.0: 78 model/research tests and the production
+asset-path check. See [Atlas 3](research/ATLAS_3.md) for the numerical evidence,
+including the controller failure cases and remaining mesh sensitivity.
+Type checking was repeated after the small input/formatting fixes.
+The final production bundle and path check were rerun after those UI fixes.
+Browser review in the in-app Chromium browser covered all seven new modes,
+600-step runs, legacy-sketch labeling, mode-specific controls, leaf-width restart,
+keyboard rotation and shepherd target placement. At 600 steps, the rebuilding
+mound had 348 cavity cells versus the fixed wall's 432. Mound keyboard input no
+longer claims to move its intentionally fixed source. The threshold readout shows
+all four decimal places required by its slider step. Existing atlas-2 records
+were visibly preserved with revision labels and export controls.
+
+Desktop review used 1280 × 900; responsive review used 390 × 844 across the four
+affected branches, with no horizontal document overflow. Model-specific labels,
+captions, controls and metrics remained readable. Screenshots are local ignored
+QA artifacts, not publication assets. No browser error/warning was observed during
+the checked flows. Real touch hardware, Safari and screen-reader testing remain
+coverage limits. The visual design remains the existing tree-first layout.
+Dependencies and hosting are unchanged; the candidate still requires a portfolio
+pin update to reach the live domain. The sections below record previous releases.
+
+## Atlas 2 release checks
 
 Scope: the educational atlas described in [Atlas 2](research/ATLAS_2.md). This record does not imply empirical calibration or complete reproduction of the linked papers.
 

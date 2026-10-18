@@ -2,20 +2,20 @@
 
 A collection of experiments about flocking, growth and coordination. Pick an organism, change a rule and compare what happens.
 
-**Current release: educational atlas, model revision `atlas-2`.** Twelve branches and 28 experiments cover the original brief plus firefly synchronization and slime-mold networks. Start with [project memory](MEMORY.md), the [documentation map](docs/README.md), and the [implemented model specification](docs/research/ATLAS_2.md).
+**Current candidate: educational atlas, model revision `atlas-3`.** Twelve branches and 35 experiments cover the original brief plus firefly synchronization and slime-mold networks. Start with [project memory](MEMORY.md), the [documentation map](docs/README.md), the [base models](docs/research/ATLAS_2.md), and the [new mechanics and control models](docs/research/ATLAS_3.md).
 
 ## Explore
 
 | Branch        | Experiments                                                           |
 | ------------- | --------------------------------------------------------------------- |
 | Starlings     | Distance neighborhoods and seven nearest neighbors                    |
-| Sheep         | Collect-and-drive versus direct driving                               |
+| Sheep         | Sampled-objective controller, collect-and-drive and direct driving     |
 | Orcas         | Prescribed encirclement versus pursuit of a fish school               |
 | Ants          | Route optimization and spatial foraging                               |
-| Termites      | Matched field/particle signal transport and threshold deposition      |
+| Termites      | Coupled exterior mound and fixed-wall baseline; field/particle sketches |
 | Coral         | 3D aggregation, mapped surface chemistry and true 3D volume chemistry |
-| Twining vines | Growth with and without radial feedback                               |
-| Long leaves   | Two shape sketches and a growing elastic sheet                        |
+| Twining vines | Planar/spatial elastic rods with stress-sensitive growth; legacy sketches |
+| Long leaves   | Free/held-midrib growing sheets, earlier elastic model and shape sketches |
 | Bacteria      | Nutrient-coupled growth in boundary-fed and replenished media         |
 | C. elegans    | Oscillator analogy and passive bend feedback, each intact or cut      |
 | Fireflies     | Global and local phase synchronization                                |
@@ -23,7 +23,7 @@ A collection of experiments about flocking, growth and coordination. Pick an org
 
 Every branch includes a question, tunable presets, a live habitat, a defined observable, an experiment prompt, numerical assumptions, limitations and research links. The field notebook saves observations locally, overlays compatible runs and exports CSV or a full JSON record. Branch search and related-mechanism links connect the collection.
 
-These are **educational reductions, not calibrated biological predictions**. The vine and two leaf modes remain labeled geometric sketches. The elastic leaf uses a discrete energy, not a continuum plate reproduction; the worm is not a connectome. Arbitrary coordinates are labeled `u`. The tree includes selected groups and growth forms with no evolutionary-time scale.
+These are **educational reductions, not calibrated biological predictions**. Legacy vine and leaf sketches remain labeled. The new rods and sheets minimize explicit elastic energies; their coarse-mesh shapes are not converged scientific predictions. The mound models exterior construction, not underground floors or ramps. The dog can fail despite minimizing its one-step cost; the worm is not a connectome. Arbitrary coordinates are labeled `u`. The tree includes selected groups and growth forms with no evolutionary-time scale.
 
 ## Develop
 

@@ -35,16 +35,22 @@ export const taxonomy = group(
 );
 export const experiments: Record<SpeciesId, string[]> = {
   starlings: ["metric", "topological"],
-  sheep: ["collect-drive", "drive"],
+  sheep: ["collect-drive", "drive", "objective"],
   orcas: ["encircle", "pursue"],
   ants: ["routes", "foraging"],
-  termites: ["field", "particles"],
+  termites: ["field", "particles", "mound", "fixed-mound"],
   coral: ["aggregate", "surface", "volume"],
-  vines: ["contact", "free"],
-  leaves: ["ripple-sketch", "curl-sketch", "elastic"],
+  vines: ["contact", "free", "supported-planar", "supported-spatial"],
+  leaves: [
+    "ripple-sketch",
+    "curl-sketch",
+    "elastic",
+    "free-sheet",
+    "midrib-sheet",
+  ],
   bacteria: ["boundary-food", "rich-medium"],
   worms: ["intact", "cut", "bend-relay", "bend-cut"],
   fireflies: ["global", "local"],
   physarum: ["adaptive", "fixed"],
 };
-export const MODEL_REVISION = "atlas-2";
+export const MODEL_REVISION = "atlas-3";

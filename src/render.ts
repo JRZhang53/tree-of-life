@@ -8,6 +8,7 @@ import {
   leafPoint,
 } from "./models.ts";
 import type { Point } from "./models.ts";
+import { drawDepth } from "./presentation/depth-render.ts";
 
 export function draw(
   ctx: CanvasRenderingContext2D,
@@ -25,6 +26,8 @@ export function draw(
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
+  const depthCaption = drawDepth(ctx, sim, angle, annotations, labelScale);
+  if (depthCaption !== undefined) return depthCaption;
   const line = (a: Point, b: Point, color: string, width = 1) => {
     ctx.strokeStyle = color;
     ctx.lineWidth = width;

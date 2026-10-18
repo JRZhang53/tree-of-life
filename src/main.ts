@@ -3,6 +3,7 @@ import { showPreviews } from "./presentation/previews.ts";
 import { shell } from "./presentation/shell.ts";
 import "./style.css";
 import { methods } from "./content/methods.ts";
+import { depthNote } from "./content/depth.ts";
 import { experiments, MODEL_REVISION } from "./content/taxonomy.ts";
 import { Notebook } from "./presentation/notebook.ts";
 import { normalizedSettings, type Settings } from "./core/notebook.ts";
@@ -43,7 +44,7 @@ function setStatus(text: string) {
   el("status").textContent = text;
 }
 function format(n: number, step: number) {
-  return n.toFixed(step < 0.01 ? 3 : step < 1 ? 2 : 0);
+  return n.toFixed(Math.max(0, Math.ceil(-Math.log10(step))));
 }
 function saveHash() {
   const q = new URLSearchParams({
@@ -60,7 +61,7 @@ function render() {
   const caption = draw(context, sim, angle, true, WIDTH / canvasCssWidth);
   if (el("scene-caption").textContent !== caption)
     el("scene-caption").textContent = caption;
-  if (keyboardCursor && !is3d()) {
+  if (keyboardCursor && !is3d() && !sim.mound) {
     context.strokeStyle = "#3a654b";
     context.lineWidth = 1.5;
     context.beginPath();
@@ -105,10 +106,12 @@ function restart() {
 }
 function syncParameters() {
   el("model-label").textContent =
-    (current.id === "leaves" && mode !== 2) || current.id === "vines"
+    (current.id === "leaves" && mode < 2) ||
+    (current.id === "vines" && mode < 2)
       ? "Geometry sketch"
       : "Educational model";
   for (const c of current.controls) {
+    el(`row-${c.key}`).hidden = !!c.modes && !c.modes.includes(mode);
     el<HTMLInputElement>(`param-${c.key}`).value = String(sim.p[c.key]);
     el(`value-${c.key}`).textContent = format(sim.p[c.key], c.step);
     const disabled =
@@ -123,8 +126,26 @@ function syncParameters() {
   }
   el<HTMLSelectElement>("mode").value = String(mode);
   el<HTMLInputElement>("seed").value = String(seed);
-  el<HTMLInputElement>("seed").disabled = current.id === "leaves";
-  el<HTMLButtonElement>("new-seed").disabled = current.id === "leaves";
+  const deterministic = (current.id === "leaves" && mode < 3) || !!sim.mound;
+  el<HTMLInputElement>("seed").disabled = deterministic;
+  el<HTMLButtonElement>("new-seed").disabled = deterministic;
+  const note = depthNote(current.id, mode);
+  const method = methods[current.id];
+  el("try-this").innerHTML =
+    `<h2>Try this</h2><p>${note?.compare ?? current.experiment}</p>`;
+  if (!["starlings", "orcas"].includes(current.id))
+    el("interaction-help").textContent =
+      (note?.interaction ?? current.interaction) +
+      (is3d()
+        ? " Keyboard: left/right arrows rotate the view."
+        : sim.mound
+          ? ""
+          : " Keyboard: arrows move the cursor; Enter applies it.");
+  // Keep the existing clear-disturbance control when this is a flocking suite.
+  if (!["starlings", "orcas"].includes(current.id)) {
+    el("notes").innerHTML =
+      `<div class="notes-intro"><h2>${current.question}</h2></div><div class="note-columns"><article class="explanation"><p>${note?.algorithm ?? current.algorithm}</p><p>${note?.lesson ?? current.lesson}</p></article><aside class="research-margin"><details class="limits" open><summary>What this leaves out</summary><p>${note?.limitation ?? current.limitation}</p></details><div class="sources"><h3>Further reading</h3>${current.sources.map((s) => `<a href="${s.url}" target="_blank" rel="noreferrer">${s.title.replaceAll(" · ", ": ")}</a>`).join("")}</div></aside></div><details class="model-method"><summary>Equations and comparison notes</summary><p>${note?.equation ?? method.equation}</p><p>${note?.scale ?? method.scale}</p><p>${note?.compare ?? method.compare}</p><p class="muted">Model revision ${MODEL_REVISION}. A step means something different in each experiment; it isn’t a shared biological clock.</p></details><div class="related-branches"><h3>Related experiments</h3>${method.related.map((id) => `<a href="#${id}">${byId(id).name}</a>`).join("")}</div>`;
+  }
 }
 function presetButtons() {
   el("presets")
@@ -149,7 +170,13 @@ function load() {
   mode =
     namedMode >= 0
       ? namedMode
-      : clamp(Number(q.get("mode")) || 0, 0, current.modes.length - 1);
+      : clamp(
+          q.has("mode")
+            ? Number(q.get("mode")) || 0
+            : (current.defaultMode ?? 0),
+          0,
+          current.modes.length - 1,
+        );
   mode = Math.floor(mode);
   seed = clamp(Math.floor(Number(q.get("seed")) || 42), 1, 999999);
   const p = defaults(current);
@@ -234,9 +261,12 @@ function load() {
     el<HTMLInputElement>(`param-${c.key}`).addEventListener("input", (e) => {
       advanceToken++;
       sim.p[c.key] = Number((e.target as HTMLInputElement).value);
-      if (current.id === "leaves" && mode === 2 && c.key === "width") {
+      if (
+        c.restart ||
+        (current.id === "leaves" && mode === 2 && c.key === "width")
+      ) {
         restart();
-        setStatus("Mesh width changed; restarted elastic sheet.");
+        setStatus(`${c.label} changed; restarted the model.`);
       } else {
         notebook.sample(sim, true);
         notebook.event(
@@ -257,7 +287,7 @@ function load() {
         (b.onclick = () => {
           const p = current.presets[i];
           mode = p.mode;
-          sim.p = { ...p.values };
+          sim.p = { ...defaults(current), ...p.values };
           restart();
           syncParameters();
           presetButtons();
@@ -278,8 +308,7 @@ function load() {
   else if (q.has("experiment") && namedMode < 0)
     routeMessage = "Unknown experiment; opened the default model.";
   else if (q.has("mode"))
-    routeMessage =
-      "Legacy settings loaded in atlas-2; model behavior may differ from the original.";
+    routeMessage = `Legacy settings loaded in ${MODEL_REVISION}; model behavior may differ from the original.`;
   setStatus(routeMessage);
   accumulator = 0;
   render();
@@ -368,7 +397,7 @@ about.addEventListener("click", (e) => {
 let dragging = false,
   startX = 0;
 function interactAtCursor() {
-  const position = `(${Math.round(cursor.x)}, ${Math.round(cursor.y)})`;
+  if (sim.mound) return;
   const action =
     current.id === "fireflies"
       ? "Reset nearby phases at"
@@ -387,6 +416,8 @@ function interactAtCursor() {
                   : null;
   if (!action) return;
   sim.interact(cursor.x, cursor.y);
+  const location = sim.flock?.target ?? cursor;
+  const position = `(${Math.round(location.x)}, ${Math.round(location.y)})`;
   const description = `${action} ${position}`;
   notebook.sample(sim, true);
   notebook.event(sim.ticks, description);
@@ -437,6 +468,7 @@ canvas.addEventListener("keydown", (e) => {
   } else if (
     ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)
   ) {
+    if (sim.mound) return;
     e.preventDefault();
     if (is3d()) {
       el<HTMLInputElement>("angle").value = String(
@@ -542,7 +574,9 @@ const notebook = new Notebook(el("notebook"), (settings: Settings) => {
   el("experiment").scrollIntoView({ block: "start" });
   el("experiment").focus({ preventScroll: true });
   setStatus(
-    "Started with saved settings. Interventions and elapsed state are not restored.",
+    settings.revision === MODEL_REVISION
+      ? "Started with saved settings. Interventions and elapsed state are not restored."
+      : `Started the saved ${settings.revision} settings in ${MODEL_REVISION}. The old measurements remain saved; trajectories may differ.`,
   );
 });
 el("save-run").addEventListener(

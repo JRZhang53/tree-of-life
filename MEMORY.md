@@ -4,15 +4,17 @@ Last reconciled: 2026-10-18. Read this after `AGENTS.md` when resuming work.
 
 ## Current direction
 
-Jerry's latest scientific steering is to study Mahadevan's research and
-publications, with permission to consult his schoolwork, to understand the
-intended simulations. The [research direction review](docs/research/MAHADEVAN_DIRECTION.md)
-maps public papers to the current gaps. Prioritize mechanisms that generate
-shape/behavior, meaningful parameter comparisons and numerical evidence.
-Supported-filament mechanics is the proposed first depth task, followed by
-optimization-based shepherding, leaf buckling and coupled mound construction.
-This sequence is an agent inference; the source review is not a completed model
-specification or reproduction. Keep private course files/code/figures local.
+Jerry asked to implement the corrections identified in the Mahadevan review.
+Model revision **atlas-3** now adds seven experiments: planar/spatial supported
+filaments, free/held-midrib growing sheets, objective-based shepherding, and
+rebuilding/fixed exterior mounds. These open by default on their respective
+branches; previous modes remain reachable by stable identifiers. See
+[Atlas 3](docs/research/ATLAS_3.md) for equations, evidence and limits.
+The review is source context; these independently specified reductions are not
+paper reproductions. The high-spread shepherd controller can fail to approach
+the target; mesh-dependent shapes are not converged scientific predictions.
+Underground termite floors/ramps, pole contact/torsion and empirical calibration
+remain outside this revision. Private schoolwork remains local.
 
 Jerry's latest direction is to humanize the whole site: distinctive aesthetics and
 layout, useful language in his direct, informal tone, and a critic feedback loop.
@@ -61,11 +63,11 @@ The original brief was supplied as a local text file in the portfolio's private 
 | Ten initial subject areas and research-led exploration                        | User brief                                                            |
 | Memory first, then autonomous full build including researched additions       | Latest user instructions; planning completed at `dee9c42`             |
 | Static hosting and separate portfolio ownership                               | Existing project contract                                             |
-| Current twelve-branch / 28-mode educational atlas                             | Implemented; detailed assumptions in `docs/research/ATLAS_2.md`       |
+| Current twelve-branch / 35-mode educational atlas                             | Implemented; assumptions in `docs/research/ATLAS_2.md` and `ATLAS_3.md`       |
 | 33 model tests, build and CI passing at prototype commit                      | Software verification only; see `VERIFICATION.md`                     |
 | Exact audience, scientific depth and suite size                               | Working assumptions in `docs/PRODUCT.md`                              |
 | Distinctive design and human, direct copy with critic feedback                | Latest user request; current direction in `docs/TREE_FIRST_DESIGN.md`; prior design rejected |
-| Start depth work with supported filaments, then optimized shepherding         | New agent-proposed sequence after the Mahadevan review; see `docs/ROADMAP.md` |
+| First depth pass: filaments, optimized shepherding, sheets and mounds         | Implemented educational reductions; further convergence work remains; see `docs/ROADMAP.md` |
 | Mechanical plant solvers, connectome data, spherical chemistry, WebGL/workers | Possible later choices; not commitments                               |
 
 ## Where to find things

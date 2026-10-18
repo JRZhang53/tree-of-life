@@ -6,6 +6,10 @@ import { Fireflies } from "./suites/fireflies/model.ts";
 import { Physarum } from "./suites/physarum/model.ts";
 import { ChemicalVolume } from "./suites/coral/volume.ts";
 import { ElasticLeaf } from "./suites/leaves/elastic.ts";
+import { Filament } from "./suites/vines/filament.ts";
+import { GrowingSheet } from "./suites/leaves/sheet.ts";
+import { OptimizedFlock } from "./suites/sheep/optimizer.ts";
+import { Mound } from "./suites/termites/mound.ts";
 import type { Parameters, SpeciesId } from "./catalog.ts";
 
 export interface Point {
@@ -73,6 +77,10 @@ export function diffuse(input: Float32Array, rate: number, decay = 0) {
 
 /** Pure seeded simulation state. Rendering and elapsed wall time never affect it. */
 export class Simulation {
+  filament?: Filament;
+  sheet?: GrowingSheet;
+  flock?: OptimizedFlock;
+  mound?: Mound;
   transport?: SignalTransport;
   fireflies?: Fireflies;
   physarum?: Physarum;
@@ -110,6 +118,50 @@ export class Simulation {
     this.mode = mode;
     this.p = { ...p };
     this.rng = random(seed);
+    if (id === "vines" && mode >= 2)
+      this.filament = new Filament(seed, mode === 3);
+    if (id === "leaves" && mode >= 3)
+      this.sheet = new GrowingSheet(p.sheetWidth, seed, mode === 4);
+    if (id === "sheep" && mode === 2) this.flock = new OptimizedFlock(seed);
+    if (id === "termites" && mode >= 2) this.mound = new Mound();
+    if (this.filament) {
+      const e = this.filament.evaluate(p.bending, p.tether);
+      this.filament.energy = e.value;
+      this.filament.stretch = e.stretch;
+      this.filament.bend = e.bend;
+      this.filament.residual = Math.sqrt(
+        e.gradient.reduce(
+          (s, g, i) =>
+            s +
+            (i > 1 && i < this.filament!.vertices.length - 2
+              ? g.x * g.x + g.y * g.y + (mode === 3 ? g.z * g.z : 0)
+              : 0),
+          0,
+        ),
+      );
+    }
+    if (this.sheet) {
+      const e = this.sheet.evaluate(0, p.thickness);
+      this.sheet.energy = e.value;
+      this.sheet.stretch = e.stretch;
+      this.sheet.bend = e.bend;
+      this.sheet.residual = Math.sqrt(
+        e.gradient.reduce(
+          (s, g, i) =>
+            s +
+            (mode === 4 && i % this.sheet!.cols === (this.sheet!.cols - 1) / 2
+              ? 0
+              : g.x * g.x + g.y * g.y + g.z * g.z),
+          0,
+        ),
+      );
+    }
+    if (this.flock)
+      this.flock.cost = this.flock.objective(
+        this.flock.agents,
+        this.flock.dog,
+        p,
+      );
     if (id === "fireflies") this.fireflies = new Fireflies(seed);
     if (id === "physarum") this.physarum = new Physarum(seed);
     if (id === "leaves" && mode === 2) this.elastic = new ElasticLeaf(p.width);
@@ -192,7 +244,11 @@ export class Simulation {
   step() {
     if (this.completed) return;
     this.ticks++;
-    if (this.fireflies) this.fireflies.step(this.p, this.mode);
+    if (this.filament) this.filament.step(this.p, this.ticks);
+    else if (this.sheet) this.sheet.step(this.p, this.ticks);
+    else if (this.flock) this.flock.step(this.p);
+    else if (this.mound) this.mound.step(this.p, this.mode === 3);
+    else if (this.fireflies) this.fireflies.step(this.p, this.mode);
     else if (this.physarum) {
       if (this.ticks % 4 === 0) this.physarum.step(this.p, this.mode);
     } else if (this.elastic)
@@ -629,6 +685,11 @@ export class Simulation {
     }
   }
   interact(x: number, y: number) {
+    if (this.flock) {
+      this.flock.interact(x, y);
+      return;
+    }
+    if (this.mound) return;
     if (this.fireflies) this.fireflies.interact(x, y);
     if (this.physarum) this.physarum.interact(x, y);
     if (
@@ -646,6 +707,36 @@ export class Simulation {
       this.disturbance = { x, y };
   }
   metrics(): [string, string][] {
+    if (this.filament)
+      return [
+        ["Sideways displacement", this.filament.deflection().toFixed(3)],
+        ["Elastic energy", this.filament.energy.toFixed(3)],
+        ["Force residual", this.filament.residual.toExponential(2)],
+      ];
+    if (this.sheet)
+      return [
+        ["Stretching energy", this.sheet.stretch.toFixed(4)],
+        ["Bending energy", this.sheet.bend.toFixed(4)],
+        ["Force residual", this.sheet.residual.toExponential(2)],
+      ];
+    if (this.flock) {
+      const c = this.flock.objective(this.flock.agents, this.flock.dog, this.p);
+      return [
+        ["Target distance", c.target.toFixed(1) + " u"],
+        ["Flock spread (4th moment)", c.spread.toFixed(1) + " u"],
+        ["Chosen move cost", this.flock.cost.total.toFixed(2)],
+      ];
+    }
+    if (this.mound)
+      return [
+        ["Cavity area", String(this.mound.area()) + " cells"],
+        ["Thermal cycle", (this.mound.ticks / 160).toFixed(1)],
+        ["Flux divergence", this.mound.divergence.toExponential(1)],
+        [
+          "Odor budget error",
+          Math.abs(this.mound.budgetError).toExponential(1),
+        ],
+      ];
     if (this.fireflies)
       return [
         ["Oscillators", String(this.fireflies.nodes.length)],

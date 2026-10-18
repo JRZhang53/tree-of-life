@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test:build": "node --test tests/build.test.mjs",
-    "test": "node --test tests/models.test.mjs tests/research.test.mjs",
+    "test": "node --test tests/models.test.mjs tests/research.test.mjs tests/depth.test.mjs",
     "verify": "npm run check && npm test && npm run build && npm run test:build"
   },
   "devDependencies": {

@@ -5,7 +5,12 @@ import { draw } from "../render.ts";
 // Still specimens, all seed 42 and 600 fixed model steps. Generated once per tab.
 const cache = new Map<SpeciesId, Promise<string>>();
 async function specimen(id: SpeciesId) {
-  const model = new Simulation(id, 0, defaults(byId(id)), 42);
+  const model = new Simulation(
+    id,
+    byId(id).defaultMode ?? 0,
+    defaults(byId(id)),
+    42,
+  );
   for (let i = 0; i < 600;) {
     const start = performance.now();
     do {

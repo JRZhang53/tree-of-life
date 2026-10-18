@@ -139,7 +139,7 @@ export class Notebook {
         .reverse()
         .map(
           (r) =>
-            `<div class="saved-run"><p><strong>${escape(species.find((s) => s.id === r.settings.suite)!.name)}</strong> / ${r.samples.at(-1)!.step} steps<br>${escape(species.find((s) => s.id === r.settings.suite)!.modes[r.settings.mode])}, seed ${r.settings.seed}<br><span>${escape(r.label)}: ${number(r.samples.at(-1)!.value)} ${escape(r.unit)}</span>${r.note ? `<br><em>${escape(r.note)}</em>` : ""}</p><div>${compatibleRuns(this.record, r) ? `<button data-compare="${escape(r.id)}">Compare</button>` : ""}<button data-restore="${escape(r.id)}">Start with settings</button><button data-remove="${escape(r.id)}" aria-label="Remove saved ${escape(r.label)} run">Remove</button></div>${compatibleRuns(this.record, r) ? "" : '<p class="muted">Open this experiment to compare the same measurement.</p>'}</div>`,
+            `<div class="saved-run"><p><strong>${escape(species.find((s) => s.id === r.settings.suite)!.name)}</strong> / ${r.samples.at(-1)!.step} steps<br>${escape(species.find((s) => s.id === r.settings.suite)!.modes[r.settings.mode])}, seed ${r.settings.seed} · ${escape(r.settings.revision)}<br><span>${escape(r.label)}: ${number(r.samples.at(-1)!.value)} ${escape(r.unit)}</span>${r.note ? `<br><em>${escape(r.note)}</em>` : ""}</p><div>${compatibleRuns(this.record, r) ? `<button data-compare="${escape(r.id)}">Compare</button>` : ""}<button data-restore="${escape(r.id)}">Start with settings</button><button data-export="${escape(r.id)}">Export record</button><button data-remove="${escape(r.id)}" aria-label="Remove saved ${escape(r.label)} run">Remove</button></div>${compatibleRuns(this.record, r) ? "" : `<p class="muted">${r.settings.revision !== this.record.settings.revision ? "Saved under an earlier model revision. Measurements are preserved; starting these settings uses the current model." : "Open this experiment to compare the same measurement."}</p>`}</div>`,
         )
         .join("");
     this.root
@@ -164,6 +164,14 @@ export class Notebook {
           this.restore(structuredClone(r.settings));
         }),
     );
+    this.root
+      .querySelectorAll<HTMLButtonElement>("[data-export]")
+      .forEach((b) => {
+        b.onclick = () => {
+          const r = this.records.find((r) => r.id === b.dataset.export)!;
+          this.download(JSON.stringify(r, null, 2), "json", "application/json");
+        };
+      });
     this.root.querySelectorAll<HTMLButtonElement>("[data-remove]").forEach(
       (b) =>
         (b.onclick = () => {

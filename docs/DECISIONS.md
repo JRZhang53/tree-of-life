@@ -70,3 +70,18 @@ For a new decision, add its status, evidence, alternatives, consequences and wha
   source-access limits are recorded in [research direction](research/MAHADEVAN_DIRECTION.md).
   No new solver, empirical validation or exact paper reproduction is implied.
   Private course material remains local, outside published artifacts.
+
+
+## D22 — implement the first four Mahadevan-inspired corrections
+
+- **Status:** implemented educational reductions, 2026-10-18; scientific reproduction not asserted.
+- **Trigger:** Jerry: “go ahead and fix those things then.”
+- **Decision:** add explicit energy-driven rods and sheets, a sampled-cost dog controller,
+  and coupled exterior-mound transport/construction, preserving old modes as comparisons.
+- **Rationale:** these mechanisms generate the outcomes instead of prescribing the silhouette
+  or selecting a named behavior. Expose residuals, costs and budget errors alongside results.
+- **Limits:** observed controller failures remain visible; coarse meshes are not converged.
+  Interior nest floors/ramps require a different model and remain unimplemented.
+- **Compatibility:** atlas-3 identifiers append; atlas-2 notebook records remain exportable,
+  never silently migrated into comparable numerical trajectories.
+- **Evidence:** `research/ATLAS_3.md`, `tests/depth.test.mjs`, full verify and browser checks.

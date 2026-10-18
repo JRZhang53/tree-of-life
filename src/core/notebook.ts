@@ -58,7 +58,7 @@ export function readRecords(value: string | null): RunRecord[] {
         (r) =>
           r &&
           typeof r.id === "string" &&
-          validSettings(r.settings) &&
+          storedSettings(r.settings) &&
           typeof r.metric === "string" &&
           typeof r.unit === "string" &&
           typeof r.label === "string" &&
@@ -88,6 +88,39 @@ export function readRecords(value: string | null): RunRecord[] {
   } catch {
     return [];
   }
+}
+/** Preserve the previous release's measurements verbatim. They can be exported
+ * or used as starting settings, but revision-aware comparisons reject mixing. */
+function storedSettings(raw: unknown): boolean {
+  if (validSettings(raw)) return true;
+  if (!raw || typeof raw !== "object") return false;
+  const r = raw as Settings,
+    s = species.find((s) => s.id === r.suite);
+  const oldCount: Partial<Record<SpeciesId, number>> = {
+    vines: 2,
+    leaves: 3,
+    sheep: 2,
+    termites: 2,
+  };
+  return (
+    !!s &&
+    r.revision === "atlas-2" &&
+    Number.isInteger(r.mode) &&
+    r.mode >= 0 &&
+    r.mode < (oldCount[s.id] ?? s.modes.length) &&
+    Number.isInteger(r.seed) &&
+    r.seed >= 1 &&
+    r.seed <= 999999 &&
+    !!r.parameters &&
+    s.controls
+      .filter((c) => !c.modes || c.modes.includes(r.mode))
+      .every(
+        (c) =>
+          Number.isFinite(r.parameters[c.key]) &&
+          r.parameters[c.key] >= c.min &&
+          r.parameters[c.key] <= c.max,
+      )
+  );
 }
 export function normalizedSettings(
   suite: SpeciesId,

@@ -1,5 +1,22 @@
 # Tree of Life — integration handoff
 
+## Current candidate: atlas-3
+
+Seven new experiments correct the mechanism gaps in the Mahadevan review:
+planar/spatial supported rods, free/held-midrib sheets, objective-based shepherding,
+and rebuilding/fixed exterior mounds. The atlas now has 35 modes. Previous
+experiment identifiers and atlas-2 notebook measurements are preserved; old
+records can be exported and are excluded from cross-revision comparisons.
+The model specification and evidence are in `docs/research/ATLAS_3.md`.
+
+`npm run verify` passes: 78 model/research/UI-contract tests plus the production
+path check. This candidate is separate from the deployment recorded below.
+The portfolio must pin the new child commit to publish these corrections.
+No dependency, hosting, private course material or external asset was introduced.
+
+## Previous deployment and history
+
+
 The educational atlas is implemented at model revision **atlas-2**: 12 branches, 28 experiments, research/method notes, branch search, fixed-step runs, local observation notebook, compatible-baseline plots and CSV/JSON exports. Jerry authorized this autonomous build after the memory pass at `dee9c42`.
 
 Child `7152541836ddc78a3279aef728312f81ad53b916` was deployed on 2026-10-18

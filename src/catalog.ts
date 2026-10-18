@@ -1,4 +1,5 @@
 import { additions } from "./content/additions.ts";
+import { addDepth } from "./content/depth.ts";
 export type SpeciesId =
   | "starlings"
   | "sheep"
@@ -14,6 +15,8 @@ export type SpeciesId =
   | "physarum";
 export type Parameters = Record<string, number>;
 export interface Control {
+  modes?: number[];
+  restart?: boolean;
   key: string;
   label: string;
   min: number;
@@ -23,6 +26,7 @@ export interface Control {
   hint: string;
 }
 export interface Species {
+  defaultMode?: number;
   id: SpeciesId;
   name: string;
   latin: string;
@@ -780,6 +784,7 @@ coralSuite.presets.push({
   mode: 2,
   values: { flow: 0.15, feed: 0.025, kill: 0.055 },
 });
+addDepth(species);
 export const byId = (id: string) =>
   species.find((s) => s.id === id) ?? species[0];
 export const defaults = (s: Species): Parameters =>

@@ -1,7 +1,7 @@
 # Tree of Life
 
 This is a separate application repository owned by Jerry Zhang. The application is an educational atlas with explicitly documented reductions,
-not a calibrated biological simulator. See `docs/research/ATLAS_2.md`.
+not a calibrated biological simulator. See `docs/research/ATLAS_2.md` and `docs/research/ATLAS_3.md`.
 
 ## Start here
 
@@ -40,7 +40,7 @@ derived acceptance criteria are not final user-approved scope.
 The current models are educational reductions. Preserve their explicit
 limitations, source attribution and reproducible seeds. Do not present them as
 validated biological predictions or faithful reproductions of the cited papers.
-Keep geometry sketches (leaves/vines) distinguishable from mechanical solvers.
+Keep the legacy geometry sketches distinguishable from the atlas-3 mechanical solvers. Preserve residual diagnostics and the documented lack of mesh convergence.
 No measured dataset, backend or project license has been selected.
 
 ## Development and ownership

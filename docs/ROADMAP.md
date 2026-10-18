@@ -33,15 +33,23 @@ architecture and matched deterministic/stochastic chemistry. Finish each source
 and model specification before implementing it; do not call the current sketches
 complete realizations of these mechanisms.
 
-First bounded task: specify and benchmark a planar growing filament on an elastic
-substrate against Michaels et al. (2019), with explicit boundary conditions,
-energy derivatives, dimensionless groups and solver tolerances. Only then add
-three-dimensional geometry and growth feedback as declared extensions. Preserve
-the distinction between a supported filament, a climbing stem and a tendril.
+The first bounded corrections are implemented in [Atlas 3](research/ATLAS_3.md):
+supported-rod energies and feedback, sampled-objective shepherding, triangle-sheet
+growth mechanics, and a closed exterior-mound feedback loop. Seven new modes
+preserve the old experiment identifiers. Analytic derivatives, energy descent,
+clamps, rigid motions, objective selection, transport budgets and timestep
+sensitivity have checks. The spatial rod is explicitly an extension.
 
-The source review and gap map are complete. Gate A remains open for these new
-models. Existing software checks do not transfer automatically to new mechanics.
+Next depth task: improve mechanical equilibration and spatial convergence before
+claiming quantitative morphology or a reproduced phase diagram. Current mesh
+comparisons show material deflection differences even when energies are close.
+Then specify the separate 2021 interior-nest worker/dirt/pheromone model; the
+exterior mound must never be relabeled as a floors-and-ramps simulation.
 Real mobile/Safari/screen-reader audits remain useful alongside this work.
+
+Gate A is met for the Atlas 3 reductions. Their documented checks satisfy a
+bounded educational implementation, not scientific reproduction. Full spatial
+convergence and biological validation remain open.
 
 ## Gate A — ready to implement in depth
 

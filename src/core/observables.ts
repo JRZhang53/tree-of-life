@@ -14,6 +14,38 @@ export function observe(s: Simulation): Observation {
     value: number,
     definition: string,
   ) => ({ key, label, unit, value, definition });
+  if (s.filament)
+    return o(
+      "rod-deflection",
+      "Sideways displacement",
+      "u",
+      s.filament.deflection(),
+      "Largest distance from the straight substrate axis. Growth stops at step 600; relaxation continues.",
+    );
+  if (s.sheet)
+    return o(
+      "sheet-energy",
+      "Sheet elastic energy",
+      "model units",
+      s.sheet.energy,
+      "Stretching plus triangle-normal bending energy. Loading can raise energy; relaxation at fixed growth lowers it.",
+    );
+  if (s.flock)
+    return o(
+      "target-distance",
+      "Target distance",
+      "u",
+      s.flock.objective(s.flock.agents, s.flock.dog, s.p).target,
+      "Distance from the flock centroid to the target on an open plane. Sheep are not absorbed at the target.",
+    );
+  if (s.mound)
+    return o(
+      "cavity-area",
+      "Cavity area",
+      "cells",
+      s.mound.area(),
+      "Number of air cells inside the exterior envelope; not deposited dirt mass. Construction updates once per thermal cycle.",
+    );
   if (s.fireflies)
     return o(
       "synchrony",
