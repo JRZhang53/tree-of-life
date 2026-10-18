@@ -1,36 +1,36 @@
-# Implementation handoff
+# Current handoff
 
-## Current implementation
+## Resume here
 
-The initial scaffold has been replaced with a static, self-contained field atlas containing ten branches and nineteen model modes. Jerry supplied the requested product brief; implementation criteria and visual direction are recorded in `DESIGN.md`.
+Read `AGENTS.md`, [project memory](MEMORY.md), the [documentation map](docs/README.md), and the [roadmap](docs/ROADMAP.md).
 
-All suites include interactive parameters, experiment presets, source links and explicit model limitations. Common controls support pause/run, single-step, reset, speed, seeded experiments and shareable starting settings. The three-dimensional coral, vine and leaf views can be rotated with pointer, keyboard or slider.
+Jerry's latest instruction is to work autonomously on project memory and structure before deeper implementation. This pass establishes that foundation and preserves the existing app. The proposed next substantive task is **R1: a research-backed starling dossier**. Do not resume with ten simultaneous simulation upgrades or an automatic portfolio release.
 
-Architecture remains Vite and TypeScript with Canvas 2D and native HTML controls. The 3D views use projected 3D coordinates; they do not require WebGL. No backend, external runtime dataset, remote media, tracking, persistence or domain changes were added.
+## What exists
 
-## Scientific boundaries
+- Prototype commit `cf7a7b9f40dff479895f7bf2c78564eb10eaa14a`: ten branches, nineteen modes, common interactive controls, research pointers and simplified models.
+- Prototype software checks and browser coverage are recorded in [VERIFICATION.md](VERIFICATION.md). They do not establish reproduction of the referenced research or biological calibration.
+- Durable memory now separates user intent, agent assumptions, existing behavior and open decisions.
+- [Product structure](docs/PRODUCT.md), [architecture plan](docs/ARCHITECTURE.md), [decision register](docs/DECISIONS.md), [research method/source ledger](docs/research/README.md), and [ten suite dossiers](docs/suites/README.md) define the preparation and implementation sequence.
+- No suite has cleared the research/specification gate. Dossiers are deliberately explicit about missing evidence.
+- No runtime refactor, new numerical model, dataset, service or UI change was made by the planning pass.
 
-These are research-inspired educational models, not reproductions of published experiments. Model reductions are visible in every suite:
+Planning-pass verification: all 48 local Markdown links across 23 documents
+resolve; all ten dossier files include explicit research blockers. `git diff
+--check` and `npm run verify` pass (33 model tests plus the deployment-contract
+test). Runtime source, tests, dependencies and build configuration are unchanged.
 
-- Herding uses a simplified collect/drive controller, flock-center attraction and an absorbing goal zone. Arrived sheep leave the interaction pool; retargeting reactivates them.
-- Orca coordination is prescribed. No predation success, depth or tail-slap mechanics are simulated.
-- Ant tour optimization is an ant-system teaching variant; it is not full Ant Colony System. Foraging is a separate heuristic.
-- Termite field and particle modes have different source representations and are only qualitatively comparable. Heat, airflow and porous-mound feedback remain future work.
-- Coral includes a 3D diffusion-limited aggregate and a separate periodic Gray–Scott field mapped onto a sphere. It does not solve chemistry on a spherical mesh.
-- Leaves and vines are growth-geometry sketches, not energy-minimizing mechanical solvers.
-- C. elegans is a segment-oscillator analogy motivated by proprioceptive coupling, not the neural connectome or validated locomotion mechanics.
+## Working contract
 
-Research citations are maintained alongside each experiment in `src/catalog.ts`. Sources were consulted through their published abstracts, author explanations and accessible papers; some publisher full-text pages were inaccessible. The app does not claim a full systematic literature review.
+Use the standalone Tree of Life checkout. Preserve static hosting at `/fun/tree-of-life/` and `npm run verify` producing `dist/index.html`.
 
-## Verification and release
+Development: `http://127.0.0.1:5173/fun/tree-of-life/` via `npm run dev`.
+Production build preview: `http://127.0.0.1:4173/fun/tree-of-life/` via `npm run preview`.
 
-Run `npm run verify` before handing off a commit. It includes deterministic model tests as well as the existing subpath contract check. Browser verification details are recorded in `VERIFICATION.md`.
+Before deeper implementation, the relevant dossier must specify its model, evidence, experiment and validation plan. Evidence gates are quality requirements, not automatic requests for user permission. Routine choices remain autonomous and must be recorded with their rationale.
 
-Development: `http://127.0.0.1:5173/fun/tree-of-life/`.
-Production build preview: `http://127.0.0.1:4173/fun/tree-of-life/`.
+## Integration state
 
-The parent integration originally pinned scaffold commit `7836c768ad149965f5707329f66521ce9070cc5d`. The portfolio maintainer must advance the child pointer to the new verified commit, verify the combined site, and handle its Projects listing and deployment. This implementation does not change the portfolio, its submodule checkout or the domain. No independent Pages publishing was configured.
+The portfolio originally pinned scaffold commit `7836c768ad149965f5707329f66521ce9070cc5d`. The current parent pin has not been inspected during this planning pass and must not be guessed. The portfolio agent owns its child pin, Projects listing and domain release.
 
-## Next opportunities
-
-The About dialog includes sourced proposals for slime-mold network adaptation and pulse-coupled firefly synchronization. Deeper future work could replace geometric plant sketches with elastic solvers, couple termite construction to advection, or add calibrated scientific datasets after the data source and license are chosen. These are future directions, not completed features.
+The previous recommendation to advance the parent to the broad prototype is superseded by the planning-first direction. **This handoff does not request deployment or a parent pin update.** Future release candidates must pass the roadmap gates and identify an exact verified child commit.

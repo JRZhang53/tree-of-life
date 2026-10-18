@@ -1,8 +1,12 @@
 # Tree of Life
 
-An interactive atlas of bio-inspired systems. Follow a simplified tree of life into ten simulation suites, change local rules, and explore how collective behavior and growth emerge.
+An interactive atlas of bio-inspired systems. Follow a simplified tree of life into simulation suites, change local rules, and explore how collective behavior and growth emerge.
 
-## Experiments
+**Current phase: project memory and research structure.** The ten-branch app is an exploratory prototype. Jerry has directed planning and specification before deeper implementation; its existing modes and visual design are not final approved scope.
+
+Start with [project memory](MEMORY.md), the [documentation map](docs/README.md), and the [roadmap](docs/ROADMAP.md). Each of the ten subjects has a [research dossier](docs/suites/README.md) distinguishing current shortcuts from the work needed for a substantive model. The proposed next task is starling research, not another broad feature pass.
+
+## Existing prototype experiments
 
 | Branch        | Models                                                                       |
 | ------------- | ---------------------------------------------------------------------------- |
@@ -61,10 +65,10 @@ Preview serves the built app at `http://127.0.0.1:4173/fun/tree-of-life/`.
 - `tests/models.test.mjs`: numerical invariants, replay, meaningful parameter effects and regression cases.
 - `tests/build.test.mjs`: production asset-path checks.
 
-There is no persistence, tracking, service worker, backend or runtime network dependency. The project license remains undecided; source availability alone is not a license grant. No external source code, figures or datasets were copied into this implementation.
+There is no persistence, tracking, service worker, backend or runtime network dependency. The project license remains undecided; source availability alone is not a license grant. No external source code, figures or datasets were copied into this implementation. Proposed module boundaries and a staged extraction plan are documented in [the architecture plan](docs/ARCHITECTURE.md); those changes have not been implemented.
 
 ## Hosting and release
 
 The portfolio `JRZhang53/jerrybzhang.com` owns deployment and the custom domain. It consumes a pinned revision of this repo and copies **only `dist/`** into `/fun/tree-of-life/`. Hash routing works without a history fallback. Runtime public files must use `import.meta.env.BASE_URL` if added later.
 
-Do not create a second Pages deployment, CNAME or DNS configuration. To release, verify and push a child commit, then give its SHA to the portfolio maintainer to update the pinned submodule, verify the combined build, and publish separately. Pushing this repo does not update the live domain. See `AGENTS.md` for ownership constraints.
+Do not create a second Pages deployment, CNAME or DNS configuration. A future release requires a selected subset to meet the [release gate](docs/ROADMAP.md), followed by a verified child commit and a separate portfolio integration/release. The current planning pass does not request a parent pin update. Pushing this repo does not update the live domain. See `AGENTS.md` for ownership constraints.

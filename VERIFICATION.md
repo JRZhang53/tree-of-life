@@ -1,4 +1,9 @@
-# Verification record
+# Prototype verification record
+
+This records the exploratory implementation at `cf7a7b9`. Its software and
+interface verdict does not establish scientific model validity or release
+readiness. The current planning-first direction and further evidence gates are
+in [the roadmap](docs/ROADMAP.md). No runtime changes were made in that planning pass.
 
 Scope: ten species suites and nineteen model modes in the child repository. Native TypeScript, Canvas 2D and plain CSS. Review mode: full. No portfolio deployment or parent verification was performed by this implementation agent.
 

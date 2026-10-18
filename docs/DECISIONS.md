@@ -1,0 +1,33 @@
+# Decision register
+
+User instructions take precedence over this register. Record the origin of each decision; a provisional implementation choice is not user approval.
+
+| ID  | Decision                                                                            | Status / provenance                             | Rationale and consequence                                                                                        |
+| --- | ----------------------------------------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| D01 | Keep a separate child repository and static `/fun/tree-of-life/` hosting contract   | Established project contract                    | Portfolio owns the pinned integration and release; child changes do not publish the domain                       |
+| D02 | Organize interactive bio-inspired suites by a tree of life                          | User brief                                      | Taxonomy and experiment content are first-class concerns                                                         |
+| D03 | Research the problem, model, motivation and lesson, and brainstorm additions        | User brief                                      | A citation appended after coding is insufficient preparation                                                     |
+| D04 | Treat `cf7a7b9` as an exploratory prototype                                         | Current interpretation of latest user steering  | Preserve useful code, but do not call all requested mechanisms complete                                          |
+| D05 | Establish memory and structure before deeper implementation                         | Latest direct user instruction                  | This pass edits project documentation, not simulation features                                                   |
+| D06 | Use Markdown in this repository for project memory                                  | Agent working decision                          | Versioned, reviewable, available to future agents; no dependence on another service                              |
+| D07 | Research starlings first, then sheep as a control-focused companion                 | Agent provisional sequencing                    | Bounded starting point to establish the dossier and experiment standard; not a scientific ranking of species     |
+| D08 | Prefer per-suite models and renderers over extending the shared species switch      | Agent proposed architecture                     | Current all-purpose state makes unrelated assumptions easy to share accidentally; extract one proven slice first |
+| D09 | Keep Vite/TypeScript and static deployment while specifications develop             | Agent working decision within existing contract | There is no demonstrated need for a framework migration or backend yet                                           |
+| D10 | Select a mature release subset after the first dossier/model cycle                  | Agent provisional release strategy              | Prevent breadth from replacing scientific and educational depth                                                  |
+| D11 | Field-atlas palette, Canvas projection, nineteen modes and three controls per suite | Historical prototype choices; not binding       | Revisit when model requirements and usability justify a change                                                   |
+| D12 | Prior suggestion to advance the portfolio pin immediately                           | Superseded by planning-first steering           | No release request or integration action follows from this planning pass                                         |
+
+## Decisions intentionally left open
+
+| Question                                                                     | How to resolve it                                                                                    | Does it block this planning pass?                                       |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Exact audience and mathematical depth                                        | Start with progressive disclosure; revise from Jerry's feedback and trial explanations               | No                                                                      |
+| Faithful paper reproduction versus explanatory reduction for each experiment | Select and defend in the individual dossier                                                          | No; blocks implementing that experiment in depth                        |
+| Which coral mechanism becomes the first substantive 3D experiment?           | Compare source support, numerical cost and learning value in the coral dossier                       | No                                                                      |
+| Mechanical representation for vines and leaves                               | Review candidate mechanics models before selecting a solver                                          | No                                                                      |
+| What C. elegans question is actually being answered?                         | Contrast proprioceptive control with connectome-based hypotheses; avoid an omnibus neural simulation | No                                                                      |
+| Dataset, biological calibration and reuse license                            | Identify a concrete need and permitted source first                                                  | No                                                                      |
+| WebGL, a 3D library or worker execution                                      | Measure requirements on the first demanding model; use a bounded spike if necessary                  | No                                                                      |
+| Project license                                                              | Jerry chooses a license if/when desired; do not infer one from the public repo                       | No for original planning/code; relevant to reuse/distribution decisions |
+
+For a new decision, add its status, evidence, alternatives, consequences and what would cause reconsideration. If a decision is reversed, mark it superseded and link the replacement instead of silently rewriting history.

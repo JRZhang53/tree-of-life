@@ -1,4 +1,10 @@
-# First implementation
+# Prototype design record
+
+Historical record for the exploratory implementation at `cf7a7b9`. Jerry's later
+planning-first direction supersedes treating these criteria as final scope.
+See [the product brief](docs/PRODUCT.md), [roadmap](docs/ROADMAP.md), and
+[decision register](docs/DECISIONS.md) for current direction. Retain this record
+as context; it is not design approval or evidence of scientific maturity.
 
 Jerry's supplied brief defines an interactive collection of bio-inspired simulation suites arranged in a phylogenetic tree. Initial subjects: sheep, orcas, ants, termites, coral, vines, long leaves, starlings, bacteria, and C. elegans. Research and new-species brainstorming are part of the task.
 
