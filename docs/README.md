@@ -6,6 +6,9 @@ The current interface is recorded in [tree-first design](TREE_FIRST_DESIGN.md).
 The latest scientific direction is in the [Mahadevan research review](research/MAHADEVAN_DIRECTION.md),
 which maps public papers to gaps in the deployed first atlas and proposes the
 depth work. The first four mechanism corrections are now implemented as the explicitly limited reductions in Atlas 3; the review itself remains a record of the source audit.
+Atlas 3 is deployed. The [new-suite research queue](research/NEXT_SUITES.md)
+extends that direction to eight candidates, with proposed experiments and explicit
+source/model gaps. It is a research pipeline, not a list of implemented features.
 The earlier [design review](DESIGN_REVIEW.md) is historical; Jerry rejected that
 composition despite the critic's approval.
 The notebook's shared-step comparisons and follow-up checks are recorded in

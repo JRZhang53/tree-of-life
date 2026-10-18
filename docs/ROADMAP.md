@@ -53,6 +53,19 @@ convergence and biological validation remain open.
 
 ## Gate A — ready to implement in depth
 
+### New-suite expansion after deployment
+
+At Jerry's 2026-10-18 request, atlas-3 was deployed through portfolio `ce558b5`
+with child `0a9b149`; Pages run `39153581406` passed. The subsequent
+[research queue](research/NEXT_SUITES.md) ranks eight possible additions.
+Recommended first bounded task: finish the flytrap two-curvature energy dossier
+and its stability/continuation benchmarks. Next: phyllotaxis placement, then a
+Dictyostelium supplement audit. None of these candidates has cleared Gate A yet.
+Retain the existing rod/sheet equilibration and convergence task above; broader
+coverage does not establish the accuracy of existing mechanics.
+
+### Required dossier contents
+
 A suite dossier must contain:
 
 - A single concrete question and intended learner insight.

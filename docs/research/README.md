@@ -76,7 +76,13 @@ The original brief also links [Wikipedia's flocking overview](https://en.wikiped
 
 ## Opportunity queue
 
-These are research candidates, not committed scope or claims of completed evaluation.
+The current expansion queue is [What could grow here next?](NEXT_SUITES.md):
+eight candidates researched after the atlas-3 deployment, led by flytrap mechanics,
+phyllotaxis and Dictyostelium signaling. It records source access and remaining
+gates separately from proposed interactions.
+
+The two earlier ideas below became educational modes in Atlas 2. Their deeper
+biological questions remain open; they are not new additions to the collection.
 
 | Candidate                        | Experiment question                                                                          | Why it may add value                                     | Evidence/entry gate                                                            |
 | -------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------ |

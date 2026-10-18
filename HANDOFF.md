@@ -1,6 +1,6 @@
 # Tree of Life — integration handoff
 
-## Current candidate: atlas-3
+## Current deployment: atlas-3
 
 Seven new experiments correct the mechanism gaps in the Mahadevan review:
 planar/spatial supported rods, free/held-midrib sheets, objective-based shepherding,
@@ -10,9 +10,23 @@ records can be exported and are excluded from cross-revision comparisons.
 The model specification and evidence are in `docs/research/ATLAS_3.md`.
 
 `npm run verify` passes: 78 model/research/UI-contract tests plus the production
-path check. This candidate is separate from the deployment recorded below.
-The portfolio must pin the new child commit to publish these corrections.
+path check. Child `0a9b149f0ccda0f883a4147d5eb26cac2bb24975` was deployed on
+2026-10-18 through portfolio `ce558b5339047a799c1a38c0389c6513dd823d0c`.
+[GitHub Pages run 39153581406](https://github.com/JRZhang53/jerrybzhang.com/actions/runs/39153581406)
+succeeded after combined verification: Astro checks, 11 parent tests, child
+verification/build and five generated-site integration tests.
+Live HTML serves `index-GSWzco8V.js` and `index-Bc_sPiBp.css`, matching the build.
+A live 600-step rebuilding-mound run reached 348 cavity cells with odor budget
+error `1.3e-14`; screenshot is local under `.artifacts/atlas3-live.png`.
 No dependency, hosting, private course material or external asset was introduced.
+
+## New research, after deployment
+
+[Eight candidate suites](docs/research/NEXT_SUITES.md) now have primary-source
+entry points, review status, proposed interactions, comparisons and open gates.
+Recommended order starts with flytrap snap-through, phyllotaxis and Dictyostelium.
+This follow-up is documentation only. Keep the parent pinned to the tested runtime
+above; a documentation commit does not require a second release.
 
 ## Previous deployment and history
 
@@ -55,11 +69,11 @@ The original dossiers preserve a larger research agenda. This release is not emp
 ## Verification and hosting
 
 `npm ci` passed for the base atlas; dependencies are unchanged. `npm run verify`
-passes on Node 24. The suite now contains 58 model/research/navigation tests plus a
+passes on Node 24. The atlas-2 suite contained 58 model/research/navigation tests plus a
 production-path test. The base atlas browser review covered all 28 modes; the
 humanization revision rechecked all 12 branches, responsive layouts and affected
 interactions. No runtime dependencies, external data or copied assets were added.
 Notebook storage remains local; download records are observations rather than
 resumable state.
 
-The parent integration remains: pin this standalone repo under `apps/tree-of-life`, run its verification, and copy **only `dist/`** to `dist/fun/tree-of-life/`. The app retains the `/fun/tree-of-life/` base path and hash routing. There is no independent Pages workflow or CNAME. The last verified parent pin is `7152541`. A push to this child does not deploy the domain.
+The parent integration remains: pin this standalone repo under `apps/tree-of-life`, run its verification, and copy **only `dist/`** to `dist/fun/tree-of-life/`. The app retains the `/fun/tree-of-life/` base path and hash routing. There is no independent Pages workflow or CNAME. The last verified parent pin is `0a9b149`. A push to this child does not deploy the domain.

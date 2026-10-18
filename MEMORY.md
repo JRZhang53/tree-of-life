@@ -4,6 +4,14 @@ Last reconciled: 2026-10-18. Read this after `AGENTS.md` when resuming work.
 
 ## Current direction
 
+Jerry's latest request was to deploy and autonomously research new bio-inspired
+simulations. Atlas 3 is now live: child `0a9b149`, portfolio `ce558b5`, successful
+Pages run `39153581406`. The [new-suite research queue](docs/research/NEXT_SUITES.md)
+records eight candidates, source access, proposed controls and verification gates.
+Recommended first additions: flytrap snap-through, phyllotaxis, then Dictyostelium
+chemical signaling. This is a research recommendation; none is implemented yet.
+Keep the existing convergence work alongside this expansion.
+
 Jerry asked to implement the corrections identified in the Mahadevan review.
 Model revision **atlas-3** now adds seven experiments: planar/spatial supported
 filaments, free/held-midrib growing sheets, objective-based shepherding, and
@@ -16,7 +24,7 @@ the target; mesh-dependent shapes are not converged scientific predictions.
 Underground termite floors/ramps, pole contact/torsion and empirical calibration
 remain outside this revision. Private schoolwork remains local.
 
-Jerry's latest direction is to humanize the whole site: distinctive aesthetics and
+Jerry's standing design direction is to humanize the whole site: distinctive aesthetics and
 layout, useful language in his direct, informal tone, and a critic feedback loop.
 He rejected the first humanization pass as still looking extremely AI-generated,
 despite the critic's approval, and requested a more unique design and an autonomous
@@ -77,6 +85,7 @@ The original brief was supplied as a local text file in the portfolio's private 
 - [Roadmap](docs/ROADMAP.md): phases, readiness gates and next bounded task.
 - [Architecture](docs/ARCHITECTURE.md): current code, proposed boundaries and migration sequence.
 - [Research method and source ledger](docs/research/README.md): how evidence becomes a model specification.
+- [New-suite research queue](docs/research/NEXT_SUITES.md): ranked mechanisms, source status and implementation gates.
 - [Species dossiers](docs/suites/README.md): all ten subjects, gaps and planned validation.
 - [Decisions](docs/DECISIONS.md): provenance and status of consequential choices.
 - `DESIGN.md`, `VERIFICATION.md`: historical prototype design and verification records.
@@ -91,10 +100,10 @@ The original brief was supplied as a local text file in the portfolio's private 
 
 ## Continuity
 
-- 2026-10-18: at Jerry's explicit deployment request, child `7152541` was published
-  through portfolio commit `fa8d735`; GitHub Pages succeeded and the live app and
-  Projects link were verified. Later research steering is documented separately;
-  it has not changed the deployed `atlas-2` equations.
+- 2026-10-18: at Jerry's explicit deployment request, atlas-3 child `0a9b149`
+  replaced the earlier atlas-2 pin through portfolio `ce558b5`. Combined
+  verification and GitHub Pages passed; live assets and a 600-step mound run
+  were checked. The subsequent candidate research changes documentation only.
 - `7836c7`: standalone tooling and hosting contract.
 - `cf7a7b9`: broad exploratory prototype; local verification and GitHub CI passed. No parent deployment was performed.
 - `atlas-2`: complete educational atlas with notebook, new suites, numerical checks and responsive browser QA. Some experiments intentionally remain declared reductions/sketches; see the specification.
