@@ -9,10 +9,12 @@
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test:build": "node --test tests/build.test.mjs",
-    "verify": "npm run check && npm run build && npm run test:build"
+    "test": "node --test tests/models.test.mjs",
+    "verify": "npm run check && npm test && npm run build && npm run test:build"
   },
   "devDependencies": {
     "node": "24.19.0",
+    "prettier": "^3.9.10",
     "typescript": "~5.9.3",
     "vite": "~8.3.4"
   }

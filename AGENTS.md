@@ -3,13 +3,21 @@
 This is a separate application repository owned by Jerry Zhang. The initial
 commit establishes tooling and a hosting contract, not the product design.
 
-## First implementation task
+## Product scope
 
-Read `README.md` and `HANDOFF.md`. Ask Jerry what Tree of Life should do, who it
-serves, and what the first usable version must include. The name alone is not
-a specification. Do not invent datasets, scientific claims, features, or a
-finished design. Record agreed decisions and acceptance criteria here as work
-progresses. The small placeholder is disposable.
+Jerry supplied a brief for an explorable phylogenetic collection of interactive,
+tunable bio-inspired simulations. It requests sheep herding, orca hunting,
+ant optimization and colonies, termite mound growth, coral morphogenesis,
+twining vines, long-leaf differential growth, starling flocking, bacterial
+cellular automata and C. elegans coordination. Research explanations and
+brainstorming future species are part of the scope. See `DESIGN.md` for the
+first implementation criteria and `HANDOFF.md` for status.
+
+The current models are educational reductions. Preserve their explicit
+limitations, source attribution and reproducible seeds. Do not present them as
+validated biological predictions or faithful reproductions of the cited papers.
+Keep geometry sketches (leaves/vines) distinguishable from mechanical solvers.
+No measured dataset, backend or project license has been selected.
 
 ## Development and ownership
 
