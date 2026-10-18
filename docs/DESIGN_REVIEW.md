@@ -1,5 +1,10 @@
 # Humanization pass, 18 October 2026
 
+Historical record: Jerry subsequently rejected this visual design as still
+looking strongly AI-generated. Its critic approval did not establish user
+approval. The current composition and evidence are in
+[tree-first design](TREE_FIRST_DESIGN.md).
+
 Jerry requested a distinctive, less generic design and direct copy in his writing
 style, with an independent critic. His messages support an informal, direct tone;
 they are not enough to establish a complete personal writing style. Do not invent

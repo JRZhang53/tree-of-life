@@ -13,12 +13,15 @@ export function draw(
   ctx: CanvasRenderingContext2D,
   sim: Simulation,
   angle: number,
+  annotations = true,
+  labelScale = 1,
 ) {
+  let caption = "";
   const w = ctx.canvas.width,
     h = ctx.canvas.height;
   ctx.setTransform(w / WIDTH, 0, 0, h / HEIGHT, 0, 0);
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
-  ctx.fillStyle = sim.id === "orcas" ? "#e8f2f7" : "#f8f9fc";
+  ctx.fillStyle = sim.id === "orcas" ? "#e8f2f7" : "#ffffff";
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
@@ -37,10 +40,17 @@ export function draw(
     ctx.fill();
   };
   const label = (text: string, x: number, y: number, color = "#52685b") => {
-    ctx.font = '13px "Segoe UI",sans-serif';
+    if (!annotations) return;
+    const size = Math.max(13, 12 * labelScale);
+    ctx.font = `${size}px Verdana,sans-serif`;
     ctx.fillStyle = color;
     ctx.textAlign = "center";
-    ctx.fillText(text, x, y);
+    const half = ctx.measureText(text).width / 2 + 6 * labelScale;
+    ctx.fillText(
+      text,
+      clamp(x, half, WIDTH - half),
+      clamp(y, size, HEIGHT - 6 * labelScale),
+    );
   };
   const ring = (p: Point, r: number, color: string) => {
     ctx.strokeStyle = color;
@@ -176,11 +186,8 @@ export function draw(
         ring(p, 12, "#9c7751");
         label(String(i + 1), p.x, p.y + 5);
       });
-      label(
-        "Line weight: pheromone   /   Solid route: shortest tour found",
-        450,
-        515,
-      );
+      caption =
+        "Line weight shows pheromone. The solid route is the shortest tour found.";
     } else {
       for (let y = 0; y < ROWS; y++)
         for (let x = 0; x < COLS; x++) {
@@ -293,13 +300,9 @@ export function draw(
           11,
           `hsl(${12 + v * 90} 36% ${55 + (p.z ?? 0) * 0.06}%)`,
         );
-      label(
-        dots.length
-          ? "3D chemistry · B > 0.12 surface"
-          : "No concentration above the display threshold",
-        450,
-        525,
-      );
+      caption = dots.length
+        ? "3D chemistry: points with B above 0.12 are shown."
+        : "No concentration above the display threshold of B = 0.12.";
     } else if (sim.mode === 0) {
       const radius = Math.max(
           12,
@@ -323,7 +326,7 @@ export function draw(
         const q = project(p, scale);
         circle(q.x, q.y, scale * 0.5, "#b67970");
       }
-      label("3D diffusion-limited aggregate", 450, 525);
+      caption = "A diffusion-limited aggregate in three dimensions.";
     } else {
       const dots: { p: Point; v: number }[] = [];
       for (let y = 1; y < ROWS - 1; y++)
@@ -349,7 +352,7 @@ export function draw(
           `hsl(${12 + v * 210} ${22 + v * 80}% ${76 - v * 85 + (p.z ?? 0) * 0.025}%)`,
         );
       }
-      label("Periodic chemical grid mapped onto a sphere", 450, 540);
+      caption = "A periodic chemical grid mapped onto a sphere.";
     }
   }
   if (sim.id === "vines") {
@@ -427,13 +430,9 @@ export function draw(
           last = p;
         }
       }
-    label(
-      sim.elastic
-        ? "Elastic sheet · base clamped · edge-biased growth"
-        : "Illustrative growth geometry",
-      450,
-      525,
-    );
+    caption = sim.elastic
+      ? "Elastic sheet: the base is clamped; growth is greater at the edges."
+      : "A prescribed growth shape, not a mechanical solution.";
   }
   if (sim.fireflies) {
     ctx.fillStyle = "#18342e";
@@ -448,12 +447,7 @@ export function draw(
       );
       circle(a.x, a.y, 2.2 + glow * 2.5, `hsl(49 65% ${30 + glow * 45}%)`);
     }
-    label(
-      "Each light is a clock · brightness shows phase",
-      450,
-      525,
-      "#c6d4b6",
-    );
+    caption = "Each light is a clock. Brightness shows its phase.";
   }
   if (sim.physarum) {
     const net = sim.physarum;
@@ -475,11 +469,7 @@ export function draw(
     });
     label("Source", net.nodes[net.source].x, net.nodes[net.source].y + 32);
     label("Destination", net.nodes[net.sink].x, net.nodes[net.sink].y + 32);
-    label(
-      "Line width encodes conductance · thin routes remain available",
-      450,
-      535,
-    );
+    caption = "Line width shows conductance. Thin routes are still available.";
   }
   if (sim.id === "worms") {
     const pts = sim.phases.map((phase, i) => ({
@@ -504,10 +494,11 @@ export function draw(
     );
     circle(pts[0].x - 3, pts[0].y - 4, 2, "#3d4051");
     label("Head driver", pts[0].x, 170);
-    label("Local feedback along the body", 470, 405);
+    caption = "Local feedback passes along the body.";
     if (sim.mode === 1 || sim.mode === 3) {
       line({ x: 446, y: 170 }, { x: 446, y: 360 }, "#a16f60", 1.5);
       label("Feedback cut", 446, 150);
     }
   }
+  return caption;
 }

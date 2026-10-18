@@ -14,6 +14,9 @@ Current phase: **educational atlas release candidate (`atlas-2`)**. Planning at 
   critic. See [design review](DESIGN_REVIEW.md).
 - Exact shared-step notebook comparisons, starting-setting differences, readable
   intervention logs and paused refresh; see [comparison review](COMPARISON_REVIEW.md).
+- Tree-first redesign after Jerry rejected the first humanization pass: actual
+  model specimens in a broad foldout tree, full-width experiments, controls below
+  and phone-readable annotations. See [tree-first design](TREE_FIRST_DESIGN.md).
 
 The [implemented specification](research/ATLAS_2.md) is authoritative for current educational reductions. Original suite dossiers retain deeper ambitions. Their future-research checklists must not be confused with claims that the site reproduces a paper. Full biological calibration, continuum plant mechanics, full mound physics and neural reconstruction remain outside this educational release.
 

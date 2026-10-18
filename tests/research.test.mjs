@@ -132,6 +132,9 @@ test("malformed samples are discarded without losing neighboring valid saved rec
 });
 
 test("cladogram search retains the selected lineage and recovers every branch", () => {
+  const byMode = treeView("termites", "diffusion field");
+  assert.equal(byMode.count, 1);
+  assert.match(byMode.markup, /data-species="termites"/);
   const result = treeView("vines", "  CLIMBING  ");
   assert.equal(result.count, 1);
   assert.deepEqual(result.ancestry, ["Life", "Eukaryotes", "Flowering plants"]);

@@ -54,3 +54,11 @@ For a new decision, add its status, evidence, alternatives, consequences and wha
   events after the displayed step. A difference is not a causal result. Preserve
   the local observation-record format and model revision. The
   [comparison review](COMPARISON_REVIEW.md) records behavior and critic feedback.
+- **D20 — tree-first composition (user correction, agent implementation):** Jerry
+  rejected D18's visual outcome as still strongly AI-looking and requested an
+  autonomous redesign goal. Make the tree the collection surface, populated with
+  actual seeded model previews; fold it down to a selected lineage on direct
+  experiment links. Remove the persistent sidebar and right-hand settings form.
+  The critic reassessed its prior approval, reviewed the whole composition first,
+  and requested tighter preview framing and readable mobile annotations. These
+  were implemented and checked. See [tree-first design](TREE_FIRST_DESIGN.md).

@@ -7,6 +7,8 @@ humanization revision replaces that visual design; its current checks and critic
 review are in [design review](DESIGN_REVIEW.md). The subsequent notebook behavior
 and checks are in [comparison review](COMPARISON_REVIEW.md). The test suite now has
 58 model/research/navigation tests plus the production-path test.
+The current shell replaces the first humanization pass; current tree, layout,
+annotation and responsive evidence is in [tree-first design](TREE_FIRST_DESIGN.md).
 
 ## Software and numerical checks
 

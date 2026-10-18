@@ -1,4 +1,5 @@
 import { treeView } from "./presentation/tree.ts";
+import { showPreviews } from "./presentation/previews.ts";
 import { shell } from "./presentation/shell.ts";
 import "./style.css";
 import { methods } from "./content/methods.ts";
@@ -24,6 +25,7 @@ const canvas = el<HTMLCanvasElement>("habitat"),
   ctx = canvas.getContext("2d");
 if (!ctx) throw new Error("Canvas 2D is unavailable in this browser.");
 const context = ctx;
+let canvasCssWidth = 900;
 let current: Species = species[0],
   seed = 42,
   mode = 0,
@@ -55,7 +57,9 @@ function saveHash() {
   history.replaceState(null, "", `#${current.id}?${q}`);
 }
 function render() {
-  draw(context, sim, angle);
+  const caption = draw(context, sim, angle, true, WIDTH / canvasCssWidth);
+  if (el("scene-caption").textContent !== caption)
+    el("scene-caption").textContent = caption;
   if (keyboardCursor && !is3d()) {
     context.strokeStyle = "#3a654b";
     context.lineWidth = 1.5;
@@ -163,7 +167,7 @@ function load() {
   document.title = `${current.name} · Tree of Life`;
   document.documentElement.style.setProperty("--species-color", current.color);
   el("species-header").innerHTML =
-    `<div class="specimen-title"><div class="species-context">${current.family}</div><h1>${current.name}</h1><p class="latin">${current.latin}</p></div><div class="opening-question"><p class="question">${current.question}</p><p class="intro">${current.title}</p><a href="#notes" class="read-notes">How this one works</a></div>`;
+    `<div class="specimen-title"><h1>${current.name}</h1><p class="latin">${current.latin}</p></div><div class="opening-question"><p class="intro">${current.title}</p><a href="#notes" class="read-notes">Read about this model</a></div>`;
   el("try-this").innerHTML = `<h2>Try this</h2><p>${current.experiment}</p>`;
   el("habitat").setAttribute("aria-label", `${current.name} simulation`);
   el("species-header").querySelector<HTMLAnchorElement>(
@@ -207,7 +211,7 @@ function load() {
       : " Keyboard: arrows move the cursor; Enter applies it.");
   el("view-control").hidden = !is3d();
   el("notes").innerHTML =
-    `<div class="notes-intro"><h2>What’s going on here?</h2></div><div class="note-columns"><article class="explanation"><p>${current.algorithm}</p><h3>Reading the result</h3><p>${current.lesson}</p></article><aside class="research-margin"><details class="limits" open><summary>Where the model stops</summary><p>${current.limitation}</p></details><div class="sources"><h3>The papers behind it</h3>${current.sources.map((s) => `<a href="${s.url}" target="_blank" rel="noreferrer">${s.title.replaceAll(" · ", ": ")}</a>`).join("")}</div></aside></div>`;
+    `<div class="notes-intro"><h2>${current.question}</h2></div><div class="note-columns"><article class="explanation"><p>${current.algorithm}</p><p>${current.lesson}</p></article><aside class="research-margin"><details class="limits" open><summary>What this leaves out</summary><p>${current.limitation}</p></details><div class="sources"><h3>Further reading</h3>${current.sources.map((s) => `<a href="${s.url}" target="_blank" rel="noreferrer">${s.title.replaceAll(" · ", ": ")}</a>`).join("")}</div></aside></div>`;
   const method = methods[current.id];
   el("notes").insertAdjacentHTML(
     "beforeend",
@@ -279,16 +283,6 @@ function load() {
   setStatus(routeMessage);
   accumulator = 0;
   render();
-  if (!matchMedia("(max-width: 760px)").matches) {
-    const nav = document.querySelector("nav")!,
-      active = nav.querySelector("[aria-current]");
-    if (active) {
-      const r = active.getBoundingClientRect(),
-        n = nav.getBoundingClientRect();
-      if (r.bottom > n.bottom) nav.scrollTop += r.bottom - n.bottom + 10;
-      else if (r.top < n.top) nav.scrollTop -= n.top - r.top + 10;
-    }
-  }
 }
 el<HTMLSelectElement>("mode").onchange = (e) => {
   mode = Number((e.target as HTMLSelectElement).value);
@@ -481,21 +475,51 @@ document.querySelector<HTMLAnchorElement>(".skip-link")!.onclick = (e) => {
   el("experiment").scrollIntoView({ block: "start" });
 };
 window.addEventListener("hashchange", () => {
-  load();
-  if (matchMedia("(max-width: 760px)").matches) {
-    el<HTMLDetailsElement>("tree-panel").open = false;
-    el("experiment").focus({ preventScroll: true });
+  if (location.hash === "#tree") {
+    el<HTMLDetailsElement>("tree-panel").open = true;
+    el("tree-panel").scrollIntoView({ block: "start" });
+    return;
   }
+  load();
+  el<HTMLDetailsElement>("tree-panel").open = false;
+  el("experiment").focus({ preventScroll: true });
   window.scrollTo({ top: 0 });
 });
-const responsive = matchMedia("(max-width: 760px)");
-el<HTMLDetailsElement>("tree-panel").open = !responsive.matches;
-responsive.addEventListener("change", (e) => {
-  el<HTMLDetailsElement>("tree-panel").open = !e.matches;
+el<HTMLDetailsElement>("tree-panel").open =
+  !location.hash || location.hash === "#tree";
+el("tree-panel").addEventListener("toggle", () => {
+  if (el<HTMLDetailsElement>("tree-panel").open) {
+    paused = true;
+    accumulator = 0;
+    if (sim) playback();
+    void showPreviews(el("tree-panel"));
+  }
 });
+document.querySelector<HTMLAnchorElement>(".wordmark")!.onclick = (e) => {
+  e.preventDefault();
+  el<HTMLDetailsElement>("tree-panel").open = true;
+  window.scrollTo({ top: 0 });
+  el("tree-panel")
+    .querySelector<HTMLElement>("summary")!
+    .focus({ preventScroll: true });
+};
+document
+  .querySelector('nav[aria-label="Species"]')!
+  .addEventListener("click", (e) => {
+    const link = (e.target as Element).closest<HTMLAnchorElement>(
+      "[data-species]",
+    );
+    if (link && link.hash === location.hash) {
+      e.preventDefault();
+      el<HTMLDetailsElement>("tree-panel").open = false;
+      el("experiment").focus({ preventScroll: true });
+      window.scrollTo({ top: 0 });
+    }
+  });
 new ResizeObserver(() => {
   const r = canvas.getBoundingClientRect(),
     dpr = Math.min(devicePixelRatio || 1, 2);
+  canvasCssWidth = Math.max(1, r.width);
   canvas.width = Math.round(r.width * dpr);
   canvas.height = Math.round(r.height * dpr);
   if (sim) render();
@@ -576,8 +600,14 @@ function updateTree() {
     .species;
   const query = el<HTMLInputElement>("branch-search").value.trim();
   const result = treeView(current.id, query);
+  const lineage = query ? treeView(current.id).ancestry : result.ancestry;
+  el("selected-branch").textContent = [...lineage.slice(1), current.name].join(
+    " / ",
+  );
   document.querySelector<HTMLElement>('nav[aria-label="Species"]')!.innerHTML =
     result.markup;
+  if (el<HTMLDetailsElement>("tree-panel").open)
+    void showPreviews(el("tree-panel"));
   if (focusedSuite) {
     document
       .querySelector<HTMLAnchorElement>(`[data-species="${focusedSuite}"]`)

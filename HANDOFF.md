@@ -4,10 +4,13 @@ The educational atlas is implemented at model revision **atlas-2**: 12 branches,
 
 The release candidate is the commit containing this handoff; obtain its exact identity with `git rev-parse HEAD` after checking out the candidate. The final chat response reports the pushed SHA. No portfolio checkout, pin, Projects listing or live-domain release was changed.
 
-The latest revision follows Jerry's humanization request: a real cladogram with
-selected ancestry, a shared experiment surface and rewritten copy across all
-twelve branches. Two revision rounds with a critic are recorded in
-[design review](docs/DESIGN_REVIEW.md). Numerical model revision remains `atlas-2`.
+The latest revision follows Jerry's rejection of the first humanization pass.
+The sidebar is gone. A broad foldout tree shows actual seeded model specimens;
+each branch opens a full-width simulation with its controls below. Direct links
+retain the selected lineage and branch junction. Long scene captions now use HTML
+and short object labels maintain phone-readable size. The revised critic loop and
+verification are in [tree-first design](docs/TREE_FIRST_DESIGN.md). Numerical model
+revision remains `atlas-2`.
 
 The subsequent [comparison pass](docs/COMPARISON_REVIEW.md) adds exact shared-step
 values, starting-setting differences and readable intervention histories. It

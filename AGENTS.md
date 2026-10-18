@@ -11,10 +11,12 @@ and structure pass, including online research, new features and new suites.
 The memory pass is complete. Develop the research and implementation together,
 recording explicit educational reductions and checking their behavior.
 
-The educational atlas and subsequent humanization revision are implemented. Read
-`docs/DESIGN_REVIEW.md` before changing visual direction or copy: Jerry requested
-distinctive design, direct human language and a critic feedback loop. Preserve
-the topology-driven navigation and avoid returning to generic slogans/cards.
+The educational atlas and tree-first redesign are implemented. Read
+`docs/TREE_FIRST_DESIGN.md` before changing visual direction or copy. Jerry
+rejected the prior sidebar design despite its critic approval. Preserve the
+model-preview collection, foldout topology and full-width experiment with controls
+below. `docs/DESIGN_REVIEW.md` records the superseded first pass. Avoid returning
+to generic slogans/cards or treating critic approval as user approval.
 Use the roadmap's evidence gates; they do not require a ceremonial permission
 request. Work autonomously on ordinary in-scope choices and record the rationale.
 Keep user requirements, agent assumptions, prototypes and validated results

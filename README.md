@@ -52,7 +52,9 @@ numeric difference, starting-setting differences and changes made during each
 run. It flags changes made after the displayed step; differences alone do not
 establish a cause. See [comparison review](docs/COMPARISON_REVIEW.md).
 
-- Choose a branch in the cladogram; on mobile, expand **Pick an organism**. Search accepts organism names or ideas such as growth.
+- Open **Browse the tree** to choose a model specimen. The collection folds down
+  to the selected lineage while you work. Opening the tree pauses playback.
+  Search accepts organism names, questions and model names such as diffusion field.
 - Presets and model changes restart from the same seed. Sliders update the active model; elastic-sheet width rebuilds its mesh. Inapplicable controls are disabled.
 - Pause, advance one model step or exactly 600 more steps, restart a seed, choose a new seed, or change playback speed.
 - Open **Repeat or share this setup** to change the seed or copy an experiment link. A link preserves the branch, mode, seed and parameters, but not elapsed state, speed, camera angle or habitat edits.
@@ -67,8 +69,9 @@ establish a cause. See [comparison review](docs/COMPARISON_REVIEW.md).
 - `src/render.ts`: Canvas 2D rendering and projection of 3D geometry.
 - `src/main.ts`: accessible HTML interface, hash settings, input and playback.
 - `src/presentation/shell.ts`: shared page structure and About copy.
-- `src/presentation/tree.ts`: taxonomy-derived cladogram and search.
-- `src/style.css`: responsive experiment layout; see the [design review](docs/DESIGN_REVIEW.md).
+- `src/presentation/tree.ts`: wide and vertical projections of the same taxonomy, plus search.
+- `src/presentation/previews.ts`: cached, seeded model specimens generated in short yielding batches.
+- `src/style.css`: tree-first collection and full-width experiment; see the [design record](docs/TREE_FIRST_DESIGN.md).
 - `tests/models.test.mjs`: numerical invariants, replay, meaningful parameter effects and regression cases.
 - `tests/build.test.mjs`: production asset-path checks.
 

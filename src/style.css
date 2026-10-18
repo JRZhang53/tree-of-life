@@ -1,17 +1,17 @@
-/* One shared experiment surface. The tree carries the identity. */
+/* The collection is the map. Each branch opens into a working model. */
 :root {
-  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-  color: #24253b;
-  background: #fff;
+  font-family: Verdana, Geneva, sans-serif;
+  color: #183f42;
+  background: #e5f0f2;
+  --ink: #183f42;
+  --accent: #b34622;
+  --muted: #52696b;
+  --line: #abc8c8;
+  --tint: #e5f0f2;
+  --species-color: #477248;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
-  line-height: 1.55;
-  --ink: #24253b;
-  --blue: #3846a3;
-  --muted: #5a5d72;
-  --line: #d7d9e6;
-  --tint: #eff0fa;
-  --species-color: #477282;
+  line-height: 1.6;
 }
 * {
   box-sizing: border-box;
@@ -34,35 +34,28 @@ select,
 summary {
   cursor: pointer;
 }
-button,
-a,
-input,
-select {
-  -webkit-tap-highlight-color: transparent;
-}
 a {
-  color: var(--blue);
+  color: inherit;
   text-underline-offset: 4px;
-  text-decoration-thickness: 1px;
 }
 a:hover {
-  text-decoration-thickness: 2px;
+  color: var(--accent);
 }
 button {
   min-height: 40px;
-  border: 1px solid #b9bedb;
+  border: 1px solid #8daaaa;
   background: #fff;
-  border-radius: 5px;
+  border-radius: 3px;
   padding: 8px 13px;
-  font-size: 13px;
+  font-size: 12px;
   transition:
     background-color 120ms,
     color 120ms,
     scale 100ms;
 }
 button:hover {
-  background: #e0e4fb;
-  border-color: var(--blue);
+  background: #d9e9e9;
+  border-color: var(--ink);
 }
 button:active {
   scale: 0.96;
@@ -76,7 +69,7 @@ button:disabled:active {
   scale: 1;
 }
 :focus-visible {
-  outline: 3px solid var(--blue);
+  outline: 3px solid var(--accent);
   outline-offset: 4px;
 }
 h1,
@@ -101,16 +94,16 @@ select,
 input[type="number"],
 input[type="search"],
 textarea {
-  border: 1px solid #b9bedb;
+  border: 1px solid #8daaaa;
   background: #fff;
-  border-radius: 4px;
+  border-radius: 3px;
   min-height: 40px;
   padding: 8px 10px;
   max-width: 100%;
 }
 select {
   padding-right: 25px;
-  font-size: 13px;
+  font-size: 12px;
 }
 .skip-link {
   position: fixed;
@@ -124,119 +117,119 @@ select {
   top: 10px;
 }
 .site-header {
-  max-width: 1600px;
+  max-width: 1440px;
   margin: auto;
-  padding: 24px 36px;
+  padding: 28px 40px 24px;
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 36px;
 }
 .wordmark {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  color: var(--blue);
+  font:
+    italic 42px/1 Georgia,
+    serif;
+  letter-spacing: -2px;
   text-decoration: none;
-  font-size: 36px;
-  font-weight: 700;
-  letter-spacing: -1.8px;
   white-space: nowrap;
 }
-.wordmark svg {
-  width: 35px;
-  height: 40px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
 .site-description {
-  font-size: 14px;
+  font-size: 11px;
+  line-height: 1.6;
   color: var(--muted);
-  max-width: 24ch;
-  line-height: 1.4;
 }
 .text-button {
   background: transparent;
   border: 0;
   margin-left: auto;
+  padding: 8px 0;
   text-decoration: underline;
   text-underline-offset: 5px;
-  color: var(--blue);
+  font-size: 11px;
 }
 .atlas-layout {
-  display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
-  max-width: 1600px;
+  max-width: 1440px;
   margin: auto;
+  padding: 0 40px;
 }
-.sidebar {
-  padding: 20px 10px 30px 24px;
+.collection {
+  margin-bottom: 0;
 }
-#tree-panel {
-  position: sticky;
-  top: 16px;
-  padding-right: 8px;
-}
-.sidebar nav {
-  max-height: max(180px, calc(100dvh - 300px));
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #b9bedb transparent;
-  margin-top: 18px;
-}
-.sidebar summary {
-  font-size: 15px;
-  font-weight: 700;
+#tree-panel > summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 24px;
   list-style: none;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
 }
-.sidebar summary::-webkit-details-marker {
+#tree-panel > summary::-webkit-details-marker {
   display: none;
 }
-.sidebar summary > span {
-  font-size: 12px;
-  font-weight: 400;
+.tree-toggle {
+  flex-shrink: 0;
+}
+.toggle-sign {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 18px;
+  line-height: 1;
+}
+#tree-panel[open] .toggle-sign {
+  transform: rotate(45deg);
+}
+#selected-branch {
   color: var(--muted);
+  font-size: 10px;
+  text-align: right;
+  max-width: 65ch;
+}
+.collection-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+  padding: 30px 0;
+}
+.collection-intro > p {
+  font-size: 12px;
+  line-height: 1.35;
 }
 .tree-search {
-  display: block;
-  margin: 16px 0 0;
-}
-.tree-search span {
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 11px;
+  width: 240px;
 }
 .tree-search input {
   display: block;
   width: 100%;
   margin-top: 5px;
-  font-size: 13px;
-  background: #fafaff;
+  font-size: 12px;
+  background: transparent;
 }
 #search-status {
   font-size: 12px;
-  margin-top: 5px;
-  color: var(--muted);
 }
 #search-status:empty {
   display: none;
 }
+.collection nav {
+  margin-top: 18px;
+}
 .branch-map {
   position: relative;
-  padding-left: 100px;
+  padding-bottom: 232px;
 }
 .branch-diagram {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100px;
-  height: 100%;
+  width: 100%;
+  height: 210px;
+  top: 160px;
   overflow: visible;
+}
+.vertical-tree {
+  display: none;
 }
 .tree-edges,
 .active-edges {
@@ -244,153 +237,181 @@ select {
   stroke-linejoin: round;
 }
 .tree-edges {
-  stroke: #cbd0e2;
-  stroke-width: 1.5;
+  stroke: #9cbab9;
+  stroke-width: 1.4;
 }
 .active-edges {
-  stroke: var(--blue);
-  stroke-width: 2.4;
+  stroke: var(--accent);
+  stroke-width: 2.2;
 }
 .tree-nodes {
-  fill: #b7bfd8;
+  fill: #779c9b;
 }
 .tree-nodes .selected-node {
-  fill: var(--blue);
+  fill: var(--accent);
 }
 .tree-tips {
+  display: grid;
+  grid-template-columns: repeat(var(--tip-count), minmax(0, 1fr));
   list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
 }
 .species-leaf {
-  height: 44px;
-  display: flex;
-  align-items: center;
+  min-width: 0;
+  text-align: center;
 }
 .species-leaf a {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  width: 100%;
-  min-height: 40px;
-  padding: 5px 8px;
-  font-size: 13px;
-  line-height: 1.15;
   text-decoration: none;
-  color: var(--ink);
-  border-radius: 0 5px 5px 0;
-}
-.species-leaf a:hover {
-  background: var(--tint);
-}
-.species-leaf a[aria-current] {
-  background: var(--blue);
-  color: white;
-  font-weight: 700;
-}
-.tree-ancestry {
-  margin-top: 20px;
+  position: relative;
   font-size: 11px;
-  line-height: 1.8;
-  color: var(--blue);
+  gap: 8px;
+  height: 160px;
+  line-height: 1.4;
 }
-.tree-ancestry span {
+.species-leaf a > span:last-child {
+  max-width: 12ch;
+  padding: 3px 5px;
+}
+.species-leaf a[aria-current] > span:last-child {
+  color: #fff;
+  background: var(--accent);
+  border-radius: 3px;
+}
+.specimen-preview {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 110px;
+  align-items: center;
+  justify-content: center;
+}
+.specimen-preview:not(:has(.ready))::after {
+  content: "Drawing…";
+  position: absolute;
+  font-size: 10px;
+  color: var(--muted);
+}
+.specimen-preview img {
   display: block;
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 4px;
+  width: 100%;
+  height: 110px;
+  object-fit: contain;
+  max-width: 180px;
+  opacity: 0;
 }
-.tree-note {
-  margin-top: 20px;
-  font-size: 12px;
+.specimen-preview img.ready {
+  opacity: 1;
+  mix-blend-mode: multiply;
+}
+.species-leaf a:hover .specimen-preview {
+  transform: translateY(-3px);
+}
+.tree-root {
+  position: absolute;
+  top: 360px;
+  left: var(--root-position);
+  transform: translateX(-50%);
+  font:
+    italic 22px Georgia,
+    serif;
+}
+.tree-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 10px;
   color: var(--muted);
-  max-width: 25ch;
+  padding-bottom: 30px;
+}
+.tree-caption p:last-child {
+  text-align: right;
 }
 main {
   min-width: 0;
-  padding: 20px 36px 0 28px;
+  padding-top: 0;
 }
 #species-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.85fr);
-  gap: 28px;
-  align-items: end;
-  padding-bottom: 28px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  padding: 30px 0 24px;
+  padding-left: 36px;
 }
-.species-context {
-  font-size: 13px;
-  color: var(--blue);
-  margin-bottom: 5px;
+#species-header::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 52px;
+  border-left: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  border-radius: 0 0 0 18px;
 }
 h1 {
-  font-size: clamp(42px, 4.8vw, 76px);
-  font-weight: 700;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: clamp(30px, 3.9vw, 56px);
+  font-weight: 900;
   letter-spacing: -0.055em;
-  line-height: 1.03;
-  color: var(--blue);
+  line-height: 1.05;
 }
 .latin {
-  margin-top: 12px;
-  font-size: 14px;
-  font-style: italic;
-  color: var(--muted);
+  font:
+    italic 16px/1.5 Georgia,
+    serif;
+  margin-top: 6px;
 }
-.question {
-  font-size: clamp(19px, 1.8vw, 25px);
-  line-height: 1.28;
-  max-width: 30ch;
-  letter-spacing: -0.5px;
+.opening-question {
+  max-width: 50ch;
 }
 .intro {
-  font-size: 14px;
-  margin-top: 10px;
-  max-width: 54ch;
-  color: var(--muted);
+  font-size: 12px;
 }
 .read-notes {
   display: inline-block;
-  font-size: 13px;
   margin-top: 8px;
-  padding: 5px 0;
+  font-size: 11px;
 }
 .workspace {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 260px;
-  background: var(--tint);
-  border-radius: 12px 12px 0 0;
-  overflow: clip;
+  background: #fff;
 }
 .habitat {
   min-width: 0;
-  align-self: start;
 }
 .habitat-bar {
-  padding: 12px 18px;
+  padding: 14px 22px 0;
   display: flex;
   justify-content: space-between;
   gap: 12px;
+  font-size: 10px;
   color: var(--muted);
-  font-size: 12px;
 }
 .run-state {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: var(--blue);
 }
 .run-state::before {
   content: "";
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: currentColor;
+  background: #447e51;
 }
-.run-state.paused {
-  color: var(--muted);
+.run-state.paused::before {
+  background: #8b9895;
 }
 canvas {
-  width: 100%;
-  aspect-ratio: 900/560;
   display: block;
+  width: min(100%, calc(60dvh * 900 / 560));
+  aspect-ratio: 900/560;
+  margin: 0 auto;
   cursor: crosshair;
   touch-action: pan-y;
 }
@@ -399,8 +420,16 @@ canvas {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 15px 18px 10px;
+  padding: 12px 22px;
   flex-wrap: wrap;
+}
+.scene-caption {
+  padding: 8px 22px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.scene-caption:empty {
+  display: none;
 }
 .playback-buttons {
   display: flex;
@@ -409,14 +438,14 @@ canvas {
 }
 .primary,
 #save-run {
-  color: #fff;
-  border-color: var(--blue);
-  background: var(--blue);
+  color: white;
+  border-color: var(--ink);
+  background: var(--ink);
 }
 .primary:hover,
 #save-run:hover {
-  background: #293784;
-  color: #fff;
+  background: #286064;
+  color: white;
 }
 #play {
   min-width: 83px;
@@ -425,7 +454,7 @@ canvas {
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 12px;
+  font-size: 11px;
 }
 .speed-label select {
   padding: 5px;
@@ -433,127 +462,127 @@ canvas {
 .metrics {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px 30px;
-  padding: 10px 18px 14px;
+  gap: 12px 28px;
+  padding: 10px 22px;
+}
+.metrics > div {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
 }
 .metrics span {
-  display: block;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--muted);
 }
 .metrics strong {
-  display: block;
-  font-size: 22px;
+  font-size: 15px;
   font-weight: 400;
   font-variant-numeric: tabular-nums;
-  line-height: 1.4;
 }
 .canvas-help {
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1.6;
-  padding: 0 18px 20px;
+  padding: 4px 22px 20px;
   color: var(--muted);
-  max-width: 80ch;
+  max-width: 105ch;
 }
 .clear-button {
-  font-size: 12px;
+  font-size: 11px;
   margin-top: 6px;
 }
 .controls {
-  padding: 16px 18px 20px;
-  border-left: 1px solid #d3d7ed;
-  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(0, 3fr);
+  gap: 20px 30px;
+  padding: 24px 22px;
+  background: #d4e7e8;
+  border-top: 3px solid #183f42;
 }
-.controls h2 {
-  font-size: 18px;
-  margin-bottom: 18px;
-  font-weight: 700;
+.model-choices {
+  min-width: 0;
 }
 .field-label {
   display: block;
-  font-size: 12px;
-  margin-bottom: 5px;
+  font-size: 11px;
+  margin-bottom: 8px;
 }
-.controls > select {
+.model-choices > select {
   width: 100%;
 }
 .presets {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  margin: 10px 0 20px;
+  margin-top: 8px;
 }
 .presets button {
-  font-size: 12px;
-  min-height: 40px;
-  padding: 6px 8px;
   background: transparent;
   border-color: transparent;
+  text-decoration: underline;
+  text-underline-offset: 4px;
   text-align: left;
+  padding: 5px 7px;
+  font-size: 11px;
 }
 .presets button:hover {
-  background: #dfe3f8;
+  background: #fff8;
 }
 .presets button[aria-pressed="true"] {
-  background: #fff;
-  border-color: var(--blue);
-  color: var(--blue);
+  background: white;
+  border-color: var(--ink);
+  text-decoration: none;
 }
-.parameter {
-  margin-top: 18px;
+#parameters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
 }
 .parameter label,
 .view-control label {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 11px;
 }
 .parameter output,
 .view-control output {
   font-variant-numeric: tabular-nums;
-  font-weight: 400;
-  color: var(--blue);
+  font-weight: bold;
 }
 input[type="range"] {
   width: 100%;
-  margin: 6px 0 0;
-  accent-color: var(--blue);
-  min-height: 24px;
+  margin: 5px 0 0;
+  accent-color: var(--ink);
+  min-height: 28px;
   cursor: pointer;
 }
 .parameter p {
   color: var(--muted);
-  font-size: 12px;
-  line-height: 1.45;
+  font-size: 10px;
+  line-height: 1.6;
 }
-.parameter.inactive label {
-  color: var(--muted);
+.parameter.inactive {
+  opacity: 0.6;
 }
 .parameter.inactive p::after {
   content: " Inactive in this model.";
 }
 .view-control {
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid #d3d7ed;
+  max-width: 250px;
 }
 .repeat-settings {
-  margin-top: 20px;
-  border-top: 1px solid #d3d7ed;
-  padding-top: 15px;
-  font-size: 12px;
+  font-size: 11px;
+  grid-column: 2;
 }
 .repeat-settings summary {
-  padding: 5px 0;
-  color: var(--blue);
+  padding: 8px 0;
 }
 .seed-row {
   display: flex;
   align-items: end;
   gap: 8px;
   margin: 12px 0;
+  max-width: 330px;
 }
 .seed-row label {
   min-width: 0;
@@ -566,41 +595,37 @@ input[type="range"] {
 }
 .seed-row button {
   white-space: nowrap;
-  padding: 8px;
-}
-.share-button {
-  width: 100%;
 }
 .control-note {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--muted);
   margin-top: 10px;
+  max-width: 60ch;
 }
 .status {
-  font-size: 12px;
-  color: var(--blue);
-  margin-top: 12px;
+  font-size: 11px;
+  color: var(--ink);
+  grid-column: 1/-1;
   overflow-wrap: anywhere;
 }
 .status:empty {
   display: none;
 }
 .try-this {
-  grid-column: 1/-1;
   display: grid;
-  grid-template-columns: 105px minmax(0, 1fr);
-  gap: 16px;
-  padding: 20px 24px;
-  border-top: 1px solid #d3d7ed;
-  background: #e3e7fa;
+  grid-template-columns: 100px minmax(0, 1fr);
+  gap: 20px;
+  padding: 24px 22px;
+  background: var(--tint);
 }
 .try-this h2 {
-  font-size: 17px;
-  color: var(--blue);
+  font:
+    italic 22px Georgia,
+    serif;
 }
 .try-this p {
-  max-width: 80ch;
-  font-size: 14px;
+  max-width: 82ch;
+  font-size: 13px;
 }
 .notebook {
   margin: 42px 0 0;
@@ -660,19 +685,19 @@ h2 {
 #history-chart text {
   fill: var(--muted);
   font:
-    12px "Trebuchet MS",
+    12px Verdana,
     sans-serif;
 }
 .chart-axis {
-  stroke: #8c93b4;
+  stroke: #8daaaa;
   fill: none;
 }
 .chart-grid {
-  stroke: #e2e4ee;
+  stroke: #dce6e7;
   fill: none;
 }
 .chart-current {
-  stroke: var(--blue);
+  stroke: var(--accent);
   fill: none;
   stroke-width: 2.5;
   stroke-linejoin: round;
@@ -688,7 +713,7 @@ h2 {
   flex-wrap: wrap;
   gap: 18px;
   font-size: 12px;
-  color: var(--blue);
+  color: var(--accent);
 }
 .chart-legend span:nth-child(2) {
   color: #8b4f25;
@@ -732,7 +757,7 @@ h2 {
   font-variant-numeric: tabular-nums;
 }
 .paired-values > div:first-child dd {
-  color: var(--blue);
+  color: var(--accent);
 }
 .paired-values > div:nth-child(2) dd {
   color: #8b4f25;
@@ -749,7 +774,7 @@ h2 {
 }
 #run-details summary {
   padding: 10px 0;
-  color: var(--blue);
+  color: var(--accent);
 }
 #run-details h4 {
   margin: 16px 0 9px;
@@ -794,7 +819,7 @@ h2 {
   font-variant-numeric: tabular-nums;
 }
 #notebook-status {
-  color: var(--blue);
+  color: var(--accent);
   font-size: 13px;
   margin-top: 12px;
 }
@@ -849,7 +874,7 @@ textarea {
 .field-notes {
   margin-top: 44px;
   padding-top: 32px;
-  border-top: 2px solid var(--blue);
+  border-top: 2px solid var(--accent);
   scroll-margin-top: 24px;
 }
 .note-columns {
@@ -899,7 +924,7 @@ textarea {
 .model-method summary {
   font-size: 15px;
   padding: 8px 0;
-  color: var(--blue);
+  color: var(--accent);
 }
 .model-method p {
   max-width: 80ch;
@@ -943,7 +968,7 @@ dialog {
   box-shadow: 0 24px 100px #0003;
 }
 dialog::backdrop {
-  background: #24253b66;
+  background: #183f4266;
 }
 .dialog-top {
   display: flex;
@@ -966,246 +991,308 @@ dialog h3 {
   font-size: 17px;
   margin-top: 26px;
 }
-@media (min-width: 1600px) {
-  .atlas-layout {
-    grid-template-columns: 285px minmax(0, 1fr);
-  }
+
+/* Reading and record-keeping stay quieter than the live specimen. */
+.field-notes {
+  margin: 46px auto 0;
+  max-width: 1100px;
+  border-top: 0;
+  padding-top: 10px;
 }
-@media (max-width: 1150px) {
+.notes-intro h2 {
+  max-width: 36ch;
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: 30px;
+}
+.explanation {
+  font-size: 14px;
+}
+.explanation p + p {
+  margin-top: 20px;
+}
+.research-margin {
+  border-left: 0;
+  padding-left: 0;
+}
+.notebook {
+  background: #fff;
+  padding: 28px;
+  margin-top: 50px;
+}
+.notebook h2 {
+  font:
+    30px Georgia,
+    serif;
+}
+.notebook-intro {
+  font-size: 12px;
+}
+.chart-current {
+  stroke: var(--ink);
+}
+.chart-legend span:first-child,
+.paired-values > div:first-child dd {
+  color: var(--ink);
+}
+#run-details summary {
+  color: var(--ink);
+}
+footer {
+  padding-top: 24px;
+  margin-top: 0;
+}
+@media (max-width: 1050px) {
+  .site-header {
+    padding: 24px;
+  }
   .atlas-layout {
-    grid-template-columns: 235px minmax(0, 1fr);
-  }
-  .sidebar {
-    padding-left: 20px;
-    padding-right: 10px;
-  }
-  .branch-map {
-    padding-left: 84px;
-  }
-  .branch-diagram {
-    width: 84px;
-  }
-  main {
-    padding: 20px 24px 0 16px;
+    padding: 0 24px;
   }
   #species-header {
-    grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 25px;
   }
   .opening-question {
-    max-width: 65ch;
-  }
-  .question {
-    max-width: 50ch;
-  }
-  .intro {
-    max-width: 65ch;
-  }
-  .workspace {
-    grid-template-columns: 1fr;
+    max-width: 45%;
   }
   .controls {
-    border-left: 0;
-    border-top: 1px solid #d3d7ed;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 8px 24px;
-    padding: 22px;
-  }
-  .controls h2,
-  .controls > .field-label,
-  .controls > select,
-  .presets {
-    grid-column: 1;
-  }
-  .controls h2 {
-    margin-bottom: 8px;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 20px;
   }
   #parameters {
-    grid-column: 2;
-    grid-row: 1/8;
-  }
-  .parameter:first-child {
-    margin-top: 0;
-  }
-  .presets {
-    margin: 4px 0;
-  }
-  .repeat-settings,
-  .view-control,
-  .status {
-    grid-column: 1;
-    margin-top: 8px;
+    gap: 16px;
   }
   .notebook-grid,
   .note-columns {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
   }
-  .notebook-tools,
-  .research-margin {
+  .notebook-tools {
     border-left: 0;
-    padding-left: 0;
     border-top: 1px solid var(--line);
-    padding-top: 20px;
+    padding: 22px 0 0;
   }
   .research-margin {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 24px;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
   }
   .sources {
-    margin-top: 0;
+    margin: 0;
   }
 }
-@media (max-width: 760px) {
+@media (max-width: 900px) {
+  .branch-map {
+    padding: 0 0 0 24%;
+  }
+  .wide-tree {
+    display: none;
+  }
+  .vertical-tree {
+    display: block;
+    width: 24%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  .tree-tips {
+    display: block;
+  }
+  .species-leaf {
+    height: 96px;
+  }
+  .species-leaf a {
+    flex-direction: row;
+    gap: 18px;
+    height: 96px;
+    text-align: left;
+    font-size: 14px;
+  }
+  .species-leaf a > span:last-child {
+    max-width: none;
+  }
+  .specimen-preview {
+    width: 140px;
+    height: auto;
+    flex-shrink: 0;
+  }
+  .tree-root {
+    display: none;
+  }
+  .tree-caption {
+    margin-top: 24px;
+  }
+}
+@media (max-width: 700px) {
   .site-header {
-    padding: 18px 20px;
-    gap: 12px;
+    padding: 22px 18px;
+    gap: 10px;
   }
   .wordmark {
-    font-size: 28px;
-    letter-spacing: -1px;
-    gap: 9px;
-  }
-  .wordmark svg {
-    width: 26px;
-    height: 30px;
+    font-size: 34px;
   }
   .site-description {
     display: none;
   }
-  .text-button {
-    font-size: 12px;
-    padding: 8px 0 8px 8px;
-  }
   .atlas-layout {
+    padding: 0 18px;
+  }
+  .text-button {
+    font-size: 10px;
+    max-width: 120px;
+  }
+  #tree-panel > summary {
+    align-items: start;
+    gap: 15px;
+  }
+  #selected-branch {
+    font-size: 9px;
+    max-width: 24ch;
+  }
+  .collection-intro {
     display: block;
+    padding: 24px 0 0;
   }
-  .sidebar {
-    padding: 0 20px;
+  .collection-intro > p {
+    font-size: 12px;
   }
-  #tree-panel {
-    position: static;
-    max-height: none;
-    overflow: visible;
-    padding: 0;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-  .sidebar nav {
-    max-height: none;
-    overflow: visible;
-  }
-  .sidebar summary {
-    min-height: 48px;
-  }
-  .sidebar summary > span::after {
-    content: " +";
-    font-size: 20px;
-    margin-left: 8px;
-  }
-  .sidebar details[open] summary > span::after {
-    content: " −";
+  .tree-search {
+    width: 100%;
+    margin-top: 20px;
   }
   .branch-map {
-    max-width: 350px;
-    padding-left: 140px;
+    padding-left: 24%;
   }
-  .branch-diagram {
-    width: 140px;
+  .specimen-preview {
+    width: 95px;
   }
   .species-leaf a {
-    min-height: 44px;
-    font-size: 15px;
-  }
-  .tree-ancestry {
-    max-width: 42ch;
+    gap: 6px;
     font-size: 12px;
   }
-  .tree-note {
-    max-width: 40ch;
-    margin: 10px 0 20px;
+  .tree-caption {
+    display: block;
   }
-  main {
-    padding: 26px 20px 0;
+  .tree-caption p:last-child {
+    text-align: left;
+    margin-top: 12px;
   }
   #species-header {
-    padding-bottom: 22px;
-    gap: 20px;
+    display: block;
+    padding: 24px 0 24px 30px;
   }
   h1 {
-    font-size: clamp(42px, 11vw, 66px);
+    font-size: 38px;
   }
   .latin {
-    margin-top: 8px;
+    font-size: 15px;
   }
-  .question {
-    font-size: 22px;
-    max-width: 32ch;
+  .opening-question {
+    max-width: none;
+    margin-top: 16px;
   }
   .intro {
-    font-size: 14px;
+    font-size: 12px;
   }
   .workspace {
-    margin: 0 -20px;
-    border-radius: 0;
+    margin: 0 -18px;
+  }
+  canvas {
+    width: 100%;
   }
   .habitat-bar {
-    padding: 12px 20px;
+    padding: 12px 18px 0;
   }
   .playback {
-    padding: 14px 20px 8px;
+    padding: 14px 18px 8px;
   }
-  button,
-  select,
-  input[type="number"],
-  input[type="search"] {
-    min-height: 44px;
+  .playback-buttons {
+    gap: 5px;
   }
-  input[type="range"] {
-    min-height: 32px;
+  .playback-buttons button {
+    padding: 8px 10px;
   }
   .metrics {
-    padding: 12px 20px;
-    gap: 15px 25px;
+    padding: 12px 18px;
+    gap: 8px 18px;
+  }
+  .metrics > div {
+    gap: 6px;
+  }
+  .metrics span {
+    font-size: 10px;
   }
   .metrics strong {
-    font-size: 21px;
+    font-size: 13px;
   }
   .canvas-help {
-    padding: 0 20px 18px;
+    padding: 0 18px 16px;
   }
   .controls {
-    padding: 22px 20px;
+    display: block;
+    padding: 20px 18px;
   }
-  .controls h2 {
-    font-size: 17px;
+  #parameters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 20px;
+    gap: 20px;
   }
-  .presets button {
-    min-height: 44px;
+  .parameter label {
+    font-size: 12px;
+  }
+  .parameter p {
+    font-size: 11px;
+  }
+  .view-control,
+  .repeat-settings {
+    margin-top: 20px;
+  }
+  .status {
+    margin-top: 14px;
   }
   .try-this {
-    padding: 20px;
-    grid-template-columns: 1fr;
-    gap: 8px;
+    display: block;
+    padding: 24px 18px 8px;
+  }
+  .try-this h2 {
+    margin-bottom: 12px;
+  }
+  .try-this p {
+    font-size: 13px;
+  }
+  .notes-intro h2 {
+    font-size: 27px;
+  }
+  .field-notes {
+    margin-top: 40px;
+  }
+  .note-columns {
+    gap: 24px;
+  }
+  .research-margin {
+    display: block;
+  }
+  .sources {
+    margin-top: 24px;
   }
   .notebook {
-    margin-top: 32px;
+    margin: 36px -18px 0;
+    padding: 24px 18px;
+  }
+  .notebook h2 {
+    font-size: 26px;
   }
   .notebook-heading {
-    align-items: center;
+    align-items: start;
     gap: 12px;
-  }
-  h2 {
-    font-size: 25px;
   }
   #save-run {
     white-space: nowrap;
-    padding: 8px 10px;
+    padding: 7px 9px;
+    font-size: 11px;
   }
   .notebook-grid {
-    margin-top: 22px;
+    gap: 24px;
   }
   .chart-heading label {
     width: 100%;
@@ -1213,43 +1300,36 @@ dialog h3 {
   .chart-heading select {
     max-width: 100%;
   }
-  .research-margin {
-    display: block;
+  .paired-values {
+    gap: 12px 24px;
   }
-  .sources {
-    margin-top: 24px;
-  }
-  .field-notes {
-    margin-top: 32px;
-    padding-top: 26px;
-  }
-  .explanation {
-    font-size: 15px;
+  button {
+    min-height: 44px;
   }
   footer {
-    padding-top: 24px;
-    margin-top: 24px;
+    font-size: 10px;
+    gap: 8px;
   }
   dialog {
-    padding: 22px;
+    padding: 24px;
   }
 }
-@media (max-width: 420px) {
-  .controls {
-    display: block;
+@media (max-width: 360px) {
+  .specimen-preview {
+    width: 78px;
   }
-  .controls > .field-label {
-    margin-top: 14px;
+  .species-leaf a {
+    font-size: 11px;
   }
-  .presets {
-    margin: 10px 0 20px;
+  #parameters {
+    grid-template-columns: 1fr;
   }
-  .parameter:first-child {
-    margin-top: 20px;
+  #play {
+    min-width: 70px;
   }
-  .repeat-settings,
-  .view-control {
-    margin-top: 20px;
+  .playback-buttons button {
+    padding: 8px;
+    font-size: 11px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1261,5 +1341,8 @@ dialog h3 {
   }
   button:active {
     scale: 1;
+  }
+  .species-leaf a:hover .specimen-preview {
+    transform: none;
   }
 }

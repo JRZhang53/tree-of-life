@@ -2,7 +2,9 @@
 
 This is the project memory for Tree of Life. The current educational atlas is specified in [Atlas 2](research/ATLAS_2.md), with [release checks](RELEASE_CHECKS.md). The original dossier outlines preserve deeper research directions.
 
-The current interface and voice direction is recorded in [design review](DESIGN_REVIEW.md), following Jerry's humanization request.
+The current interface is recorded in [tree-first design](TREE_FIRST_DESIGN.md).
+The earlier [design review](DESIGN_REVIEW.md) is historical; Jerry rejected that
+composition despite the critic's approval.
 The notebook's shared-step comparisons and follow-up checks are recorded in
 [comparison review](COMPARISON_REVIEW.md).
 

@@ -6,9 +6,12 @@ Last reconciled: 2026-10-18. Read this after `AGENTS.md` when resuming work.
 
 Jerry's latest direction is to humanize the whole site: distinctive aesthetics and
 layout, useful language in his direct, informal tone, and a critic feedback loop.
-The visual revision replaces the botanical dashboard with a topology-driven
-cladogram, a shared experiment surface and specific questions. See
-[design review](docs/DESIGN_REVIEW.md). Avoid slogans, interchangeable cards and
+He rejected the first humanization pass as still looking extremely AI-generated,
+despite the critic's approval, and requested a more unique design and an autonomous
+goal. The new tree-first revision replaces the sidebar with a broad foldout
+collection of actual model previews, a selected-branch junction and full-width
+simulation with controls below. See [tree-first design](docs/TREE_FIRST_DESIGN.md).
+The previous [design review](docs/DESIGN_REVIEW.md) is historical. Avoid slogans, interchangeable cards and
 fake personal anecdotes. His messages establish a tone preference, not a complete
 writing-style sample; do not claim exact voice matching. Preserve the scientific
 qualifications when simplifying prose.
@@ -51,7 +54,7 @@ The original brief was supplied as a local text file in the portfolio's private 
 | Current twelve-branch / 28-mode educational atlas                             | Implemented; detailed assumptions in `docs/research/ATLAS_2.md`       |
 | 33 model tests, build and CI passing at prototype commit                      | Software verification only; see `VERIFICATION.md`                     |
 | Exact audience, scientific depth and suite size                               | Working assumptions in `docs/PRODUCT.md`                              |
-| Distinctive design and human, direct copy with critic feedback                | Latest user request; implemented direction in `docs/DESIGN_REVIEW.md` |
+| Distinctive design and human, direct copy with critic feedback                | Latest user request; current direction in `docs/TREE_FIRST_DESIGN.md`; prior design rejected |
 | Start research with starlings, then sheep                                     | Provisional agent sequencing; rationale in `docs/ROADMAP.md`          |
 | Mechanical plant solvers, connectome data, spherical chemistry, WebGL/workers | Possible later choices; not commitments                               |
 
