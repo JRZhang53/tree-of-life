@@ -1,5 +1,18 @@
 # Tree of Life — integration handoff
 
+## Math typesetting follow-up
+
+This revision adds KaTeX, local mathematical fonts and MathML to all authored
+equations/inline notation in model methods. Long formulas have aligned terms and
+nearby definitions; narrow displays can scroll with keyboard focus. Equation
+notes stay open when controls change. All 80 content/model tests and two build
+tests pass, with desktop and 320/390 px browser checks. Numerical model revision
+remains atlas-3. See `docs/TREE_FIRST_DESIGN.md` for the authoring convention.
+
+The runtime deployment recorded below predates this typesetting follow-up until
+the portfolio pin is advanced. The new KaTeX dependency installs with `npm ci`;
+fonts and the license are included in `dist/` by the normal build.
+
 ## Current deployment: atlas-3
 
 Seven new experiments correct the mechanism gaps in the Mahadevan review:

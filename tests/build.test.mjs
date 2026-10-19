@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { resolve, sep } from "node:path";
 import { test } from "node:test";
 
@@ -24,4 +24,23 @@ test("built entry uses the domain subpath and all entry assets exist", () => {
     false,
     "the portfolio owns the domain",
   );
+});
+
+test("math fonts ship locally under the production base path", () => {
+  const root = resolve("dist");
+  const css = readdirSync(resolve(root, "assets"))
+    .filter((file) => file.endsWith(".css"))
+    .map((file) => readFileSync(resolve(root, "assets", file), "utf8"))
+    .join("\n");
+  const fonts = [...css.matchAll(/url\(([^)]+)\)/g)]
+    .map((m) => m[1].replace(/["']/g, ""))
+    .filter((url) => /KaTeX.*\.(woff2?|ttf)$/.test(url));
+  assert.ok(fonts.length > 0, "expected bundled math fonts");
+  for (const font of fonts) {
+    assert.ok(font.startsWith("/fun/tree-of-life/assets/"), font);
+    assert.ok(
+      existsSync(resolve(root, font.slice("/fun/tree-of-life/".length))),
+      font,
+    );
+  }
 });

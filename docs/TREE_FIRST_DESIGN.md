@@ -1,5 +1,31 @@
 # Tree-first design revision
 
+## Math typesetting
+
+Jerry requested beautiful LaTeX/math rendering on 2026-10-18. Keep the existing
+ice/teal palette and body typography; use KaTeX's mathematical fonts for equations.
+Display math is left-aligned with the explanation, with generous vertical space.
+Split long energies into named terms and define symbols in nearby prose. Avoid
+decorative equation numbers, panels or a separate visual theme for mathematics.
+
+`src/presentation/math.ts` renders authored prose using `\(inline\)` and
+`\[display\]` delimiters. Use `String.raw` in TypeScript content. It escapes prose,
+rejects invalid formulas, disables trusted HTML/URL commands, caches results and
+emits both HTML and MathML. Tests parse every mode's equation/scale/comparison
+content, so new formulas must pass strict parsing before release. Notebook notes
+remain plain user text; this is not a general HTML or Markdown renderer.
+
+KaTeX 0.19.0 and its fonts are bundled locally. The MIT notice is shipped at
+`public/licenses/KaTeX.txt`. Vite owns hashed font URLs under the portfolio base
+path; no CDN or third-party font request is needed. The checked app bundle is
+approximately 126 kB compressed JavaScript; only used fonts load in the browser.
+Formula rendering occurs when notes change, not per animation frame.
+
+At narrow widths, equation regions can scroll horizontally and receive keyboard
+focus. Do not shrink mathematical type until it becomes unreadable. Retain
+MathML and the visible symbol explanations; a complete screen-reader audit is
+still a separate check. Open equation notes remain open when model controls change.
+
 ## Brief and correction
 
 Jerry rejected the previous design as still looking strongly AI-generated and

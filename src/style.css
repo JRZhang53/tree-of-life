@@ -932,6 +932,33 @@ textarea {
   line-height: 1.8;
   overflow-wrap: anywhere;
 }
+.model-method .katex {
+  font-size: 1.16em;
+  text-wrap: nowrap;
+  overflow-wrap: normal;
+}
+.math-display {
+  max-width: 100%;
+  min-width: 0;
+  margin: 20px 0;
+  padding: 8px 4px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  color: var(--ink);
+}
+.math-display .katex-display {
+  margin: 0;
+  text-align: left;
+}
+.math-display .katex-display > .katex {
+  text-align: left;
+  white-space: nowrap;
+  font-size: 1.3em;
+}
+.math-display:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
 .related-branches {
   display: flex;
   align-items: center;

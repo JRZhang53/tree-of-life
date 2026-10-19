@@ -4,6 +4,12 @@ Last reconciled: 2026-10-18. Read this after `AGENTS.md` when resuming work.
 
 ## Current direction
 
+Jerry also requires beautifully rendered math throughout the site. Model notes
+now use KaTeX with local fonts, accessible MathML, inline symbols and aligned
+display equations. Author new formulas with the shared `mathProse` renderer and
+check them at phone widths; do not return to plaintext pseudo-LaTeX. See the
+[typesetting standard](docs/TREE_FIRST_DESIGN.md#math-typesetting).
+
 Jerry's latest request was to deploy and autonomously research new bio-inspired
 simulations. Atlas 3 is now live: child `0a9b149`, portfolio `ce558b5`, successful
 Pages run `39153581406`. The [new-suite research queue](docs/research/NEXT_SUITES.md)

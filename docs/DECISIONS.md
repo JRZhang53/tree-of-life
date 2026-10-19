@@ -1,5 +1,18 @@
 # Decision register
 
+## D23 — typeset the model notes
+
+- **Status:** implemented, 2026-10-18.
+- **Trigger:** Jerry: “i also want all latex/math to render beautifully.”
+- **Decision:** KaTeX with locally bundled fonts, HTML plus MathML, strict parsing,
+  explicit inline/display delimiters, aligned long formulas and symbol definitions.
+- **Rationale:** mathematical structure deserves proper typesetting while the
+  established tree-first composition stays intact. Narrow screens scroll an
+  equation locally instead of widening the page or reducing it to tiny text.
+- **Boundary:** presentation only; model equations in the solvers, revision
+  identifiers and saved-run compatibility are unchanged.
+- **Evidence:** `tests/math.test.mjs`, font-path build check, desktop/phone review.
+
 User instructions take precedence over this register. Record the origin of each decision; a provisional implementation choice is not user approval.
 
 | ID  | Decision                                                                            | Status / provenance                             | Rationale and consequence                                                                                        |

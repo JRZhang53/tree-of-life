@@ -1,6 +1,8 @@
 import { treeView } from "./presentation/tree.ts";
 import { showPreviews } from "./presentation/previews.ts";
 import { shell } from "./presentation/shell.ts";
+import { mathProse } from "./presentation/math.ts";
+import "katex/dist/katex.min.css";
 import "./style.css";
 import { methods } from "./content/methods.ts";
 import { depthNote } from "./content/depth.ts";
@@ -143,8 +145,13 @@ function syncParameters() {
           : " Keyboard: arrows move the cursor; Enter applies it.");
   // Keep the existing clear-disturbance control when this is a flocking suite.
   if (!["starlings", "orcas"].includes(current.id)) {
+    const methodOpen =
+      el("notes").querySelector<HTMLDetailsElement>(".model-method")?.open ??
+      false;
     el("notes").innerHTML =
-      `<div class="notes-intro"><h2>${current.question}</h2></div><div class="note-columns"><article class="explanation"><p>${note?.algorithm ?? current.algorithm}</p><p>${note?.lesson ?? current.lesson}</p></article><aside class="research-margin"><details class="limits" open><summary>What this leaves out</summary><p>${note?.limitation ?? current.limitation}</p></details><div class="sources"><h3>Further reading</h3>${current.sources.map((s) => `<a href="${s.url}" target="_blank" rel="noreferrer">${s.title.replaceAll(" · ", ": ")}</a>`).join("")}</div></aside></div><details class="model-method"><summary>Equations and comparison notes</summary><p>${note?.equation ?? method.equation}</p><p>${note?.scale ?? method.scale}</p><p>${note?.compare ?? method.compare}</p><p class="muted">Model revision ${MODEL_REVISION}. A step means something different in each experiment; it isn’t a shared biological clock.</p></details><div class="related-branches"><h3>Related experiments</h3>${method.related.map((id) => `<a href="#${id}">${byId(id).name}</a>`).join("")}</div>`;
+      `<div class="notes-intro"><h2>${current.question}</h2></div><div class="note-columns"><article class="explanation"><p>${note?.algorithm ?? current.algorithm}</p><p>${note?.lesson ?? current.lesson}</p></article><aside class="research-margin"><details class="limits" open><summary>What this leaves out</summary><p>${note?.limitation ?? current.limitation}</p></details><div class="sources"><h3>Further reading</h3>${current.sources.map((s) => `<a href="${s.url}" target="_blank" rel="noreferrer">${s.title.replaceAll(" · ", ": ")}</a>`).join("")}</div></aside></div><details class="model-method"><summary>Equations and comparison notes</summary>${mathProse(note?.equation ?? method.equation)}${mathProse(note?.scale ?? method.scale)}${mathProse(note?.compare ?? method.compare)}<p class="muted">Model revision ${MODEL_REVISION}. A step means something different in each experiment; it isn’t a shared biological clock.</p></details><div class="related-branches"><h3>Related experiments</h3>${method.related.map((id) => `<a href="#${id}">${byId(id).name}</a>`).join("")}</div>`;
+    el("notes").querySelector<HTMLDetailsElement>(".model-method")!.open =
+      methodOpen;
   }
 }
 function presetButtons() {
@@ -242,7 +249,7 @@ function load() {
   const method = methods[current.id];
   el("notes").insertAdjacentHTML(
     "beforeend",
-    `<details class="model-method"><summary>Equations and comparison notes</summary><p>${method.equation}</p><p>${method.scale}</p><p>${method.compare}</p><p class="muted">Model revision ${MODEL_REVISION}. A step means something different in each experiment; it isn’t a shared biological clock.</p></details><div class="related-branches"><h3>Related experiments</h3>${method.related.map((id) => `<a href="#${id}">${byId(id).name}</a>`).join("")}</div>`,
+    `<details class="model-method"><summary>Equations and comparison notes</summary>${mathProse(method.equation)}${mathProse(method.scale)}${mathProse(method.compare)}<p class="muted">Model revision ${MODEL_REVISION}. A step means something different in each experiment; it isn’t a shared biological clock.</p></details><div class="related-branches"><h3>Related experiments</h3>${method.related.map((id) => `<a href="#${id}">${byId(id).name}</a>`).join("")}</div>`,
   );
   if (["starlings", "orcas"].includes(current.id)) {
     const clear = document.createElement("button");

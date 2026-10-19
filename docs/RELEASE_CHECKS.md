@@ -1,5 +1,20 @@
 # Release checks
 
+## Math typesetting — 2026-10-18
+
+- Full `npm run verify` on Node 24: 80 model/content tests and two build tests.
+- Strict rendering checks cover equations, inline notation, MathML and safe prose
+  across all 35 modes. Build checks resolve every bundled math-font URL beneath
+  `/fun/tree-of-life/`.
+- Browser: leaf and firefly notes inspected at 390 × 844; eight further equation
+  families at 320 × 740. No page-wide horizontal overflow or KaTeX errors.
+  At 320 px, coral's equation used 12 px of local horizontal overflow; keyboard
+  right-arrow moved that region. Desktop review used the default 1265 px viewport.
+- Local screenshot: `.artifacts/math-typesetting.png`. MathML output is verified;
+  a physical-device or complete screen-reader reading audit was not performed.
+- Simulators and numerical revision remain unchanged. KaTeX is the first math
+  runtime dependency; its fonts and license travel with the compiled site.
+
 ## Atlas 3 follow-up — 2026-10-18
 
 `npm run verify` passed on Node 24.19.0: 78 model/research tests and the production

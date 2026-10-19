@@ -17,10 +17,8 @@ export function depthNote(id: SpeciesId, mode: number): DepthNote | undefined {
         "Try weak and strong tethers with the same seed. Watch where the extra length goes. Growth stops at step 600; after that, the rod keeps relaxing.",
       limitation:
         "This is a supported elastic filament, not a complete climbing vine. It has no pole contact, slipping, torsion or tendril anatomy. The spatial mode adds a third displacement direction; it does not impose a spiral. Stress feedback is an exploratory growth law.",
-      equation:
-        "E = Σ S(d−h[1+g])²/(2h) + BΣ|Δ²r|²/(2h³) + hΣ[K(x²+z²)+Gqᵧ²]/2. Local growth increments are divided by 1 + feedback × |elastic strain|.",
-      scale:
-        "Length 12; 41 vertices; S=20 and G=0.025. Two nodes at each end are clamped. Planar mode fixes z=0. Each model step takes 24 energy-descent iterations with backtracking. Force residual measures unfinished relaxation.",
+      equation: String.raw`The rod trades off stretching, bending and tether displacement: \[\begin{aligned}E&=E_{\mathrm{s}}+E_{\mathrm{b}}+E_{\mathrm{t}},\\[5pt]E_{\mathrm{s}}&=\frac{S}{2h}\sum_i\bigl[d_i-h(1+g_i)\bigr]^2,\\[5pt]E_{\mathrm{b}}&=\frac{B}{2h^3}\sum_i\lVert\Delta^2\mathbf{r}_i\rVert^2,\\[5pt]E_{\mathrm{t}}&=\frac h2\sum_i\bigl[K(x_i^2+z_i^2)+Gq_{y,i}^2\bigr].\end{aligned}\] Here \(h\) is reference spacing, \(d_i\) is segment length, \(g_i\) is local growth and \(q_{y,i}\) is axial displacement from the reference position. \(S\), \(B\), \(K\) and \(G\) set the four stiffnesses. Local growth increments are divided by \(1+\text{feedback}\,|\text{elastic strain}|\).`,
+      scale: String.raw`Length 12; 41 vertices; \(S=20\) and \(G=0.025\). Two nodes at each end are clamped. Planar mode fixes \(z=0\). Each model step takes 24 energy-descent iterations with backtracking. Force residual measures unfinished relaxation.`,
       compare:
         "Save at 600 steps, then change only tether stiffness. Compare peak sideways displacement. Continue both runs beyond 600 to check whether the shapes are still relaxing.",
       interaction: "Rotate the view to inspect the rod and its tethers.",
@@ -33,8 +31,7 @@ export function depthNote(id: SpeciesId, mode: number): DepthNote | undefined {
         "Compare a free sheet with a held midrib, or change thickness while keeping growth fixed. Waves and curvature come from the mechanics. No wave shape is supplied to the solver.",
       limitation:
         "This is a coarse discrete sheet, not a reproduction of the paper’s phase diagram. There is no self-contact or measured leaf tissue. Free sheets can rotate and settle into different local minima. Step 600 ends the growth ramp, not necessarily the relaxation.",
-      equation:
-        "Longitudinal growth ε=β|2x/W|¹⁰. Edge rest length = √(dx² + dy²[1+ε]²). Stretching energy = ½Σ(length−rest)²; bending energy = BΣ(1−n₁·n₂), with B=0.015 × thickness².",
+      equation: String.raw`Longitudinal growth changes the mesh's preferred lengths: \[\begin{aligned}\varepsilon(x)&=\beta\left|\frac{2x}{W}\right|^{10},\\[5pt]\ell_e^*&=\sqrt{(\Delta x_e)^2+(\Delta y_e)^2(1+\varepsilon)^2}.\end{aligned}\] Here \(W\) is width and \(\beta\) is the ramped edge growth. The sheet relaxes stretching and bending energy: \[\begin{aligned}E_{\mathrm{s}}&=\frac12\sum_e(\ell_e-\ell_e^*)^2,\\[5pt]E_{\mathrm{b}}&=B\sum_{\langle a,b\rangle}(1-\mathbf{n}_a\cdot\mathbf{n}_b),\\[5pt]B&=0.015\,\text{thickness}^2.\end{aligned}\] The unit normals \(\mathbf{n}_a\) and \(\mathbf{n}_b\) belong to adjacent triangles.`,
       scale:
         "25 × 11 vertices; length 12. All perimeter edges are free. Held-midrib mode fixes the center column. Each step takes 14 backtracked energy-descent iterations. Width rebuilds the mesh and restarts the run.",
       compare:
@@ -49,8 +46,7 @@ export function depthNote(id: SpeciesId, mode: number): DepthNote | undefined {
         "The dog is never told to collect or drive. Change what it values and follow the trail it leaves. With a high spread weight, it can keep circling a compact flock without reaching the target. Lowering that weight gets the center closer, but may scatter the sheep.",
       limitation:
         "This is a greedy controller on an open plane, with simplified sheep interactions. It is not a globally optimal policy or an exact reproduction of the paper. Sheep keep moving at the target. The view zooms out when needed.",
-      equation:
-        "Cost = wₜ|centroid−target| + wₛ(mean |sheep−centroid|⁴)¼ + wᵦ|dog−centroid+range × target direction|. Local heading alignment, centroid attraction and exponential repulsion move the sheep.",
+      equation: String.raw`The dog evaluates three costs for every candidate move: \[\begin{aligned}J&=w_{\mathrm{t}}T+w_{\mathrm{s}}S+w_{\mathrm{b}}H,\\[5pt]T&=\lVert\mathbf{c}-\mathbf{g}\rVert,\\[5pt]S&=\left(\frac1N\sum_i\lVert\mathbf{x}_i-\mathbf{c}\rVert^4\right)^{1/4},\\[5pt]H&=\lVert\mathbf{d}-\mathbf{c}+R\widehat{\mathbf{u}}_{\mathrm{g}}\rVert.\end{aligned}\] Here \(\mathbf{c}\) is flock center, \(\mathbf{g}\) is target, \(\mathbf{d}\) is dog position and \(R\) is avoidance range. \(\widehat{\mathbf{u}}_{\mathrm{g}}\) points from center to target (zero at coincidence). Costs use the predicted next state. Local alignment, center attraction and exponential repulsion move the sheep.`,
       scale:
         "45 sheep. Local alignment radius 60 u; sheep repulsion length 9 u. One Euler prediction per candidate, 32 evenly spaced dog directions. Dog speed is fixed; there is no absorbing goal or wall force.",
       compare:
@@ -66,10 +62,8 @@ export function depthNote(id: SpeciesId, mode: number): DepthNote | undefined {
         "Compare rebuilding with a fixed wall. They start with the same cavity and transport rules. Any later difference comes from letting construction feed back into the environment.",
       limitation:
         "This is a 2D exterior-mound cross-section, not the paper’s axisymmetric calculation. It tracks a cavity envelope, not individual termites or dirt mass. Underground floors and ramps belong to a separate construction model and are not simulated here.",
-      equation:
-        "Heat diffuses from a sinusoidal boundary. Darcy face flow = buoyancy × temperature − pressure gradient, projected toward zero divergence. Odor uses conservative upwind transport, diffusion, a floor source and wall leakage. Cycle-mean odor controls wall movement.",
-      scale:
-        "40 × 28 cells; dt=0.1; thermal period 160 steps. Pressure uses 120 relaxation sweeps. A wall moves at most one cell vertically per cycle; the envelope remains a height profile. Colors show odor; arrows show flow. The inset shows heat.",
+      equation: String.raw`Heat diffuses from a sinusoidal boundary. Buoyancy and pressure determine face flow: \[\mathbf{u}=bT\,\widehat{\mathbf{y}}-\nabla p,\qquad\nabla\cdot\mathbf{u}\approx0.\] Here \(b\) is thermal flow strength; the pressure solve reduces divergence. Odor uses conservative upwind transport, diffusion, a floor source and wall leakage. Cycle-mean odor controls wall movement.`,
+      scale: String.raw`40 × 28 cells; \(\Delta t=0.1\); thermal period 160 steps. Pressure uses 120 relaxation sweeps. A wall moves at most one cell vertically per cycle; the envelope remains a height profile. Colors show odor; arrows show flow. The inset shows heat.`,
       compare:
         "Keep all controls fixed and compare rebuilding with the fixed-wall baseline after several full 160-step cycles. Area measures cavity cells. Flux divergence and odor budget error expose numerical error.",
       interaction:
